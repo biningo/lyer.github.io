@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>docker - 标签 - lyer's blog</title><link>/tags/docker/</link><description>docker - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/docker/" rel="self" type="application/rss+xml"/><item><title>打包一个最小的Go镜像</title><link>/2021/06/10/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/</link><pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/06/10/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/</guid><description>概览 bridge 虚拟网桥模式 host 宿主机共享模式 none 无网络模式 container 容器共享模式 ​
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>docker - 标签 - lyer's blog</title><link>/tags/docker/</link><description>docker - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/docker/" rel="self" type="application/rss+xml"/><item><title>容器网络原理</title><link>/2021/06/10/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/</link><pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/06/10/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86/</guid><description>概览 bridge 虚拟网桥模式 host 宿主机共享模式 none 无网络模式 container 容器共享模式 ​
 bridge网桥模式 docker网络使用Linux提供的veth pair和virtual bridge技术来实现网桥模式
 在该模式下每个容器都有一个独立的局域网虚拟IP，通讯范围如下:
 跨网段的两个容器即使是在同一台宿主机上也不可以互通 （为什么？） 容器和宿主机可以互通 容器可以连接外界网络，外界网络连接容器的服务需要进行端口映射 创建虚拟网桥
@@ -20,6 +20,8 @@ Working with the Container registry</description></item><item><title>Docker实�
 单机容器排编工具，使用Python编写
 lazydocker https://github.com/jesseduffield/lazydocker
 终端界面管理Docker
+docui https://github.com/skanehira/docui
+终端管理Docker
 portainer https://github.com/portainer/portainer
 Web界面可视化管理Docker和Kubernetes集群
 harbor https://github.com/goharbor/harbor

@@ -2,6 +2,8 @@
 单机容器排编工具，使用Python编写
 lazydocker https://github.com/jesseduffield/lazydocker
 终端界面管理Docker
+docui https://github.com/skanehira/docui
+终端管理Docker
 portainer https://github.com/portainer/portainer
 Web界面可视化管理Docker和Kubernetes集群
 harbor https://github.com/goharbor/harbor
