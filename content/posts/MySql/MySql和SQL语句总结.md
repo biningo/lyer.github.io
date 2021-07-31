@@ -6,7 +6,7 @@ tags: [数据库,MySql]
 draft: true
 ---
 
-## ok系统变量相关操作
+## 系统变量相关操作
 
 查看系统变量和配置
 
@@ -39,7 +39,7 @@ SHOW COLLATION #查看字符集所有比较规则
 
 ​     
 
-## ok数据库操作
+## 数据库操作
 
 创建数据库指定字符集和比较规则
 
@@ -61,7 +61,7 @@ drop database db1;
 
 ​     
 
-## ok表操作
+## 表操作
 
 创建表指定字符集、比较规则、存储引擎
 
@@ -155,31 +155,44 @@ alter table t1 drop column name;
 
 ## 索引
 
-```mysql
-#查看索引
-SHOW INDEX FROM tb
+查看索引
 
-#建表指定索引
-CREATE TABLE tb(
+```sql
+show index from tb #查看索引
+```
+
+建立表时创建索引
+
+```sql
+create table tb(
     name varchar(200) NOT NULL ,
-    index idx_name(name) #建表时就指定索引
+    index idx_name(name), #建表时就指定索引
+    primary key pk_name(name)
 )
+```
 
+创建索引
+
+```mysql
 #通过CREATE来创建索引
 CREATE INDEX index_name ON table_name (column_list)
 CREATE UNIQUE INDEX index_name ON table_name (column_list)
+
 #通过ALTER来创建索引
 ALTER TABLE table_name ADD INDEX index_name (column_list) #普通索引
 ALTER TABLE table_name ADD UNIQUE (column_list) #唯一索引
 ALTER TABLE table_name ADD PRIMARY KEY (column_list) #主键索引
+```
 
-#删除索引
+删除索引
+
+```sql
 DROP INDEX index_name ON talbe_name
 ALTER TABLE table_name DROP INDEX index_name
 ALTER TABLE table_name DROP PRIMARY KEY #删除主键可以不指定索引名字 因为主键只有一个
 ```
 
-​    
+​      
 
 ## 约束
 
