@@ -1,6 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Mysql - 分类 - lyer's blog</title><link>/categories/mysql/</link><description>Mysql - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Sun, 23 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/mysql/" rel="self" type="application/rss+xml"/><item><title>MySql事务和锁</title><link>/2021/05/23/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</link><pubDate>Sun, 23 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/23/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</guid><description>为什么需要有事务 事务的出现就是为了 保障数据一致性，将多条逻辑相关的SQL语句当做一件事情来做，要么都成功要么都失败
-最经典的场景就是转账业务: 当A给B转账时，B账户余额增加的同时必须保证A账户余额减少，也就是说必须保证A和B账户的总钱款大小前后一致，两个账户的钱总量不会多也不会少
-一个事务中包含一条或则多条逻辑相关的操作(SQL)，这些操作看作是一个整体，不可分割，当做一件事情来做。如果其中一条或多条SQL失败了则代表此次事务(这件事情)就失败了，则之前执行过的SQL必须全部失败，全部执行回滚 (原子性) 不管事务是否成功，数据必须保持一致性，不会出现错误 并发操作下，事务最难控制 事务的执行过程中最需要关注的就是 事务并行和事务隔离 问题，就是说多个事务必须是隔离的，事务A不能影响事务B的执行，这也是事务中最难处理和最难理解的一部分
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Mysql - 分类 - lyer's blog</title><link>/categories/mysql/</link><description>Mysql - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Sun, 23 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/mysql/" rel="self" type="application/rss+xml"/><item><title>MySql事务和锁</title><link>/2021/05/23/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</link><pubDate>Sun, 23 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/23/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81/</guid><description>为什么需要有事务 为了解决数据的一致性，保障数据的正确
 ​
 事务四大特性ACID 原子性 Atomicity
 事务是数据库的逻辑工作单位，不可分割，事务中包含的各操作要么都做，要么都不做
@@ -20,10 +18,14 @@ MySql事务的实现 原子性: undo log 实现 (记录了事务修改之前的�
 一个事务还没提交时，它做的变更对他事务可见
 脏读 不可重复读 幻读 2、读已提交 Read Committed Oracle默认的隔离级别
 一个事务只有提交时它做的变化才对其他事务可见，该级别会造成 在事务中两次读取数据不一致的情况，也就是不可重复读
-不可重复读 幻读 3、可重复读 Repeatable Read MySql、Innodb默认的隔离级别</description></item><item><title>MySql备份与恢复</title><link>/2021/05/09/mysql%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</link><pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/09/mysql%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</guid><description><![CDATA[mysqldump备份与恢复 备份所有数据库--all-databases
+不可重复读 幻读 3、可重复读 Repeatable Read MySql、Innodb默认的隔离级别
+一个事务开始之后，其所看见的数据就是事务开始时候的数据，相当于给数据在事务开始时拍一个快照，在事务执行过程中看见的都是这个快照，即使是其他事务做了变更提交了对此事务也不可见
+Mysql的RR隔离级别下不会出现幻读问题
+4、串行化 事务必须串行化执行，一个事务只有等另外一个事务结束之后才可以开始，效率最低不支持并发，但是解决了事务隔离性的所3有问题
+--锁住所有查询出来的行，因为下面这局查询了所有的行 --其他事务只能select，其他操作会阻塞，如果此时执行插入那是可以的，但是其他事务如果需要读取新插入的行则会阻塞 select * from stu --锁行，其他事务无法对这行修改但是可以读，对于其他行则同时可以读或写 select * from stu where id=1 --锁行，其他事务无法对这行读或则写 update stu set name=&amp;#39;A&amp;#39; where id=1 ​</description></item><item><title>MySql备份与恢复</title><link>/2021/05/09/mysql%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</link><pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/09/mysql%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</guid><description><![CDATA[mysqldump备份与恢复 备份所有数据库--all-databases
 #备份所有数据库 mysqldump -uroot -p --all-databases &gt; ./all.sql 备份指定的数据库
-#备份 lyer test 库 mysqldump -uroot -p lyer --databases lyer test &gt; ./db.sql 备份指定数据库中的表，恢复时必须use到指定的数据库下
-#备份test库中的a b c 表 mysqldump -uroot -p test a b c &gt; ./db.sql 恢复数据
+#备份d1、d2 库 mysqldump -uroot -p --databases d1 d2 &gt; ./db.sql 备份指定数据库中的表，恢复时必须use到指定的数据库下
+#备份test库中的a b c 表 mysqldump -uroot -p --databases test --tables a b c &gt; ./db.sql 恢复数据
 mysql&gt; source /home/lyer/tmp/temp/db.sql ​
 MySql备份脚本 #!/bin/bash # ------------------------------------------------------------------------------- # FileName: mysql_backup.sh  # Describe: Used for database backup # Revision: 1.0 # Date: 2020/08/11 # Author: wang # 设置mysql的登录用户名和密码(根据实际情况填写) mysql_user = &#34;root&#34; mysql_password = &#34;yourpassword&#34; mysql_host = &#34;localhost&#34; mysql_port = &#34;3306&#34; backup_dir = /data/mysql_backup dt=date +&#39;%Y%m%d_%H%M&#39; echo &#34;Backup Begin Date:&#34; $(date +&#34;%Y-%m-%d %H:%M:%S&#34;) # 备份全部数据库 mysqldump -h$mysql_host -P$mysql_port -u$mysql_user -p$mysql_password -R -E --all-databases --single-transaction &gt; $backup_dir/mysql_backup_$dt.]]></description></item><item><title>MySql运维和权限</title><link>/2021/05/09/mysql%E8%BF%90%E7%BB%B4%E5%92%8C%E6%9D%83%E9%99%90/</link><pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/09/mysql%E8%BF%90%E7%BB%B4%E5%92%8C%E6%9D%83%E9%99%90/</guid><description><![CDATA[MySql数据目录初始化 第一次启动MySql的时候需要进行初始化，也就是初始化数据存放的目录（注意这个目录必须为空，或则不存在）这个目录路径可以在配置文件里面配置
 [mysqld] port=3306 datadir=/home/lyer/tmp/data 默认的数据存放路径是:

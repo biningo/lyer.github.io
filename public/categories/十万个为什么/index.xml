@@ -1,4 +1,18 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>十万个为什么 - 分类 - lyer's blog</title><link>/categories/%E5%8D%81%E4%B8%87%E4%B8%AA%E4%B8%BA%E4%BB%80%E4%B9%88/</link><description>十万个为什么 - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Wed, 28 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E5%8D%81%E4%B8%87%E4%B8%AA%E4%B8%BA%E4%BB%80%E4%B9%88/" rel="self" type="application/rss+xml"/><item><title>为什么数组下标从0开始?</title><link>/2021/04/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%95%B0%E7%BB%84%E4%B8%8B%E6%A0%87%E4%BB%8E0%E5%BC%80%E5%A7%8B/</link><pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/04/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%95%B0%E7%BB%84%E4%B8%8B%E6%A0%87%E4%BB%8E0%E5%BC%80%E5%A7%8B/</guid><description>先说答案吧:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>十万个为什么 - 分类 - lyer's blog</title><link>/categories/%E5%8D%81%E4%B8%87%E4%B8%AA%E4%B8%BA%E4%BB%80%E4%B9%88/</link><description>十万个为什么 - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Tue, 03 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E5%8D%81%E4%B8%87%E4%B8%AA%E4%B8%BA%E4%BB%80%E4%B9%88/" rel="self" type="application/rss+xml"/><item><title>为什么栈上内存分配效率高</title><link>/2021/08/03/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A0%88%E4%B8%8A%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%95%88%E7%8E%87%E9%AB%98/</link><pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/03/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A0%88%E4%B8%8A%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%95%88%E7%8E%87%E9%AB%98/</guid><description><![CDATA[栈为什么这么快  栈寄存器的支持
+ CPU有专门的栈寄存器 ESP栈顶寄存器，EBP栈基地址寄存器，对于栈内存的访问CPU可以直接根据栈寄存器保存的地址获取到数据
+但是堆内存的访问需要先获取到指令然后从指令中获取到堆内存地址保存在寄存器中，最后再通过寄存器的地址进行寻址
+ 栈空间内存分配和释放比较快
+ 栈空间在编译时就分配内存给变量了，而堆空间需要程序允许时动态的进行系统调用来分配内存。并且栈在分配内存和释放内存只需要移动栈寄存器的指针即可，所以栈的内存分配和释放都是比较快的
+栈空间的管理不需要程序员手动管理，而堆空间需要用户程序手动管理，包括一些GC算法等都是针对堆空间的
+ 栈适合函数调用场景
+ 函数调用场景时候用栈这种数据结构，比如
+ 函数调用结束之后，函数里的局部变量都没用了，则此时应该立即释放其内存 函数嵌套调用  ​
+栈的缺点  栈因为结构简单，所以无法应对一些需要动态分配的场景 栈空间需要类型大小是固定，缺乏灵活性  ​
+Go的内存逃逸 Go使用new make 等创建的对象不一定都是分配在堆上的，这个和其他语言有点不一样
+编译器在编译的时候会进行逃逸分析，可能会将函数内的一些局部变量分配到堆上，逃逸分析的命令如下
+go build -gcflags &#39;-m -l&#39; main.go #逃逸分析  函数返回指针，编译器会把变量分配到堆上
+ type User struct { Name string } func hello() *User { u := User{Name: &#34;lyer&#34;} return &amp;u }  new一个对象，make一个对象并不一定会分配到堆上
+ type User struct { Name string } func hello() { u := new(User) u.]]></description></item><item><title>为什么数组下标从0开始?</title><link>/2021/04/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%95%B0%E7%BB%84%E4%B8%8B%E6%A0%87%E4%BB%8E0%E5%BC%80%E5%A7%8B/</link><pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/04/28/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%95%B0%E7%BB%84%E4%B8%8B%E6%A0%87%E4%BB%8E0%E5%BC%80%E5%A7%8B/</guid><description>先说答案吧:
 历史问题，C语言数组下标使用0，于是之后的语言都使用0 数组的偏移运算规则 历史问题这个不用多说了，下面说一下第二条原因
 我们知道数组因为内存都是连续存放的，每个元素的大小都是固定的，所以支持随机访问，我们只需要根据偏移和元素大小来计算出地址即可实现随机任意的访问数组中的元素，所以随机访问效率为 O(1)
 数组查找一个元素的效率为O(n)，如果是有序数组查找一个元素使用二分的话那就是O(logn)

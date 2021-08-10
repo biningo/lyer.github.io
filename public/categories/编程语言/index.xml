@@ -1,0 +1,51 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>编程语言 - 分类 - lyer's blog</title><link>/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</link><description>编程语言 - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Mon, 02 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" rel="self" type="application/rss+xml"/><item><title>编程语言自举</title><link>/2021/08/02/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E8%87%AA%E4%B8%BE/</link><pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/02/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E8%87%AA%E4%B8%BE/</guid><description>什么是自举 Go1.5完成了自举，也就是说Go现在的编译器就是用Go语言本身写的
+编译器也是一个二进制程序，作用就是把语言代码的文本翻译为机器平台对应的二进制可执行文件，机器平台二进制可执行文件可以和汇编语言指令一一对应，每个汇编指令都有其对应的二进制格式的机器码
+比如我现在要发明一个E语言，我现在用C语言写一个E语言的编译器然后将这个编译器编译为二进制，这样我们就可以用这个C语言写的E语言编译器去翻译E语言代码了
+接着我用E语言实现写了和C语言的那个编译器同样功能的编译器，然后用C编译器编译这个E写的编译器，那么就可以用E写的编译器编译E语言了，这就完成了自举</description></item><item><title>Functional Option模式</title><link>/2021/07/22/functionaloption%E6%A8%A1%E5%BC%8F/</link><pubDate>Thu, 22 Jul 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/07/22/functionaloption%E6%A8%A1%E5%BC%8F/</guid><description>当我们创建一个struct时里面有些属性是必须要指定的，但是有些属性是可以有默认值而非必须指定的。比如一个请求HTTP的Client结构体
+type Client struct{ Host string Port string Timeout int Protocol string //http https } 其中假如Host和Port是必须指定的，其他两个属性都有默认值，由于go没有函数重载，则需要给每一种情况都创建一个构造函数。为了应对这种可选项，我们就可以使用Functional Option风格
+type Client struct { Host string Port uint16 Timeout int Protocol string } type Option func(*Client) func NewClient(host string, port uint16, opts ...Option) *Client { client := &amp;amp;Client{ Host: host, Port: port, Timeout: 10, Protocol: &amp;#34;http&amp;#34;, } for _, o := range opts { o(client) } return client } func WithTimeout(timeout int) Option { return func(client *Client) { client.</description></item><item><title>Go文件读写和IO操作</title><link>/2021/05/29/go%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8Cio%E6%93%8D%E4%BD%9C/</link><pubDate>Sat, 29 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/29/go%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8Cio%E6%93%8D%E4%BD%9C/</guid><description><![CDATA[IO接口 io.Reader 读IO接口
+type Reader interface { Read(p []byte) (n int, err error) } io.Writer 写IO接口
+type Writer interface { Write(p []byte) (n int, err error) } io.Closer 关闭IO接口
+type Closer interface { Close() error } ​
+文件读取 方式一: 无缓冲直接读取
+func fileDemo1() { file, err := os.Open(&#34;/go-test-learn/io/t1.go&#34;) CheckError(&#34;&#34;, err) defer file.Close() content := []byte{} buf := make([]byte, 100) //每次读取的最大byte数组 	for { n, err := file.Read(buf) //返回真实读取的数据字节大小 (&lt;=len(buf)) 	if err == io.]]></description></item><item><title>Go处理error</title><link>/2021/05/23/go%E5%A4%84%E7%90%86error/</link><pubDate>Sun, 23 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/23/go%E5%A4%84%E7%90%86error/</guid><description><![CDATA[大道至简的error go的错误处理就只有一个errors包和一个error接口，这个接口只包哈一个Error方法，该方法返回一个string，这个包的代码很少，只有两个文件：
+ errors.go wrap.go  go通过返回值来返回错误而不是通过try/catch，除非函数能保证一定能执行成功，否则每个函数都必须返回一个error
+并且go的error建议只处理一次，也就是说如果你处理过了错误那么就不需要返回给上层了，如果将已经处理过的错误继续返回给上层则这个错误可能会被重复处理
+func f() error{ return errors.New(&#34;error&#34;) //返回error接口 } 下面来看下errors/errors.go的源码，不过10行左右
+func New(text string) error { return &amp;errorString{text} //返回errorString指针 } //实现了error接口 type errorString struct { s string } //获取错误字符串的方法 func (e *errorString) Error() string { return e.s } ​
+自定义error 我们只需要实现error接口也就是重写Error()方法即可自定义错误
+type ZeroDivisionError struct { msg string code int } func (e ZeroDivisionError) Error() string { return fmt.Sprintf(&#34;[%d]:%s&#34;, e.code, e.msg) } type NullPointerError struct { msg string } func (e NullPointerError) Error() string { return fmt.]]></description></item><item><title>Go中的slice</title><link>/2021/05/22/go%E4%B8%AD%E7%9A%84slice/</link><pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/22/go%E4%B8%AD%E7%9A%84slice/</guid><description>数组 数组值拷贝
+func main(){ a1:=[...]int{1,2,3} a2:=a1 log.Println(a1,a1[0]) log.Println(a2,a2[0]) //也可以通过下标访问 a2[0] = 10 log.Println(a) //a[0]=1 } 数组指针传递
+//通过指针访问数组 func main(){ a:=[...]int{1,2,3} a2:=&amp;amp;a log.Println(a,a[0]) log.Println(a2,a2[0]) a2[0] = 10 log.Println(a) //a[0]=10 } ​
+len和cap的区别 len 代表底层数组可访问的范围，用索引访问不可越过这个界限
+cap 代表底层数组的实际空间长度，不可用索引访问，如果append 元素时没有超过这个cap，则不再创建底层数组，直接在len空间后面扩展。否则开辟新的空间，同时增大cap（这里有一个增大规则），所以如果要频繁的扩容，适当设置大一些的cap能减少开销的，设置大的cap是为了防止多次扩容拷贝造成开销
+func main(){ slice1 := []int{1,2,3} //len=3 cap=3 slice2 := make([]int,2) //len=2 cap=2 slice3 := make([]int,2,4) //len=2 cap=4 } func main(){ arr:=make([]int,2,10) // len=2 cap=10 arr[0]=1 arr[1]=2 //arr[2]=3 //报错 // len=6 cap=10 arr = arr[:6] //扩容,不会再申请空间 arr[2]=3 // [1,2,3,0,0,0] //会在len后面添加,如果len&amp;gt;cap则会进行扩容 此处不会扩容 arr = append(arr,888) // len=7 cap=10 //arr=arr[:11] //报错 超过cap的大小，此时必须用过append进行扩容 } func main(){ //下面的切片引用切片 指向同一个底层数组 cap右界限都是和父亲一样的 a1 :=[]int{1,2,3,4,5,6,7,8} // len=8 cap=8 a2 :=a1[:3] //[1,2,3] len=3 cap=8 a3 :=a1[:5] //[1,2,3,4,5] len=5 cap=8 } ​</description></item><item><title>Go并发模式和channel</title><link>/2021/05/22/go%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F%E5%92%8Cchannel/</link><pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/22/go%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F%E5%92%8Cchannel/</guid><description><![CDATA[channel实现互斥锁 传统的sync.Mutex互斥锁
+//如果不加锁那么最终结果可能不是10000 func main() { count := 0 wg := sync.WaitGroup{} mu := sync.Mutex{} for i := 0; i &lt; 10000; i++ { wg.Add(1) go func() { mu.Lock() count++ mu.Unlock() wg.Done() }() } wg.Wait() fmt.Println(count) //10000 } channel实现互斥锁
+func main() { count := 0 wg := sync.WaitGroup{} //channel的大小表示资源数量 1表示只允许一个goroutine加锁 	lock := make(chan struct{}, 1) for i := 0; i &lt; 10000; i++ { wg.Add(1) go func() { lock &lt;- struct{}{} //加锁 	count++ &lt;-lock //解锁 	wg.]]></description></item><item><title>C语法总结</title><link>/2021/05/16/c%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</link><pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/16/c%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</guid><description><![CDATA[数据类型和长度 函数指针和回调函数  指针函数 返回指针的函数  char * sayHello(){ char *msg = (char*)malloc(sizeof(13)); msg = &#34;hello,world\n&#34;; return msg; } int main(int argc, char const *argv[]) { char *msg; msg = sayHello(); printf(&#34;%s\n&#34;,msg); }  函数指针 保存函数入口地址的指针，可用于直接设置CPU的PC，直接跳转到目标函数代码指向，目标代码还可以是一段汇编程序，这样也可以实现C和汇编混合编程  void echo(char *msg) { printf(&#34;%s\n&#34;, msg); } int main(int argc, char const *argv[]) { //void:返回值 (*func):函数指针写法 (char *msg):形参  void (*func)(char *msg); //可以直接赋予一个函数的地址 或则void*地址都可  //赋予一段汇编代码地址起始处也可  func = &amp;echo; func(&#34;hello,world&#34;); //直接跳转到地址入口执行 } 下面将四则运算法则传入函数中进行回调]]></description></item><item><title>Go工具链</title><link>/2021/05/10/go%E5%B7%A5%E5%85%B7%E9%93%BE/</link><pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/10/go%E5%B7%A5%E5%85%B7%E9%93%BE/</guid><description>go get和go install go1.6之后，go get命令的设计主要用于追加go.mod的依赖包，如下:
+go get github.com/go-redis/redis/v8 #如果不添加版本的话就在最新的版本 go get github.com/gin-gonic/gin@v1.7.0 #可以添加版本 当然，也可以在go.mod直接添加依赖或则删除依赖，然后使用如下命令来处理依赖
+此命令会清除项目没有使用的依赖以及项目使用的依赖会进行下载
+go mod tidy #此命令应该会很常用 go install命令用于安装二进制文件，此命令会下载对应的库到本地，然后自动执行build编译代码生成二进制文件转移到$GOPATH/bin路径下。此命令必须添加版本
+此命令是全局安装，不会修改项目的mod文件
+go install github.com/cosmtrek/air@v1.15.1 ​
+go build 将代码编译为相关平台的可执行文件，只需要编译带有main的入口文件即可
+go build #会寻找当前目录下main入口文件然后进行编译 会编译所有 go build -o main #指定生成可执行文件的名字 go build mymain.go #也可以编译指定的go文件 然后就会连一起依赖的代码都编译为一个二进制 ​
+go env 用于管理go的环境变量相关信息，go相关环境变量也可在.bashrc等文件里面设置，优先级高
+go env #打印所有go的环境变量 go env GOPROXY #打印某个环境变量的值 go env -json #json格式输出 go env -w GOPROXY=https://goproxy.cn,direct #修改某个值 这里设置了中国代理，direct表示如果代理没有则直接走go官网，可以设置多个代理网站，用逗号分割 go fmt和gofmt go fmt是对gofmt的封装，直接使用gofmt即可，格式化如果不加-w是不会改变源代码的，所以最常用的就是：
+gofmt -w .</description></item><item><title>Go指针</title><link>/2021/05/10/go%E6%8C%87%E9%92%88/</link><pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/10/go%E6%8C%87%E9%92%88/</guid><description><![CDATA[返回局部变量的指针 Go支持垃圾回收，所以当一个函数返回了局部变量的地址这是合法的。这是Go和C指针的区别之一。Go编译器会作内存逃逸分析，如果一个局部遍历的指针被返回了则会将他的内存分配到堆空间
+type Stu struct { Name string Age int } func NewStudent() *Stu { stu := Stu{} stu.Name = &#34;lyer&#34; stu.Age = 18 return &amp;stu //这是合法的 } func main() { stu:=NewStudent() stu.Age = 21 } ​
+Go指针的限制   普通类型的指针不能作算术运算
+  一个指针类型的值不能被随意转化为另外一个指针类型，也就是说每个类型的指针其实也相当于一个类型
+  指针只能在同类型比较(==、!=)
+func main() { s1:=&amp;Stu{} s1= nil s2:=&amp;Stu{} log.Println(s1==s2) //false }   指针的值不能赋给其他类型的指针
+  综上所述: Go每个类型的指针都是一个独立的类型
+任意一个类型的指针都可以转化为unsafe.Pointer类型，此类型相当于void*
+​
+unsafe.Pointer和uintptr unintptr属于一个可运算的指针类型，其长度每个平台不一样，比如64位平台则此类型必须能够表达所有的地址，所以长度为int64
+注意unintptr指向的地址不会被Go感知到，也就是说其指向的地址无法保证不被GC回收
+unsafe.Pointer指针相当于void*，其它所有类型的指针都可以转化为此类型，如果要进行运算的话则需要继续转化为uintptr]]></description></item><item><title>C的柔性数组</title><link>/2021/05/01/c%E7%9A%84%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</link><pubDate>Sat, 01 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/01/c%E7%9A%84%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</guid><description><![CDATA[什么是柔性数组  结构中最后一个元素允许是未知大小的数组，这个数组就是柔性数组
+ 但结构中的柔性数组前面必须至少一个其他成员,柔性数组成员允许结构中包含一个大小可变的数组，sizeof返回的这种结构大小不包括柔性数组的内存。包含柔数组成员的结构体用malloc函数进行内存的动态分配,且分配的内存应该大于结构的大小以适应柔性数组的预期大小
+​
+为什么需要柔性数组 C中的结构体都是固定大小的，但是有些时候我们需要一个可变大小的结构体，比如有时候需要在结构体中存放一个长度动态的字符串
+typedef struct mystr { int len; //记录字符串长度  char *data;//底层的char数组指针 }mystr; 我们需要为data malloc一段内存，然后通过这个指针访问这段内存。
+首先我们按照常规的做法，不做任何处理，直接malloc，如下
+typedef struct mystr { int len; char* data; }mystr; int main(int argc, char const *argv[]) { char* c = &#34;hello,world&#34;; //分别分配内存  mystr* s = (mystr*)malloc(sizeof(mystr)); s-&gt;data = (char*)malloc(strlen(c)+1); //+1是为\0分配的 strlen不会将\0计算进来  strcpy(s-&gt;data,c); s-&gt;len = strlen(s-&gt;data); printf(&#34;len:%d data:%s\n&#34;,s-&gt;len,s-&gt;data); //11 hello,world  //分别释放空间  free(s-&gt;data); free(s); return 0; } 可以看到上面的操作比较麻烦，结构体和内部的data指针分配内存和释放内存操作都是分开的，data数据区和结构体不是连续的两块内存，这样会带来两个问题:]]></description></item></channel></rss>
