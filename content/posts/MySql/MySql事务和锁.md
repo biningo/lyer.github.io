@@ -7,17 +7,9 @@ tags: [数据库,MySql]
 
 ## 为什么需要有事务
 
-事务的出现就是为了 **保障数据一致性**，将多条逻辑相关的SQL语句当做一件事情来做，要么都成功要么都失败
+为了解决数据的一致性，保障数据的正确
 
-最经典的场景就是转账业务: 当A给B转账时，B账户余额增加的同时必须保证A账户余额减少，也就是说必须保证A和B账户的总钱款大小前后一致，两个账户的钱总量不会多也不会少
-
-- 一个事务中包含一条或则多条逻辑相关的操作(SQL)，这些操作看作是一个整体，不可分割，当做一件事情来做。如果其中一条或多条SQL失败了则代表此次事务(这件事情)就失败了，则之前执行过的SQL必须全部失败，全部执行回滚  (**原子性**)
-- 不管事务是否成功，数据必须保持一致性，不会出现错误
-- 并发操作下，事务最难控制
-
-事务的执行过程中最需要关注的就是 **事务并行和事务隔离** 问题，就是说多个事务必须是隔离的，事务A不能影响事务B的执行，这也是事务中最难处理和最难理解的一部分
-
-​       
+​      
 
 ## 事务四大特性ACID
 
@@ -45,7 +37,7 @@ tags: [数据库,MySql]
 
 事务一旦提交，它对数据库中的数据的改变就应该是永久性的，必须持久化到磁盘
 
-​     
+​      
 
 ## MySql事务的实现
 
@@ -54,7 +46,7 @@ tags: [数据库,MySql]
 - 隔离性: 锁+`MVCC`  实现
 - 一致性: 通过原子性、持久性、隔离性实现
 
-​     
+​      
 
 ## 隔离性和四大隔离级别
 
@@ -247,7 +239,7 @@ insert into user(name,rtime,is_vip) value('F','2020-05-25',0);
 SELECT * FROM user WHERE date_sub(curdate(), interval 7 day) <= date(rtime); 
 
 --更新操作
-update user set is_vip=1 where date_sub(curdate(), interval 7 day)│mysql> 
+update user set is_vip=1 where date_sub(curdate(), interval 7 day) 
  <= date(rtime); --3
 ```
 
@@ -259,7 +251,7 @@ update user set is_vip=1 where date_sub(curdate(), interval 7 day)│mysql>
 | `SELECT id FROM user WHERE date_sub(curdate(), interval 7 day) <= date(rtime);` 在RC隔离级别下，可以查询到事务B新注册的用户ID，此时如果按照此ID集合发消息则事务B新注册的用户也会收到已经升级为VIP的消息，但是事务B注册的新用户却还不是VIP。在RR隔离级别下则查询不到事务B新注册的用户，则业务是正常的 |                                                              |
 | `commit`                                                     |                                                              |
 
-​    
+​     
 
 ## RR隔离级别案例演示
 

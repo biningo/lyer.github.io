@@ -17,15 +17,15 @@ mysqldump -uroot -p --all-databases > ./all.sql
 备份指定的数据库
 
 ```bash
-#备份 lyer test 库
-mysqldump -uroot -p lyer --databases lyer test   > ./db.sql
+#备份d1、d2 库
+mysqldump -uroot -p --databases d1 d2   > ./db.sql
 ```
 
 备份指定数据库中的表，恢复时必须use到指定的数据库下
 
 ```bash
 #备份test库中的a b c 表
-mysqldump -uroot -p test a b c   > ./db.sql
+mysqldump -uroot -p --databases test --tables a b c   > ./db.sql
 ```
 
 恢复数据
@@ -34,7 +34,7 @@ mysqldump -uroot -p test a b c   > ./db.sql
 mysql> source /home/lyer/tmp/temp/db.sql
 ```
 
-​    
+​      
 
 ## MySql备份脚本
 
@@ -64,17 +64,11 @@ find $backup_dir -mtime +7 -type f -name '*.sql' -exec rm -rf {} \;
 echo "Backup Succeed Date:" $(date +"%Y-%m-%d %H:%M:%S")
 ```
 
-​    
+​       
 
 ## binlog恢复
 
-`binlog`属于`server`层面的，所有存储引擎共享的日志，和存储引擎无关
-
-> innodb觉得此日志不可靠并且效率不高，于是实现了自己的`redo`日志来保证事务持久化。`binlog`记录的是数据的逻辑处理过程，而`redo`日志记录的是数据对应的物理修改，比如数据页的哪个位置做了什么修改。所以`redo`日志恢复效率比`binlog`恢复效率更高。但是`redo`日志不可用于备份恢复，`redo`日志是文件的大小是固定的(大小可以配置)，采用循环写的方式，而`binlog`大小是无限追加的
->
-> `redo`日志认为只要数据页持久化到磁盘之后则此日志就无效了，但是如果磁盘损坏这种情况就无法避免了，这个时候就可以用`binlog`来恢复数据
-
-一般通过备份恢复的数据还是不全的，全量备份之后的数据可以通过`binlog`来恢复，`binlog`的作用有以下几个:
+一般通过备份恢复的数据还是不全的，全量备份之后的数据可以通过`binlog`来恢复，`binlog`的作用有以下几个
 
 - 主从同步（`master`发送自己的`binlog`到从机，从机通过此日志进行同步）
 - 数据恢复（使用`mysqlbinlog`工具来恢复数据）
@@ -83,6 +77,26 @@ echo "Backup Succeed Date:" $(date +"%Y-%m-%d %H:%M:%S")
 
 ```bash
 mysqlbinlog --start-datetime="2021-05-09 22:34:00" --stop-datetime="2021-05-09 22:36:00" --database=test binlog.000001 | mysql -uroot -p
+```
+
+按`position`偏移位置恢复数据
+
+1. 查看当前position
+
+```sql
+show master status;
+```
+
+![](https://raw.githubusercontent.com/biningo/cdn/master/2021-04/binlog-1.png)
+
+2. 删除数据并且恢复
+
+```sql
+mysqlbinlog   --start-position=5671  --stop-position=5973  $MYSQL_HOME/data/binlog.000018  > tag.sql
+```
+
+```bash
+mysql> source /dxxxx/tag.sql
 ```
 
 ​      

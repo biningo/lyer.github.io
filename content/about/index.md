@@ -16,8 +16,7 @@ tags: [杂谈,想法,人生]
 <br>
 
 ## 技术
-- 使用 Java >> Go >> Python >> Js/Ts 完成前后端开发工作(熟练度依次降低)
+- 使用  Go >> Python >> Js/Ts 完成前后端开发工作
 - 使用 Docker >> Nginx 完成项目部署工作
-
-## 技术栈
-
+- 对MySQL、Redis、etcd有一点点了解
+- 熟悉Linux环境，正在学习基础知识

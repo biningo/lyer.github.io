@@ -2,7 +2,7 @@
 title: Linux进程
 date: 2021-04-30
 categories: [操作系统]
-tags: [Linux,OS]  
+tags: [Linux,OS]
 draft: true
 ---
 
@@ -125,7 +125,7 @@ struct mm_struct   *mm; //记录各个虚拟内存段的起始和结束地址
 
 ```c
 struct fs_struct                *fs; //进程所处的根文件和文件系统
-//进程打开的文件描述符列表 进程打开一个文件就有一个fd文件描述符
+//进程打开的文件描述符列表 进程打开一个文件就有一个fd文件描述符,0 1 2 stdin stdout stderr
 struct files_struct             *files; 
 ```
 
