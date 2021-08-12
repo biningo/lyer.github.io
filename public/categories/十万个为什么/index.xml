@@ -98,4 +98,7 @@ TIME_WAIT状态为什么是2MSL的时长 MSL Maximum Segment Lifetime最大报�
 而MSL是按照时间来计算的，超过了一定的时间则TCP报文就会被丢弃
 考虑最坏的情况: A回复了ACK之后进入TIME_WAIT，这个ACK经过了MSL时间丢了，那么B中肯定RTO(RTO&amp;lt;=2MSL)时间到了，于是又回复FIN，这个包最差的情况也是进过了MSL时间之后就丢弃了。所以一来一回就是2MSL就可以保证所有的包都会在网络上消失
 ​
-参考 TCP的运输连接管理</description></item></channel></rss>
+参考 TCP的运输连接管理</description></item><item><title>为什么有了MAC地址还需要IP</title><link>/2021/04/25/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89mac%E5%9C%B0%E5%9D%80%E8%BF%98%E9%9C%80%E8%A6%81ip/</link><pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/04/25/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89mac%E5%9C%B0%E5%9D%80%E8%BF%98%E9%9C%80%E8%A6%81ip/</guid><description>概述 首先这个问题还可以改造为 【为什么有了IP地址还需要MAC地址】
+网络是逐渐发展的，当初的网络不复杂并没有那么多的子网，后来网络变得越来越复杂。所以网络寻路也变得复杂，于是就出现了子网划分。可以先找到主机所在的子网然后
+IP地址是一个逻辑地址，独立于各个网络设备
+巨人肩膀 有了 IP 地址，为什么还要用 MAC 地址？</description></item></channel></rss>

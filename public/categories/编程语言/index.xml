@@ -1,51 +1,68 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>编程语言 - 分类 - lyer's blog</title><link>/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</link><description>编程语言 - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Mon, 02 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" rel="self" type="application/rss+xml"/><item><title>编程语言自举</title><link>/2021/08/02/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E8%87%AA%E4%B8%BE/</link><pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/02/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E8%87%AA%E4%B8%BE/</guid><description>什么是自举 Go1.5完成了自举，也就是说Go现在的编译器就是用Go语言本身写的
 编译器也是一个二进制程序，作用就是把语言代码的文本翻译为机器平台对应的二进制可执行文件，机器平台二进制可执行文件可以和汇编语言指令一一对应，每个汇编指令都有其对应的二进制格式的机器码
 比如我现在要发明一个E语言，我现在用C语言写一个E语言的编译器然后将这个编译器编译为二进制，这样我们就可以用这个C语言写的E语言编译器去翻译E语言代码了
-接着我用E语言实现写了和C语言的那个编译器同样功能的编译器，然后用C编译器编译这个E写的编译器，那么就可以用E写的编译器编译E语言了，这就完成了自举</description></item><item><title>Functional Option模式</title><link>/2021/07/22/functionaloption%E6%A8%A1%E5%BC%8F/</link><pubDate>Thu, 22 Jul 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/07/22/functionaloption%E6%A8%A1%E5%BC%8F/</guid><description>当我们创建一个struct时里面有些属性是必须要指定的，但是有些属性是可以有默认值而非必须指定的。比如一个请求HTTP的Client结构体
-type Client struct{ Host string Port string Timeout int Protocol string //http https } 其中假如Host和Port是必须指定的，其他两个属性都有默认值，由于go没有函数重载，则需要给每一种情况都创建一个构造函数。为了应对这种可选项，我们就可以使用Functional Option风格
-type Client struct { Host string Port uint16 Timeout int Protocol string } type Option func(*Client) func NewClient(host string, port uint16, opts ...Option) *Client { client := &amp;amp;Client{ Host: host, Port: port, Timeout: 10, Protocol: &amp;#34;http&amp;#34;, } for _, o := range opts { o(client) } return client } func WithTimeout(timeout int) Option { return func(client *Client) { client.</description></item><item><title>Go文件读写和IO操作</title><link>/2021/05/29/go%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8Cio%E6%93%8D%E4%BD%9C/</link><pubDate>Sat, 29 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/29/go%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8Cio%E6%93%8D%E4%BD%9C/</guid><description><![CDATA[IO接口 io.Reader 读IO接口
-type Reader interface { Read(p []byte) (n int, err error) } io.Writer 写IO接口
-type Writer interface { Write(p []byte) (n int, err error) } io.Closer 关闭IO接口
-type Closer interface { Close() error } ​
-文件读取 方式一: 无缓冲直接读取
-func fileDemo1() { file, err := os.Open(&#34;/go-test-learn/io/t1.go&#34;) CheckError(&#34;&#34;, err) defer file.Close() content := []byte{} buf := make([]byte, 100) //每次读取的最大byte数组 	for { n, err := file.Read(buf) //返回真实读取的数据字节大小 (&lt;=len(buf)) 	if err == io.]]></description></item><item><title>Go处理error</title><link>/2021/05/23/go%E5%A4%84%E7%90%86error/</link><pubDate>Sun, 23 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/23/go%E5%A4%84%E7%90%86error/</guid><description><![CDATA[大道至简的error go的错误处理就只有一个errors包和一个error接口，这个接口只包哈一个Error方法，该方法返回一个string，这个包的代码很少，只有两个文件：
- errors.go wrap.go  go通过返回值来返回错误而不是通过try/catch，除非函数能保证一定能执行成功，否则每个函数都必须返回一个error
-并且go的error建议只处理一次，也就是说如果你处理过了错误那么就不需要返回给上层了，如果将已经处理过的错误继续返回给上层则这个错误可能会被重复处理
-func f() error{ return errors.New(&#34;error&#34;) //返回error接口 } 下面来看下errors/errors.go的源码，不过10行左右
-func New(text string) error { return &amp;errorString{text} //返回errorString指针 } //实现了error接口 type errorString struct { s string } //获取错误字符串的方法 func (e *errorString) Error() string { return e.s } ​
-自定义error 我们只需要实现error接口也就是重写Error()方法即可自定义错误
-type ZeroDivisionError struct { msg string code int } func (e ZeroDivisionError) Error() string { return fmt.Sprintf(&#34;[%d]:%s&#34;, e.code, e.msg) } type NullPointerError struct { msg string } func (e NullPointerError) Error() string { return fmt.]]></description></item><item><title>Go中的slice</title><link>/2021/05/22/go%E4%B8%AD%E7%9A%84slice/</link><pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/22/go%E4%B8%AD%E7%9A%84slice/</guid><description>数组 数组值拷贝
-func main(){ a1:=[...]int{1,2,3} a2:=a1 log.Println(a1,a1[0]) log.Println(a2,a2[0]) //也可以通过下标访问 a2[0] = 10 log.Println(a) //a[0]=1 } 数组指针传递
-//通过指针访问数组 func main(){ a:=[...]int{1,2,3} a2:=&amp;amp;a log.Println(a,a[0]) log.Println(a2,a2[0]) a2[0] = 10 log.Println(a) //a[0]=10 } ​
-len和cap的区别 len 代表底层数组可访问的范围，用索引访问不可越过这个界限
-cap 代表底层数组的实际空间长度，不可用索引访问，如果append 元素时没有超过这个cap，则不再创建底层数组，直接在len空间后面扩展。否则开辟新的空间，同时增大cap（这里有一个增大规则），所以如果要频繁的扩容，适当设置大一些的cap能减少开销的，设置大的cap是为了防止多次扩容拷贝造成开销
-func main(){ slice1 := []int{1,2,3} //len=3 cap=3 slice2 := make([]int,2) //len=2 cap=2 slice3 := make([]int,2,4) //len=2 cap=4 } func main(){ arr:=make([]int,2,10) // len=2 cap=10 arr[0]=1 arr[1]=2 //arr[2]=3 //报错 // len=6 cap=10 arr = arr[:6] //扩容,不会再申请空间 arr[2]=3 // [1,2,3,0,0,0] //会在len后面添加,如果len&amp;gt;cap则会进行扩容 此处不会扩容 arr = append(arr,888) // len=7 cap=10 //arr=arr[:11] //报错 超过cap的大小，此时必须用过append进行扩容 } func main(){ //下面的切片引用切片 指向同一个底层数组 cap右界限都是和父亲一样的 a1 :=[]int{1,2,3,4,5,6,7,8} // len=8 cap=8 a2 :=a1[:3] //[1,2,3] len=3 cap=8 a3 :=a1[:5] //[1,2,3,4,5] len=5 cap=8 } ​</description></item><item><title>Go并发模式和channel</title><link>/2021/05/22/go%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F%E5%92%8Cchannel/</link><pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/22/go%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F%E5%92%8Cchannel/</guid><description><![CDATA[channel实现互斥锁 传统的sync.Mutex互斥锁
-//如果不加锁那么最终结果可能不是10000 func main() { count := 0 wg := sync.WaitGroup{} mu := sync.Mutex{} for i := 0; i &lt; 10000; i++ { wg.Add(1) go func() { mu.Lock() count++ mu.Unlock() wg.Done() }() } wg.Wait() fmt.Println(count) //10000 } channel实现互斥锁
-func main() { count := 0 wg := sync.WaitGroup{} //channel的大小表示资源数量 1表示只允许一个goroutine加锁 	lock := make(chan struct{}, 1) for i := 0; i &lt; 10000; i++ { wg.Add(1) go func() { lock &lt;- struct{}{} //加锁 	count++ &lt;-lock //解锁 	wg.]]></description></item><item><title>C语法总结</title><link>/2021/05/16/c%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</link><pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/16/c%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</guid><description><![CDATA[数据类型和长度 函数指针和回调函数  指针函数 返回指针的函数  char * sayHello(){ char *msg = (char*)malloc(sizeof(13)); msg = &#34;hello,world\n&#34;; return msg; } int main(int argc, char const *argv[]) { char *msg; msg = sayHello(); printf(&#34;%s\n&#34;,msg); }  函数指针 保存函数入口地址的指针，可用于直接设置CPU的PC，直接跳转到目标函数代码指向，目标代码还可以是一段汇编程序，这样也可以实现C和汇编混合编程  void echo(char *msg) { printf(&#34;%s\n&#34;, msg); } int main(int argc, char const *argv[]) { //void:返回值 (*func):函数指针写法 (char *msg):形参  void (*func)(char *msg); //可以直接赋予一个函数的地址 或则void*地址都可  //赋予一段汇编代码地址起始处也可  func = &amp;echo; func(&#34;hello,world&#34;); //直接跳转到地址入口执行 } 下面将四则运算法则传入函数中进行回调]]></description></item><item><title>Go工具链</title><link>/2021/05/10/go%E5%B7%A5%E5%85%B7%E9%93%BE/</link><pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/10/go%E5%B7%A5%E5%85%B7%E9%93%BE/</guid><description>go get和go install go1.6之后，go get命令的设计主要用于追加go.mod的依赖包，如下:
-go get github.com/go-redis/redis/v8 #如果不添加版本的话就在最新的版本 go get github.com/gin-gonic/gin@v1.7.0 #可以添加版本 当然，也可以在go.mod直接添加依赖或则删除依赖，然后使用如下命令来处理依赖
-此命令会清除项目没有使用的依赖以及项目使用的依赖会进行下载
-go mod tidy #此命令应该会很常用 go install命令用于安装二进制文件，此命令会下载对应的库到本地，然后自动执行build编译代码生成二进制文件转移到$GOPATH/bin路径下。此命令必须添加版本
-此命令是全局安装，不会修改项目的mod文件
-go install github.com/cosmtrek/air@v1.15.1 ​
-go build 将代码编译为相关平台的可执行文件，只需要编译带有main的入口文件即可
-go build #会寻找当前目录下main入口文件然后进行编译 会编译所有 go build -o main #指定生成可执行文件的名字 go build mymain.go #也可以编译指定的go文件 然后就会连一起依赖的代码都编译为一个二进制 ​
-go env 用于管理go的环境变量相关信息，go相关环境变量也可在.bashrc等文件里面设置，优先级高
-go env #打印所有go的环境变量 go env GOPROXY #打印某个环境变量的值 go env -json #json格式输出 go env -w GOPROXY=https://goproxy.cn,direct #修改某个值 这里设置了中国代理，direct表示如果代理没有则直接走go官网，可以设置多个代理网站，用逗号分割 go fmt和gofmt go fmt是对gofmt的封装，直接使用gofmt即可，格式化如果不加-w是不会改变源代码的，所以最常用的就是：
-gofmt -w .</description></item><item><title>Go指针</title><link>/2021/05/10/go%E6%8C%87%E9%92%88/</link><pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/10/go%E6%8C%87%E9%92%88/</guid><description><![CDATA[返回局部变量的指针 Go支持垃圾回收，所以当一个函数返回了局部变量的地址这是合法的。这是Go和C指针的区别之一。Go编译器会作内存逃逸分析，如果一个局部遍历的指针被返回了则会将他的内存分配到堆空间
-type Stu struct { Name string Age int } func NewStudent() *Stu { stu := Stu{} stu.Name = &#34;lyer&#34; stu.Age = 18 return &amp;stu //这是合法的 } func main() { stu:=NewStudent() stu.Age = 21 } ​
-Go指针的限制   普通类型的指针不能作算术运算
-  一个指针类型的值不能被随意转化为另外一个指针类型，也就是说每个类型的指针其实也相当于一个类型
-  指针只能在同类型比较(==、!=)
-func main() { s1:=&amp;Stu{} s1= nil s2:=&amp;Stu{} log.Println(s1==s2) //false }   指针的值不能赋给其他类型的指针
-  综上所述: Go每个类型的指针都是一个独立的类型
-任意一个类型的指针都可以转化为unsafe.Pointer类型，此类型相当于void*
-​
-unsafe.Pointer和uintptr unintptr属于一个可运算的指针类型，其长度每个平台不一样，比如64位平台则此类型必须能够表达所有的地址，所以长度为int64
-注意unintptr指向的地址不会被Go感知到，也就是说其指向的地址无法保证不被GC回收
-unsafe.Pointer指针相当于void*，其它所有类型的指针都可以转化为此类型，如果要进行运算的话则需要继续转化为uintptr]]></description></item><item><title>C的柔性数组</title><link>/2021/05/01/c%E7%9A%84%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</link><pubDate>Sat, 01 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/01/c%E7%9A%84%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</guid><description><![CDATA[什么是柔性数组  结构中最后一个元素允许是未知大小的数组，这个数组就是柔性数组
+接着我用E语言实现写了和C语言的那个编译器同样功能的编译器，然后用C编译器编译这个E写的编译器，那么就可以用E写的编译器编译E语言了，这就完成了自举</description></item><item><title>C语法总结</title><link>/2021/05/16/c%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</link><pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/16/c%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</guid><description><![CDATA[数据类型和长度 函数指针和回调函数  指针函数 返回指针的函数  char * sayHello(){ char *msg = (char*)malloc(sizeof(13)); msg = &#34;hello,world\n&#34;; return msg; } int main(int argc, char const *argv[]) { char *msg; msg = sayHello(); printf(&#34;%s\n&#34;,msg); }  函数指针 保存函数入口地址的指针，可用于直接设置CPU的PC，直接跳转到目标函数代码指向，目标代码还可以是一段汇编程序，这样也可以实现C和汇编混合编程  void echo(char *msg) { printf(&#34;%s\n&#34;, msg); } int main(int argc, char const *argv[]) { //void:返回值 (*func):函数指针写法 (char *msg):形参  void (*func)(char *msg); //可以直接赋予一个函数的地址 或则void*地址都可  //赋予一段汇编代码地址起始处也可  func = &amp;echo; func(&#34;hello,world&#34;); //直接跳转到地址入口执行 } 下面将四则运算法则传入函数中进行回调]]></description></item><item><title>C的柔性数组</title><link>/2021/05/01/c%E7%9A%84%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</link><pubDate>Sat, 01 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/01/c%E7%9A%84%E6%9F%94%E6%80%A7%E6%95%B0%E7%BB%84/</guid><description><![CDATA[什么是柔性数组  结构中最后一个元素允许是未知大小的数组，这个数组就是柔性数组
  但结构中的柔性数组前面必须至少一个其他成员,柔性数组成员允许结构中包含一个大小可变的数组，sizeof返回的这种结构大小不包括柔性数组的内存。包含柔数组成员的结构体用malloc函数进行内存的动态分配,且分配的内存应该大于结构的大小以适应柔性数组的预期大小
 ​
 为什么需要柔性数组 C中的结构体都是固定大小的，但是有些时候我们需要一个可变大小的结构体，比如有时候需要在结构体中存放一个长度动态的字符串
 typedef struct mystr { int len; //记录字符串长度  char *data;//底层的char数组指针 }mystr; 我们需要为data malloc一段内存，然后通过这个指针访问这段内存。
 首先我们按照常规的做法，不做任何处理，直接malloc，如下
-typedef struct mystr { int len; char* data; }mystr; int main(int argc, char const *argv[]) { char* c = &#34;hello,world&#34;; //分别分配内存  mystr* s = (mystr*)malloc(sizeof(mystr)); s-&gt;data = (char*)malloc(strlen(c)+1); //+1是为\0分配的 strlen不会将\0计算进来  strcpy(s-&gt;data,c); s-&gt;len = strlen(s-&gt;data); printf(&#34;len:%d data:%s\n&#34;,s-&gt;len,s-&gt;data); //11 hello,world  //分别释放空间  free(s-&gt;data); free(s); return 0; } 可以看到上面的操作比较麻烦，结构体和内部的data指针分配内存和释放内存操作都是分开的，data数据区和结构体不是连续的两块内存，这样会带来两个问题:]]></description></item></channel></rss>
+typedef struct mystr { int len; char* data; }mystr; int main(int argc, char const *argv[]) { char* c = &#34;hello,world&#34;; //分别分配内存  mystr* s = (mystr*)malloc(sizeof(mystr)); s-&gt;data = (char*)malloc(strlen(c)+1); //+1是为\0分配的 strlen不会将\0计算进来  strcpy(s-&gt;data,c); s-&gt;len = strlen(s-&gt;data); printf(&#34;len:%d data:%s\n&#34;,s-&gt;len,s-&gt;data); //11 hello,world  //分别释放空间  free(s-&gt;data); free(s); return 0; } 可以看到上面的操作比较麻烦，结构体和内部的data指针分配内存和释放内存操作都是分开的，data数据区和结构体不是连续的两块内存，这样会带来两个问题:]]></description></item><item><title>Java并发总结</title><link>/2021/04/27/java%E5%B9%B6%E5%8F%91%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/04/27/java%E5%B9%B6%E5%8F%91%E6%80%BB%E7%BB%93/</guid><description>TODO</description></item><item><title>Java枚举</title><link>/2021/04/04/java%E6%9E%9A%E4%B8%BE/</link><pubDate>Sun, 04 Apr 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/04/04/java%E6%9E%9A%E4%B8%BE/</guid><description>Java枚举的简单使用 public enum HttpStatus { OK, NoContent, NotFound, InternalServerError, BadGateway } 可以使用如下几个常见的枚举方法
+public static void main(String[] args) { HttpStatus ok = HttpStatus.OK; String okStr = ok.name(); //OK Integer okIndex = ok.ordinal(); //0 HttpStatus notFound = HttpStatus.valueOf(&amp;#34;NotFound&amp;#34;); //str-&amp;gt;enum HttpStatus[] values = HttpStatus.values(); //string values } ​
+枚举实现原理 枚举是Java的一种语法糖，内部通过继承 Enum抽象类来实现，下面我写了一个类来说明枚举类实现原理，就是通过 static变量+static初始代码块 来实现的，这就是为什么枚举非常适合作单例的原因
+public final class WeekDay { private final String name; private final Integer ordinal; private WeekDay(String name, Integer ordinal) { this.</description></item><item><title>JavaIO流总结</title><link>/2021/03/23/javaio%E6%B5%81%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/23/javaio%E6%B5%81%E6%80%BB%E7%BB%93/</guid><description>OverView Java 的 I/O 大概可以分成以下几类：
+磁盘操作：File 字节操作：InputStream 和 OutputStream 字符操作：Reader 和 Writer 对象操作：Serializable 网络操作：Socket 非阻塞IO：NIO ​
+File文件相关操作 File类是操作文件系统的相关操作，如果要读取文件内容的数据，则需要传递给IO流对象，通过IO流的方式进行读取
+File f = new File(&amp;#34;/home/pb/tmp/printf.sh&amp;#34;); FileInputStream inputStream = new FileInputStream(f); 通过操作此对象可以创建文件、列出目录下的文件列表、判断文件是否可读、判断类型等操作
+f.isFile(); f.createNewFile(); ​
+InputStream 字节流接口，所有流的接口，比如:
+FileInputStream文件流用于读取文件 ByteArrayInputStream 从字节数组里面读取流 OutPutStream就是将数据写入到目标处，这里将程序员作为主体，Out表示程序员将数据输出到计算机，Input则表示计算机的数据要输入到程序员中
+​
+BufferedInputStream 带有一个字节缓冲数组的InputStream ，需要传入一个实现了 InputStream 接口的流，比如文件，使用了装饰者模式 ，读取流的话不是直接操作文件了，而是每次读取会预先读取到一块byte[]中，相当于缓冲，然后更具用户读取的大小从缓冲区里面读取到用户的字节数组中
+​
+Reader 字符流接口 一个字符可能有多个字节组成比如汉字，实现的接口有:
+InputStreamReader 接受一个 InputStream 对象，然后按照编码将字节进行转化为字符 FileReader 继承 InputStreamReader ，用于直接读取文件，里面就是根据传入的File对象或则文件名创建一个 FileInputStream 然后传入父类 InputStreamReader ​
+BufferedReader 带缓冲的Reader，需要传入一个实现了 Reader 接口的流，比如文件FileInputStreamReader，读取的话会先读入到char[]中，然后直接从char[]缓冲区进行读取，装饰者模式</description></item><item><title>Java集合总结和源码浅析</title><link>/2021/03/21/java%E9%9B%86%E5%90%88%E6%80%BB%E7%BB%93%E5%92%8C%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90/</link><pubDate>Sun, 21 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/21/java%E9%9B%86%E5%90%88%E6%80%BB%E7%BB%93%E5%92%8C%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90/</guid><description><![CDATA[OverView ​
+HashMap和HashTable HashMap刚开始是一个Node节点的数组 ，初始化为16大小 如果节点元素个数达到一定的值(这个值略小于 HashTable 的大小)，则会进行扩容
+然后逐渐放入元素，刚开始如果发生碰撞就采用 拉链法 进行解决碰撞 ，如果链表的节点个数&gt;=8同时 数组 大小大于64 则会进行树化，转化为 红黑树 来加快查找(红黑树是一颗高度平衡的二叉查找树) 如果链表节点个数大于8但是数组小于64则会进行扩容数组
+HashTable和HashMap的主要区别如下:
+ HashTable是并发安全的，HashMap不安全 HashTable的value不允许null，HashMap允许 HashTable属于老的集合容器，HashMap属于新一代集合容器  ​
+ConcurrentHashMap 和HashMap差不多，但是这个是并发安全的
+在 JDK1.8 中，ConcurrentHashMap 选择了与 HashMap 相同的数组+链表+红黑树结构，在锁的实现上，采用 CAS 操作和 synchronized锁 实现更加低粒度的锁，将锁的级别控制在了更细粒度的 table 元素级别，也就是说只需要锁住这个链表的首节点，并不会影响其他的 table 元素的读写，大大提高了并发度
+​
+LinkedHashMap LinkedHashMap能保持插入的顺序，HashMap+双链表 实现
+在插入的时候同时给每个节点都按照插入的顺序串成一个双链表(LinkedHashMap给之前HashMap中的链表节点多加了两个前后节点实现)，这样遍历的时候就可以保持插入的顺序了，同时用key取值得时候效率还和 HashMap 一样
+下面两个
+public static void main(String[] args) { LinkedHashMap&lt;String, String&gt; m1 = new LinkedHashMap&lt;&gt;(); m1.put(&#34;name&#34;, &#34;lyer&#34;); m1.put(&#34;age&#34;, &#34;18&#34;); m1.put(&#34;score&#34;, &#34;100&#34;); m1.forEach((k, v) -&gt; System.]]></description></item><item><title>Java泛型总结</title><link>/2021/03/20/java%E6%B3%9B%E5%9E%8B%E6%80%BB%E7%BB%93/</link><pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/20/java%E6%B3%9B%E5%9E%8B%E6%80%BB%E7%BB%93/</guid><description><![CDATA[为什么需要泛型 Java的泛型机制在Java 5.0中加入，为什么需要泛型呢?
+在以前没有泛型的情况下，一个 List 类型要能存放所有类型那么底层只能是Object数组来接受所有类型，这样的话我们可以将所有类型都放入这个Lits中，从Lits中获取元素的时候再强转，这样很容易会引发 ClassCastException异常
+再来想想，如果不使用Object会怎么样？
+这样的话虽然可以避免 ClassCastException异常 但是就要为每种类型都写一个List类，增加了代码量
+如果加入泛型之后就不会在运行时引发错误，因为错误都会在编译的时候就发现，泛型的引入能让编译器更好的优化和检查程序的前期错误而不是等到运行的时候再出现错误
+并且也不需要为每种类型都写一个List了，直接在new的时候指定类型即可，相当于造了一个代码模具(因为这个代码对于每种类型的操作都是一样的)，使用的使用填充类型即可
+总结一下为什么需要泛型:
+ 强类型，编译器通过泛型实现类型检测，避免运行时类型转换错误，增强代码可读性 对象重用，减少代码量  ​
+泛型在Java中的使用 泛型类和泛型方法的案例
+public class Pair&lt;T, U&gt; { private T t; private U u; public Pair(T t, U u) { this.t = t; this.u = u; } public T getT() { return this.t; } //泛型可以单独应用在方法上 调用: p.&lt;String&gt;(&#34;one&#34;)  public &lt;E&gt; void echo(E e) { System.out.println(e); } public U getU() { return this.u; } 泛型还可以应用在 接口 上]]></description></item><item><title>Java注解和反射</title><link>/2021/03/20/java%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/</link><pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/20/java%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/</guid><description><![CDATA[为什么需要注解 注解也是Java 1.5开始引入的，注解产生是为了替代早期的XML配置文件的，早期使用配置文件XML
+其中注解与代码强耦合，一旦改变就需要重新编译，而XML配置文件则和代码分开，修改XML配置文件不需要重新编译因为XML原本就是不编译进字节码中的，Java代码通过文件读取的方式获取XML配置文件的信息
+但是注解的优点就是方便简洁好维护，而XML则不方便不容易维护而且配置复杂
+​
+元注解 元注解 是一种注解在注解上的一种注解，由Java标准库提供，我们自定义注解必须要标注上元注解用于说明这个自定义注解的范围等
+元注解有如下4个:
+ @Target 表示注解可以注解在方法上还是类上 @Retention 表示注解保留在什么范围 ，一般注解和反射配合使用，所以一般这个值为runtime 注解可以保留到程序运行的时候，它会被加载进入到 JVM 中，所以在程序运行时可以获取到它们 @Documented  将注解中的元素包含到 Javadoc 中 @Inherited 子类可以继承父类的注解  ​
+自定义注解 如果注解只有一个值，则需要设置为value()这样注解上就不需要key指定了
+@Target(ElementType.METHOD) public @interface My { String value() default &#34;&#34;; //可以赋值默认值 } 直接这样使用即可，如果有多个则必须要指定key，没有指定默认值得必须写出值，否则可以不写使用默认值
+@My(&#34;A&#34;) 注解也可以定义数组，数组元素只有一个时不需要花括号包裹
+@Target(ElementType.METHOD) public @interface My { String value() default &#34;&#34;; String[] names(); } @My(value=&#34;A&#34;,names={&#34;lyer&#34;,&#34;b&#34;}) ​
+为什么需要反射 首先来看反射能做什么我们才可以知道为什么需要反射机制了:
+ 有了反射我们可以在程序运行时动态的加载类，只需要给定类的全路径名即可，而不需要硬编码代码中 反射相当于给了程序员一个后门 可以破坏封装，直接获取一个类的所有属性或则方法，让我们了解一个陌生类的所有属性和方法，知道这个类里面都有什么东西，并且可以创建这个类执行里面的私有方法等  知道反射能干啥之后我们就可以得出为什么需要反射机制了:
+  方便测试
+  运行时动态加载类，不需要编译时确定写死 (并且有些类无法在编译之前就知道需不需要加载，只有在运行时才知道是否需要加载，这时候就需要反射了，比如数据库驱动，用户可能选择不同的数据库，所以程序需要更具用户的XML配置等来决定加载哪个数据库的驱动)]]></description></item><item><title>HashMap源码分析</title><link>/2021/03/12/hashmap%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</link><pubDate>Fri, 12 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/12/hashmap%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</guid><description><![CDATA[为什么对象需要同时重写equals和hashcode Object对象有两个重要的方法: equals hashcode
+public boolean equals(Object obj) { return this == obj; //默认直接比较是否是同一个引用 } @HotSpotIntrinsicCandidate public native int hashCode(); equals 默认是直接比较是否是同一个引用
+hashCode 则不同机器实现不一样，一般是用变量的内存地址来进行计算hash值的
+如果一个对象要放入 HashSet 或则 HashMap 的话，需要遵循下列原则，否则就会出现不可预期的错误(HashSet是用HashMap来实现的，所以只需要讨论HashMap即可):
+ 如果一个类重写了equals()方法，则必须重写hashCode()方法。2个对象的equals()方法返回true的话，其hashCode()必须返回相同的值
+ 为什么需要重写 hashCode() 方法呢?
+这个很好理解，因为HashMap查找和放入一个 kv 必须计算出key的hash值，然后选择合适的位置放入value，其实就是直接调用key的hashCode()方法计算hash值，下次查找就是直接根据hash值来直接索引到value(这里还需要考虑Hash碰撞问题)，这样就实现了O(1)速度的查找，HashMap是典型的空间换时间的例子
+如果我们不重写hashCode()方法，则会调用父类Object的hashCode方法，该方法是根据值得内存地址计算得出的，也就是说我们不重写的话，那么两个我们认为值相同的key对象计算出的hash值就会不一样，这样就会导致错误，比如HashSet无法进行去重等，下面的Student没有重写hashCode方法
+public static void main(String[] args) { HashSet&lt;Student&gt; set = new HashSet&lt;&gt;(); Student s1 = new Student(&#34;one&#34;); Student s2 = new Student(&#34;one&#34;); set.add(s1); set.add(s2); System.out.println(set.size()); //2 【错误】这里应该为1 } 已经重写了hashCode()，为什么还需要重写equals()方法？
+虽然我们重写了hashCode() 方法，但是还是无法得出正确的结果，因为hash值可能会发生 hash碰撞 ，也就是两个不同值得对象计算出的hash值一样，这个时候就会用 拉链法 等算法来解决碰撞，所以如果只比较hashCode就认为两个对象是相等的这显然是不合理的，所以 HashMap 在添加和取对象的时候不仅仅会比较hashCode，还会比较equals方法，如果两个都相等才判断为同一个对象]]></description></item></channel></rss>
