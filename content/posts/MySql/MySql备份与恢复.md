@@ -64,7 +64,7 @@ find $backup_dir -mtime +7 -type f -name '*.sql' -exec rm -rf {} \;
 echo "Backup Succeed Date:" $(date +"%Y-%m-%d %H:%M:%S")
 ```
 
-​       
+​     
 
 ## binlog恢复
 

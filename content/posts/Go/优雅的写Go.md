@@ -1,7 +1,7 @@
 ---
 title: 优雅的写Go
 date: 2021-02-14
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 draft: true
 ---

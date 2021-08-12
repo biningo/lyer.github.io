@@ -1,7 +1,7 @@
 ---
 title: Go时间
 date: 2021-05-30
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go,时间]
 draft: true
 ---

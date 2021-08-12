@@ -1,7 +1,7 @@
 ---
 title: Go并发模式和channel
 date: 2021-05-22
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go,并发,channel]
 ---
 

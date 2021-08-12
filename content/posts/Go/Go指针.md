@@ -1,7 +1,7 @@
 ---
 title: Go指针
 date: 2021-05-10
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 

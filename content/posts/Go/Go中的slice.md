@@ -1,7 +1,7 @@
 ---
 title: Go中的slice
 date: 2021-05-22
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 

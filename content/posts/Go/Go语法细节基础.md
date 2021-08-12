@@ -1,7 +1,7 @@
 ---
 title: Go语法细节基础
 date: 2021-03-08
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 

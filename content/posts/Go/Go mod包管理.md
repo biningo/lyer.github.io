@@ -1,7 +1,7 @@
 ---
 title: Go mod包管理
 date: 2021-02-12
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 

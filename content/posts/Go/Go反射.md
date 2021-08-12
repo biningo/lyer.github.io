@@ -1,7 +1,7 @@
 ---
 title: Go反射
 date: 2021-03-29
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 draft: true
 ---

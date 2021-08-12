@@ -1,7 +1,7 @@
 ---
 title: Go处理error
 date: 2021-05-23
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 

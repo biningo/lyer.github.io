@@ -1,7 +1,7 @@
 ---
 title: Functional Option模式
 date: 2021-07-22
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 

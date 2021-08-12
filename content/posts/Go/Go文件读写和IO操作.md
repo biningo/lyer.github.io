@@ -1,7 +1,7 @@
 ---
 title: Go文件读写和IO操作
 date: 2021-05-29
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 

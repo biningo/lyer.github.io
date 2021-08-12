@@ -1,8 +1,8 @@
 ---
 title: vim使用教程
 date: 2021-02-21
-categories: [Linux]
-tags: [vim,Linux] 
+categories: [Vim]
+tags: [Vim,Linux] 
 ---
 
 光标移动(命令模式)

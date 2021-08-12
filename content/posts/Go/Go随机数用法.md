@@ -1,7 +1,7 @@
 ---
 title: Go随机数用法
 date: 2021-02-15
-categories: [编程语言/Go]
+categories: [Go]
 tags: [Go]
 ---
 
