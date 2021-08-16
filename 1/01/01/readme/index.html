@@ -1,0 +1,446 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>- lyer's blog</title><meta name=Description content><meta property="og:title" content><meta property="og:description" content="title: Linux命令查看手册 date: 2021-02-23 categories: [Linux] tags: [Linux] draft: true 导论 bash快捷键
+ctrl+a #光标到行首 ctrl+e #光标到行尾 ctrl+u #剪切整行 ctrl+k #剪切光标位置到行尾 ctrl+w #删除光标前一个单词 ctrl+y #粘贴 ctrl+d #退出当前shell ctrl+z #暂停任务 bg fg可以恢复 ctrl+c #终止前台进程 ctrl+r #搜索历史命令 开关机
+#-h:halt的意思 #shutdown会进行一些清理工作 然后调用init 0 shutdown -h now #立刻关机 shutdown -h 1 #1分钟之后 shutdown不加参数默认就是这个 shutdown -h 11:00 #11点关机 shutdown -r now #立刻重启 sync #将内存数据同步到磁盘 关机前都要执行这个命令 last #查看关机和启动的日志 其它
+ctrl+x+e #如果需要在命令行输入多行命令可以通过此快捷键召唤vim输入命令 然后保存就出现在命令行上了 ​
+文件和目录 mkdir -p #递归创建 如果存在则忽略不会报错 tree -a #显示所有文件 -d #只显示目录 -i #不显示树枝 ls -l #长格式输出 -t #按最后修改时间降序(默认按照文件名) -r #反序 ps: -tr按照时间升序号 -h #以人类可读的方式显示大小等信息 -a #列出所有文件 -S #根据文件大小降序 --time-style long-iso #指定时间格式 long-iso最完美 #--------不常用---------- --time atime#默认输出的是修改的时间,指定输出哪种时间 atime ctime -u #按最后访问时间atime降序 -c #按最后状态修改时间ctime降序 -p #目录后面加上'/' -F #在每个文件下加上文件类型指示符号 @/|=*."><meta property="og:type" content="article"><meta property="og:url" content="/1/01/01/readme/"><meta name=twitter:card content="summary"><meta name=twitter:title content><meta name=twitter:description content="title: Linux命令查看手册 date: 2021-02-23 categories: [Linux] tags: [Linux] draft: true 导论 bash快捷键
+ctrl+a #光标到行首 ctrl+e #光标到行尾 ctrl+u #剪切整行 ctrl+k #剪切光标位置到行尾 ctrl+w #删除光标前一个单词 ctrl+y #粘贴 ctrl+d #退出当前shell ctrl+z #暂停任务 bg fg可以恢复 ctrl+c #终止前台进程 ctrl+r #搜索历史命令 开关机
+#-h:halt的意思 #shutdown会进行一些清理工作 然后调用init 0 shutdown -h now #立刻关机 shutdown -h 1 #1分钟之后 shutdown不加参数默认就是这个 shutdown -h 11:00 #11点关机 shutdown -r now #立刻重启 sync #将内存数据同步到磁盘 关机前都要执行这个命令 last #查看关机和启动的日志 其它
+ctrl+x+e #如果需要在命令行输入多行命令可以通过此快捷键召唤vim输入命令 然后保存就出现在命令行上了 ​
+文件和目录 mkdir -p #递归创建 如果存在则忽略不会报错 tree -a #显示所有文件 -d #只显示目录 -i #不显示树枝 ls -l #长格式输出 -t #按最后修改时间降序(默认按照文件名) -r #反序 ps: -tr按照时间升序号 -h #以人类可读的方式显示大小等信息 -a #列出所有文件 -S #根据文件大小降序 --time-style long-iso #指定时间格式 long-iso最完美 #--------不常用---------- --time atime#默认输出的是修改的时间,指定输出哪种时间 atime ctime -u #按最后访问时间atime降序 -c #按最后状态修改时间ctime降序 -p #目录后面加上'/' -F #在每个文件下加上文件类型指示符号 @/|=*."><meta name=application-name content="lyer's blog"><meta name=apple-mobile-web-app-title content="lyer's blog"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=canonical href=/1/01/01/readme/><link rel=next href=/2019/05/25/html%E6%80%BB%E7%BB%93/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"\/1\/01\/01\/readme\/"},"genre":"posts","wordcount":1842,"url":"\/1\/01\/01\/readme\/","publisher":{"@type":"Organization","name":"lyer"},"author":{"@type":"Person","name":"lyer"},"description":""}</script></head><body header-desktop header-mobile><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':(''==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:''==='dark'))&&document.body.setAttribute('theme','dark');</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="lyer's blog">lyer's blog</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>archive </a><a class=menu-item href=/tags/>tag </a><a class=menu-item href=/categories/>category </a><a class=menu-item href=/book>book </a><a class=menu-item href=/about>about </a><a class=menu-item href=/study>study </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="lyer's blog">lyer's blog</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/>archive</a><a class=menu-item href=/tags/>tag</a><a class=menu-item href=/categories/>category</a><a class=menu-item href=/book>book</a><a class=menu-item href=/about>about</a><a class=menu-item href=/study>study</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX"></h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://icepan.cloud title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>lyer</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=0001-01-01>0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1842 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 9 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#导论>导论</a></li><li><a href=#文件和目录>文件和目录</a><ul><li><a href=#mkdir>mkdir</a></li><li><a href=#tree>tree</a></li><li><a href=#ls>ls</a></li><li><a href=#stat>stat</a></li><li><a href=#cp>cp</a></li><li><a href=#mv>mv</a></li><li><a href=#rm>rm</a></li><li><a href=#rmdir>rmdir</a></li><li><a href=#ln>*ln</a></li><li><a href=#find>*find</a></li><li><a href=#xargs>*xargs</a></li><li><a href=#basenamedirname>basename、dirname</a></li><li><a href=#lsattrchattr>lsattr、chattr</a></li><li><a href=#file>file</a></li><li><a href=#md5sum>md5sum</a></li><li><a href=#chown>*chown</a></li><li><a href=#chmod>*chmod</a></li><li><a href=#umask>umask</a></li></ul></li><li><a href=#文件过滤和内容编辑>文件过滤和内容编辑</a><ul><li><a href=#cat>*cat</a></li><li><a href=#more>more</a></li><li><a href=#less>less</a></li><li><a href=#headtail>*head、tail</a></li><li><a href=#cut>cut</a></li><li><a href=#split>split</a></li><li><a href=#paste>paste</a></li><li><a href=#sort>*sort</a></li><li><a href=#join>join</a></li><li><a href=#uniq>*uniq</a></li><li><a href=#wc>*wc</a></li><li><a href=#iconv>iconv</a></li><li><a href=#diff>diff</a></li><li><a href=#vimdiff>vimdiff</a></li><li><a href=#rev>rev</a></li><li><a href=#tr>tr</a></li><li><a href=#od>od</a></li><li><a href=#tee>*tee</a></li></ul></li><li><a href=#文本处理三剑客>文本处理三剑客</a><ul><li><a href=#grep>*grep</a></li><li><a href=#sed>sed</a></li><li><a href=#awk>awk</a></li></ul></li><li><a href=#linux信息显示和搜索文件>Linux信息显示和搜索文件</a><ul><li><a href=#uname>*uname</a></li><li><a href=#hostname>*hostname</a></li><li><a href=#du>*du</a></li><li><a href=#date>*date</a></li><li><a href=#cal>cal</a></li><li><a href=#watch>*watch</a></li><li><a href=#which和whereis>which和whereis</a></li><li><a href=#locate和updatedb>locate和updatedb</a></li></ul></li><li><a href=#压缩与备份>压缩与备份</a><ul><li><a href=#tar>**tar</a></li><li><a href=#unzip>unzip</a></li><li><a href=#scp>scp</a></li><li><a href=#rsync>**rsync</a></li></ul></li><li><a href=#用户管理及用户信息查询>用户管理及用户信息查询</a><ul><li><a href=#几个重要的文件>几个重要的文件</a></li><li><a href=#useradd>useradd</a></li><li><a href=#userdel>userdel</a></li><li><a href=#usermod>*usermod</a></li><li><a href=#groupadd和groupdel>groupadd和groupdel</a></li><li><a href=#passwd>*passwd</a></li><li><a href=#chage>chage</a></li><li><a href=#chpasswd>chpasswd</a></li><li><a href=#su和sudo>*su和sudo</a></li><li><a href=#id>*id</a></li><li><a href=#wwhouserswhoamilastlastb>*w、who、users、whoami、last、lastb</a></li></ul></li><li><a href=#磁盘与文件系统管理>?磁盘与文件系统管理</a></li><li><a href=#进程管理>?进程管理</a><ul><li><a href=#ps>*ps</a></li><li><a href=#top>*top</a></li><li><a href=#pstree>*pstree</a></li><li><a href=#pgrep>pgrep</a></li><li><a href=#kill>*kill</a></li><li><a href=#killall>killall</a></li><li><a href=#pkill>*pkill</a></li><li><a href=#nice和renice>nice和renice</a></li><li><a href=#nohup>*nohup</a></li><li><a href=#jobs-fg-bg--nohub>jobs fg bg & nohub</a></li><li><a href=#strace>**strace</a></li><li><a href=#ltrace>**ltrace</a></li><li><a href=#runlevel>**runlevel</a></li><li><a href=#init>**init</a></li><li><a href=#systemctl>**systemctl</a></li></ul></li><li><a href=#网络管理>?网络管理</a><ul><li><a href=#ifconfig>*ifconfig</a></li><li><a href=#ifup和ifdown>ifup和ifdown</a></li><li><a href=#route>*route</a></li><li><a href=#arp>arp</a></li><li><a href=#ip>*ip</a></li><li><a href=#netstat>**netstat</a></li><li><a href=#ss>**ss</a></li><li><a href=#ping>*ping</a></li><li><a href=#traceroute>traceroute</a></li><li><a href=#telnet>telnet</a></li><li><a href=#arping>arping</a></li><li><a href=#nc>nc</a></li><li><a href=#wget>wget</a></li><li><a href=#utw>utw</a></li><li><a href=#dig>dig</a></li></ul></li><li><a href=#linux系统管理命令>?Linux系统管理命令</a></li><li><a href=#系统内置命令>?系统内置命令</a></li><li><a href=#参考>参考</a></li></ul></nav></div></div><div class=content id=content><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>title: Linux命令查看手册
+date: 2021-02-23
+categories: <span class=o>[</span>Linux<span class=o>]</span>
+tags: <span class=o>[</span>Linux<span class=o>]</span>
+draft: <span class=nb>true</span>
+</code></pre></div><h2 id=导论>导论</h2><p>bash快捷键</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ctrl+a <span class=c1>#光标到行首</span>
+ctrl+e <span class=c1>#光标到行尾</span>
+ctrl+u <span class=c1>#剪切整行</span>
+ctrl+k <span class=c1>#剪切光标位置到行尾</span>
+ctrl+w <span class=c1>#删除光标前一个单词</span>
+ctrl+y <span class=c1>#粘贴</span>
+ctrl+d <span class=c1>#退出当前shell</span>
+ctrl+z <span class=c1>#暂停任务 bg fg可以恢复</span>
+ctrl+c <span class=c1>#终止前台进程</span>
+ctrl+r <span class=c1>#搜索历史命令</span>
+</code></pre></div><p>开关机</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#-h:halt的意思</span>
+<span class=c1>#shutdown会进行一些清理工作 然后调用init 0</span>
+shutdown -h now <span class=c1>#立刻关机</span>
+shutdown -h <span class=m>1</span> <span class=c1>#1分钟之后 shutdown不加参数默认就是这个</span>
+shutdown -h 11:00 <span class=c1>#11点关机</span>
+shutdown -r  now <span class=c1>#立刻重启</span>
+sync <span class=c1>#将内存数据同步到磁盘 关机前都要执行这个命令</span>
+last <span class=c1>#查看关机和启动的日志</span>
+</code></pre></div><p>其它</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ctrl+x+e <span class=c1>#如果需要在命令行输入多行命令可以通过此快捷键召唤vim输入命令 然后保存就出现在命令行上了</span>
+</code></pre></div><p>​</p><h2 id=文件和目录>文件和目录</h2><h3 id=mkdir>mkdir</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>-p  <span class=c1>#递归创建 如果存在则忽略不会报错</span>
+</code></pre></div><h3 id=tree>tree</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>-a <span class=c1>#显示所有文件</span>
+-d <span class=c1>#只显示目录</span>
+-i <span class=c1>#不显示树枝</span>
+</code></pre></div><h3 id=ls>ls</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>-l <span class=c1>#长格式输出</span>
+-t <span class=c1>#按最后修改时间降序(默认按照文件名)</span>
+-r <span class=c1>#反序 ps: -tr按照时间升序号</span>
+-h <span class=c1>#以人类可读的方式显示大小等信息</span>
+-a <span class=c1>#列出所有文件</span>
+-S <span class=c1>#根据文件大小降序</span>
+--time-style long-iso <span class=c1>#指定时间格式 long-iso最完美</span>
+
+<span class=c1>#--------不常用----------</span>
+--time atime#默认输出的是修改的时间,指定输出哪种时间 atime ctime
+-u <span class=c1>#按最后访问时间atime降序</span>
+-c <span class=c1>#按最后状态修改时间ctime降序</span>
+-p <span class=c1>#目录后面加上&#39;/&#39;</span>
+-F <span class=c1>#在每个文件下加上文件类型指示符号 @/|=*....</span>
+-i <span class=c1>#显示inode号</span>
+-d <span class=c1>#只显示当前目录本身信息</span>
+</code></pre></div><p><img class=lazyload src=/svg/loading.min.svg data-src=https://raw.githubusercontent.com/biningo/cdn/master/2021-04/linux_file.png data-srcset="https://raw.githubusercontent.com/biningo/cdn/master/2021-04/linux_file.png, https://raw.githubusercontent.com/biningo/cdn/master/2021-04/linux_file.png 1.5x, https://raw.githubusercontent.com/biningo/cdn/master/2021-04/linux_file.png 2x" data-sizes=auto alt=https://raw.githubusercontent.com/biningo/cdn/master/2021-04/linux_file.png title=https://raw.githubusercontent.com/biningo/cdn/master/2021-04/linux_file.png></p><h3 id=stat>stat</h3><p>通过<code>stat</code>可以查看文件的详细信息</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>stat a.txt
+</code></pre></div><h3 id=cp>cp</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>cp -r abc ../home <span class=c1>#递归copy abc-&gt;../home拷贝目录</span>
+cp -i  <span class=c1>#如果有覆盖则提示是否需要覆盖</span>
+cp -d <span class=c1>#如果copy的是符号连接则copy的是原文件 -d表示仅仅copy符号链接</span>
+cp -a <span class=c1>#拷贝所有 -r -d 结合 包括创建时间等</span>
+</code></pre></div><h3 id=mv>mv</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>mv -i <span class=c1>#覆盖提示</span>
+mv -f <span class=c1>#强制覆盖</span>
+</code></pre></div><h3 id=rm>rm</h3><p>删除应对策略:</p><ul><li>禁止使用<code>rm -rf</code></li><li><code>rm</code>指令用<code>mv</code>代替，将文件移动到其它路径</li></ul><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>rm -f <span class=c1>#强制删除</span>
+rm -i <span class=c1>#删除确认</span>
+rm -r <span class=c1>#递归删除</span>
+</code></pre></div><h3 id=rmdir>rmdir</h3><p>删除空目录</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>rmdir -p A/AA/AAA  <span class=c1>#递归删除 如果父子目录都为空</span>
+</code></pre></div><h3 id=ln>*ln</h3><p>建立软硬链接</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ln target newfile <span class=c1>#建立硬连接 目录不可以建立硬连接</span>
+ln -s target newfile <span class=c1>#建立软连接 目录可以建立软连接</span>
+</code></pre></div><h3 id=find>*find</h3><p><code>-atime</code>: 访问时间</p><p><code>-mtime</code>: 修改时间</p><p>+1: 1天前 -1: 1天内</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -atime -2 <span class=c1>#查找两天内被访问过的文件</span>
+find . -mtime -5 <span class=c1>#查找两天内被修改过的文件</span>
+</code></pre></div><p><code>-type</code>按类型查找</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -type f <span class=c1>#f|d|s|p 普通文件|目录|socket|管道</span>
+</code></pre></div><p>反向查找<code>!</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . ! -type d <span class=c1>#查找不是目录的文件 </span>
+</code></pre></div><p><code>-perm</code>按照目录权限来查找</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -perm <span class=m>700</span>
+</code></pre></div><p><code>-size</code>按照大小来查找<code>cwbkMG</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -size +100M <span class=c1>#查找大于100M的文件</span>
+find . -size -10b <span class=c1>#查找小于10字节的文件</span>
+</code></pre></div><p><code>-path</code> <code>-prune</code> 忽略搜索路径</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#-prune 和-path结合使用表示忽略搜索路径  -path为真时执行-prune忽略,为假时执行-pint 这句话其实是 -path &#34;xxx&#34; -a -prune -o -print的缩写</span>
+find <span class=nv>$PWD</span> -path <span class=s2>&#34;</span><span class=nv>$PWD</span><span class=s2>/pkg&#34;</span> -prune -o -print
+</code></pre></div><p><code>-user</code>查找指定用户的文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find .  -user abc
+</code></pre></div><p><code>-newer</code>查找比指定文件新的文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ind . -newer act ! -newer caddy <span class=c1>#查找比act新 比caddy旧的文件</span>
+</code></pre></div><p><code>-maxdepth</code>指定查找的目录深度</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -maxdepth <span class=m>1</span> <span class=c1>#查找当前路径下所有一级深度的文件</span>
+</code></pre></div><p><code>-name</code>按照文件名进行查找</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -name <span class=s2>&#34;*.jpg&#34;</span> <span class=c1>#查找以jpg结尾的文件</span>
+find . -name <span class=s2>&#34;?.jpg&#34;</span> <span class=c1>#查找a.jpg这样的文件</span>
+find . -name <span class=s2>&#34;[abcdef].jpg&#34;</span> <span class=c1>#查找a.jpg b.jpg c.jpg d.jpg e.jpg f.jpg</span>
+</code></pre></div><p><code>-exec</code>执行: 如果文件很多则效率很低，exec和xargs的区别就是exec是逐一执行的xargs是一起执行的</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -type f -exec ls -l <span class=o>{}</span> <span class=se>\;</span> <span class=c1>#最后\是转义;号的 -exec必须以;结尾 {}是占位符</span>
+<span class=c1>#和下面的命令效果一样</span>
+find . -name <span class=s2>&#34;go*&#34;</span>  <span class=p>|</span> xargs ls -l
+</code></pre></div><p><code>find</code>结合<code>xargs</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -type f <span class=p>|</span> xargs -i mv <span class=o>{}</span> dir/ <span class=c1>#-i表示将查询出来的插入到{}中</span>
+find . -type f <span class=p>|</span> xargs -p rm <span class=c1>#-p表示有提示</span>
+find . -type f <span class=p>|</span> xargs  tar -zcvf file.tar.gz <span class=c1>#将当前路径下的文件都打包</span>
+find . -type f <span class=p>|</span> xargs sed -i <span class=s2>&#34;s/hello/hi/g&#34;</span> <span class=c1>#将所有文件中的hello替换为hi</span>
+</code></pre></div><p>多条件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find src1 src2 -name README.md <span class=c1>#也可以指定多个目录</span>
+</code></pre></div><p>通过find移动文件的3种方法</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>find . -name <span class=s2>&#34;a&#34;</span> <span class=p>|</span> xargs -i  mv <span class=o>{}</span> dir/
+find . -name <span class=s2>&#34;a&#34;</span> <span class=p>|</span> xargs -i  mv -t dir/ <span class=c1>#mv -t表示反转</span>
+mv <span class=sb>`</span>find . -name <span class=s2>&#34;c&#34;</span><span class=sb>`</span> ./B <span class=c1>#反引号表示解析命令结果</span>
+</code></pre></div><h3 id=xargs>*xargs</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>cat a <span class=p>|</span> xargs <span class=c1>#表示合并为一行 这里没有接命令 所以会输出到屏幕上</span>
+cat a <span class=p>|</span> xargs -n <span class=m>2</span> <span class=c1>#只显示两列 每行最多输出2个</span>
+
+find -name <span class=s2>&#34;*.js&#34;</span> <span class=p>|</span> xargs wc -l <span class=c1># 等价于 wc -l a.js b.js c.js ...</span>
+cat download.txt <span class=p>|</span> xargs wget <span class=c1>#批量下载</span>
+find . -name <span class=s2>&#34;*.js&#34;</span> <span class=p>|</span> xargs -i mv <span class=o>{}</span> dir1/ <span class=c1>#{}代表占位符 -I [] 指定占位符</span>
+find . -name <span class=s2>&#34;*.js&#34;</span> <span class=p>|</span> xargs -ip mv <span class=o>{}</span> dir1/ <span class=c1>#-p表示询问</span>
+</code></pre></div><h3 id=basenamedirname>basename、dirname</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>basename /a/b/c <span class=c1>#显示文件名或者目录名  c</span>
+dirname /a/b/c <span class=c1>#显示目录路径 /a/b</span>
+</code></pre></div><h3 id=lsattrchattr>lsattr、chattr</h3><p>[TODO]列出和改变文件的扩展熟悉</p><p>展示和改变文件的扩展属性</p><h3 id=file>file</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>file A <span class=c1>#显示文件的类型</span>
+file -b A <span class=c1>#不输出文件名 只显示精简信息</span>
+file *
+</code></pre></div><h3 id=md5sum>md5sum</h3><p>生成文件的md5值，可以用于校验备份文件是否损坏</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>md5sum file <span class=c1>#计算文件的md5值</span>
+md5sum file &gt; md5sumVal
+md5sum -c md5sumVal <span class=c1>#检查md5值和现在文件的md5值是否一样 也就是文件是否改变</span>
+</code></pre></div><h3 id=chown>*chown</h3><p>更改文件所属的用户或则用户组</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>chown 用户 a.txt
+chown :组 a.txt
+chown 用户:组 a.txt
+chown -R <span class=c1>#递归更改</span>
+</code></pre></div><h3 id=chmod>*chmod</h3><p>更改文件的读写权限</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>chmod u+x
+chmod a+x <span class=c1>#a=u+g+oaa</span>
+chmod a-x
+chmod <span class=m>653</span> <span class=c1>#用数字代替</span>
+chmod <span class=nv>u</span><span class=o>=</span>rwx,g<span class=o>=</span>xw
+chmod -R <span class=c1>#递归</span>
+</code></pre></div><h3 id=umask>umask</h3><p>定义了文件创建时的默认权限的掩码</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=m>666</span> <span class=c1>#默认初始权限</span>
+<span class=m>022</span> - <span class=c1>#掩码</span>
+-----
+<span class=m>644</span>
+
+<span class=nb>umask</span> <span class=c1>#默认是数值方式输出</span>
+<span class=nb>umask</span> -S <span class=c1>#以字符方式输出掩码</span>
+<span class=nb>umask</span> <span class=m>003</span> <span class=c1>#修改掩码</span>
+</code></pre></div><blockquote><p>文件权限和数字的一个对应可以查看这个网址 <a href=https://linxz.github.io/tianyizone/linux-chmod-permissions.html>https://linxz.github.io/tianyizone/linux-chmod-permissions.html</a></p></blockquote><p>​</p><h2 id=文件过滤和内容编辑>文件过滤和内容编辑</h2><h3 id=cat>*cat</h3><p>使用<code>cat</code>实现文件编辑 (注意这个在<code>zsh</code>中无效)</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>cat &gt;a.txt<span class=s>&lt;&lt;EOF #EOF</span>可以是其他符号 代表结束开始的符号
+hello,world
+hello,world
+EOF
+
+<span class=c1>#没有指定文件则是直接输出到屏幕中</span>
+cat <span class=s>&lt;&lt;EOF
+</span><span class=s>hello,world
+</span><span class=s>hello,world
+</span><span class=s>EOF</span>
+</code></pre></div><p>下面是cat一些常用的选项，cat还可以一次性合并输出多个文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>cat -n a.txt  <span class=c1>#输出行号(包括空行)</span>
+cat -b a.txt <span class=c1>#输出行号 (不包括空行)</span>
+cat -s a.txt <span class=c1>#如果有空行则将多个空行合并为1个</span>
+cat a.txt b.txt &gt; c.out <span class=c1>#合并文件</span>
+cat /dev/null &gt; c.out <span class=c1>#清空文件</span>
+cat &gt; a.txt <span class=c1>#键盘输入到文件 ctrl+d结束</span>
+cat a.txt <span class=p>|</span> grep -v <span class=s2>&#34;^</span>$<span class=s2>&#34;</span> <span class=c1>#过滤掉所有空行</span>
+
+</code></pre></div><h3 id=more>more</h3><h3 id=less>less</h3><h3 id=headtail>*head、tail</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>head -2 a.txt <span class=c1>#只输出前2行 -n 2 同理</span>
+head -c <span class=m>10</span> a.txt <span class=c1>#只输出指定字节</span>
+<span class=c1>#tail同理 只列出一些特殊操作</span>
+tail -f a.txt <span class=c1>#-f实时监控文件追加的数据</span>
+tail -f -s <span class=m>10</span> a.txt <span class=c1>#-s表示监控间隔为10s</span>
+</code></pre></div><h3 id=cut>cut</h3><p>分割文本</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>-d <span class=c1>#定义分割符  默认是空格</span>
+-f <span class=c1>#指定显示的列</span>
+-c <span class=c1>#以字符为单位切割</span>
+-b <span class=c1>#字节为单位切割</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>cut -d <span class=s1>&#39; &#39;</span> -f <span class=m>1</span> <span class=c1>#以空格为单位 并取第一列</span>
+cut -d <span class=s1>&#39; &#39;</span> -f 1,4 <span class=c1>#以空格为单位 并取第1,4两列</span>
+cut -b <span class=m>1</span> <span class=c1>#取第1字节列</span>
+cut -b 1,4 <span class=c1>#取1,4字节列</span>
+cut -b 1-4 <span class=c1>#[1,4] 取范围</span>
+cut -b -4 <span class=c1>#[1,4] 取范围</span>
+cut -b 1-6,7-10 <span class=c1>#[1,6) [7,10) 多个范围合并的列</span>
+</code></pre></div><h3 id=split>split</h3><p>分割文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>split -l <span class=m>2</span> a new_ <span class=c1>#2行分割为一个文件 新文件以new_开头 默认使用字符后缀 -d可以指定使用数字后缀</span>
+split -b 500K a new_ <span class=c1>#按照大小进行分割</span>
+</code></pre></div><h3 id=paste>paste</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>paste a b <span class=c1>#横向合并 输出到屏幕</span>
+paste a b -d : <span class=c1>#以:为分隔符</span>
+paste a b -s <span class=c1>#每个文件分别占用一行</span>
+</code></pre></div><h3 id=sort>*sort</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sort -n <span class=c1>#按数字排序 而不是ascii</span>
+sort -r <span class=c1>#倒序 (默认升序)</span>
+sort -u <span class=c1>#去除重复的行</span>
+sort -t <span class=s1>&#39;,&#39;</span> -k2 <span class=c1>#指定分割符号和按哪一列排序</span>
+sort -f <span class=c1>#不区分大小写</span>
+sort -k &lt;n&gt; <span class=c1>#从第n列开始排序</span>
+sort -o &lt;new-file&gt; <span class=c1>#将结果写入文件中 默认直接输出</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sort id.txt <span class=c1>#默认按照逐个比较ascii排序</span>
+sort a.txt b.txt &gt; out.txt <span class=c1>#排序并合并</span>
+sort -k2 -n  id.txt <span class=c1>#不指定t则默认是以空格为分隔符</span>
+sort -t <span class=s1>&#39;:&#39;</span> -k2 -n  id.txt
+</code></pre></div><h3 id=join>join</h3><p>合并两个已经排序了的文件</p><h3 id=uniq>*uniq</h3><p>去除重复的行，前提是重复的行都是连续的，所以一般此命令需要和<code>sort</code>配合使用</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>uniq -c <span class=c1>#去除重复的行同时在每行开头记录重复的次数</span>
+uniq -d <span class=c1>#只显示重复的行</span>
+uniq -u <span class=c1>#只显示不重复的行</span>
+uniq -c id.txt <span class=p>|</span> sort -nk1 <span class=c1>#和sort配合 按重复行排序</span>
+</code></pre></div><h3 id=wc>*wc</h3><p>统计行数、单词数、字节数</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>wc -l <span class=c1>#行数</span>
+wc -c <span class=c1>#字节数量 空格也算</span>
+wc -w <span class=c1>#统计单词数</span>
+</code></pre></div><h3 id=iconv>iconv</h3><p>转化文件的编码方式</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>iconv -l <span class=c1>#列出系统支持的编码</span>
+iconv -f &lt;原文件编码&gt; -t &lt;目标编码&gt; abc.txt <span class=c1>#将文件转化编码</span>
+</code></pre></div><h3 id=diff>diff</h3><p>比较两个文件的不同</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>diff -y a b <span class=c1>#以并列显示两个文件的区别</span>
+diff -c a b <span class=c1>#另一种方式显示不同</span>
+</code></pre></div><h3 id=vimdiff>vimdiff</h3><p>可视化工具显示两个文件的不同</p><h3 id=rev>rev</h3><p>反向输出</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=nb>echo</span> <span class=s1>&#39;abcdefg&#39;</span> <span class=p>|</span> rev
+</code></pre></div><h3 id=tr>tr</h3><p>替换、删除文本</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>tr <span class=s1>&#39;[a-z]&#39;</span> <span class=s1>&#39;[A-Z]&#39;</span> &lt; a.txt <span class=c1>#重定向是规定写法 这里的意思是小写全部转化为大写 输出到标准输出</span>
+tr <span class=s1>&#39;[0-9]&#39;</span> <span class=s1>&#39;[a-z]&#39;</span> &lt;a.txt
+tr -d <span class=s1>&#39;hello&#39;</span> &lt; a.txt <span class=c1>#删除每个hello单词 同时还会删除文本里面含有hello中任意一个字符</span>
+tr -d <span class=s1>&#39;\n\t&#39;</span> &lt;a.txt <span class=c1>#删除换行、制表符</span>
+</code></pre></div><h3 id=od>od</h3><p>输出八进制、十六进制、十进制等格式</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>od -t x a.txt <span class=c1>#按16进制格式打印</span>
+</code></pre></div><h3 id=tee>*tee</h3><p>多重定向</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash> ls <span class=p>|</span>tee a.txt <span class=c1># ls &gt; a效果一样</span>
+ ls <span class=p>|</span> tee -a a.txt <span class=c1>#追加</span>
+</code></pre></div><p>​</p><h2 id=文本处理三剑客>文本处理三剑客</h2><h3 id=grep>*grep</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>grep -v <span class=s2>&#34;abc&#34;</span>  <span class=c1>#-v 表示不包含 反向搜索</span>
+grep -n <span class=s2>&#34;abc&#34;</span> <span class=c1>#显示所在的行号</span>
+grep -i <span class=c1>#不区分大小写</span>
+grep -c <span class=c1>#只显示匹配行数 !不是匹配的个数</span>
+grep -o <span class=c1>#只输出匹配内容</span>
+grep -w <span class=c1>#只匹配完整的单词 默认是匹配所有只要包含了的</span>
+grep -vE <span class=s2>&#34;^</span>$<span class=s2>|#&#34;</span> <span class=c1>#-E表示使用egrep支持各种扩展 这里的意思是过滤掉空行或则带#的行</span>
+</code></pre></div><h3 id=sed>sed</h3><p>流编辑器，文本过滤、增删查改</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sed <span class=s2>&#34;1a 你好世界&#34;</span> a.txt <span class=c1>#在第1行后面追加一行“你好世界” a表示append</span>
+sed <span class=s2>&#34;2i 你好世界&#34;</span> a.txt <span class=c1>#在第2行前面插入一行 i表示insert</span>
+sed <span class=s2>&#34;1d&#34;</span> a.txt <span class=c1>#删除第1行 d表示删除</span>
+sed <span class=s2>&#34;1,3d&#34;</span> a.txt <span class=c1>#删除[1,3]行</span>
+sed -n <span class=s2>&#34;1,3p&#34;</span> a <span class=c1>#只显示[1,3]行</span>
+
+sed <span class=s2>&#34;s/hello/hi/g&#34;</span> a <span class=c1>#将hello全部替换为hi  g表示全局 s表示替换 /是分隔符,用#也可</span>
+</code></pre></div><h3 id=awk>awk</h3><p>文本格式化输出的一个工具</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>awk <span class=s1>&#39;NR==2&#39;</span> a.txt <span class=c1>#显示第2行</span>
+awk <span class=s1>&#39;NR==1,NR==3&#39;</span> a.txt <span class=c1>#显示 [1,3]行</span>
+awk <span class=s1>&#39;{print NR,$0}&#39;</span> a.txt <span class=c1>#显示行号以及内容 中间必须使用逗号</span>
+awk <span class=s1>&#39;NR==2,NR==3  {print NR,$0}&#39;</span> a.txt
+<span class=c1>#-F指定分隔符 NF表示最后一列下标 显示第1,3,以及最后一列</span>
+awk -F <span class=s1>&#39;:&#39;</span> <span class=s1>&#39;{print NF,$1,$3,$NF}&#39;</span> a.txt
+</code></pre></div><p>​</p><h2 id=linux信息显示和搜索文件>Linux信息显示和搜索文件</h2><h3 id=uname>*uname</h3><p>显示系统相关的参数信息</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>uname -a <span class=c1>#显示所有</span>
+uname -n <span class=c1>#主机名称</span>
+uname -v <span class=c1>#内核版本</span>
+</code></pre></div><h3 id=hostname>*hostname</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>hostname <span class=c1>#显示主机名称</span>
+hostname -I <span class=c1>#显示主机所有IP</span>
+</code></pre></div><h3 id=du>*du</h3><p>统计磁盘使用情况</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>du -h <span class=c1>#统计当前路径下的文件磁盘使用情况 -h表示文件大小以人类可读的方式展示</span>
+du -a <span class=c1>#显示所有文件</span>
+du -h <span class=nb>test</span> <span class=c1>#指定目录</span>
+du -s <span class=c1>#当前目录总大小</span>
+</code></pre></div><h3 id=date>*date</h3><p>显示系统时间</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>date +%Y <span class=c1>#2021</span>
+date +%Y-%m-%d-%H:%M:%S <span class=c1>#完整显示</span>
+date +%Z <span class=c1>#显示时区</span>
+date +%R <span class=c1># %H:%M</span>
+date +%F <span class=c1># %Y-%m-%d</span>
+date <span class=s1>&#39;+%F %R&#39;</span> <span class=c1>#%Y-%m-%d %H:%M:%S</span>
+date +%N <span class=c1># 显示纳秒</span>
+</code></pre></div><h3 id=cal>cal</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>cal <span class=c1>#显示当前月份的日历</span>
+cal <span class=m>2020</span> <span class=c1>#显示2020年的日历</span>
+cal <span class=m>5</span> <span class=m>2020</span> <span class=c1>#显示5月日历 可以查看星期几</span>
+</code></pre></div><h3 id=watch>*watch</h3><p>监视命令的执行</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>watch -n <span class=m>1</span> -d netstat -ant <span class=c1>#监视网络 -n表示变化间隔1s -d表示高亮变化了的部分</span>
+watch -n <span class=m>1</span> -d cat a.txt <span class=c1>#监视文件的变化</span>
+</code></pre></div><h3 id=which和whereis>which和whereis</h3><p>查找可执行命令或则文件的路径，在PATH路径下查找</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>which bash
+which git
+</code></pre></div><p>查看路径以及man路径</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>whereis bash
+</code></pre></div><h3 id=locate和updatedb>locate和updatedb</h3><p>TODO</p><p>​</p><h2 id=压缩与备份>压缩与备份</h2><h3 id=tar>**tar</h3><p>打包和压缩工具，可以仅仅打包，也可以压缩并打包</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#z:gzip压缩 v:详细信息 f:指定压缩名字</span>
+
+<span class=c1># c:创建一个新的tar包</span>
+tar -czvf  a.tar.gz ./* <span class=c1>#压缩当前文件夹下的所有文件 并且压缩包的名字为a.tar.gz</span>
+du -h c-learn.tar.gz <span class=c1>#压缩之后可以使用du命令对比大小</span>
+
+<span class=c1># t:不解压查看压缩包内容</span>
+tar -tzvf a.tar.gz
+
+<span class=c1># x:解压</span>
+tar -xzvf a.tar.gz <span class=c1>#默认解压到当前目录下</span>
+tar -xzvf a.tar.gc -C /tmp/ <span class=c1>#指定解压路径</span>
+</code></pre></div><h3 id=unzip>unzip</h3><p>解压zip文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>unzip -O cp936 <span class=s1>&#39;Redis 5设计与源码分析.zip&#39;</span> <span class=c1># -0是为了防止乱码</span>
+</code></pre></div><h3 id=scp>scp</h3><p>ssh方式传输文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>scp ./a.pdf root@aliyun:/root/ <span class=c1>#上传文件到远程服务器</span>
+scp root@aliyun:/root/lyer-home/images ./images <span class=c1>#从远程服务器中下载文件到本地</span>
+</code></pre></div><h3 id=rsync>**rsync</h3><p>文件同步工具，如果目标文件不存在则会自动创建</p><p>同步本地文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#也可用于本地两个文件同步 source文件夹带斜杠就是同步文件夹下面的文件</span>
+<span class=c1># a:递归  v:详细</span>
+<span class=c1># 没带斜线则会将目录本身复制到目录下</span>
+
+<span class=c1>#将data1目录下的文件全部同步到data2目录下</span>
+rsync -av data1/ data2/
+<span class=c1>#将data1复制到data2目录下</span>
+rsync -av data1 data2/
+<span class=c1>#以data1目录为准  两个目录完全一致 会将data2目录下的不一致的删除</span>
+rsync -av data1/ --delete  data2/ <span class=c1>#--delete让两个目录完全一致 不同的会被删除</span>
+</code></pre></div><p>同步远程文件</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>rsync -av 192.168.0.23:/data1/ data2/  <span class=c1>#拉取</span>
+rsync -av data1/ 192.168.0.23:/data2/  <span class=c1>#推送</span>
+</code></pre></div><p>​</p><h2 id=用户管理及用户信息查询>用户管理及用户信息查询</h2><h3 id=几个重要的文件>几个重要的文件</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>/etc/passwd <span class=c1>#用户信息文件</span>
+/etc/shadow <span class=c1>#用户密码文件</span>
+/etc/gshadow <span class=c1>#组密码文件</span>
+/etc/group <span class=c1>#用户组文件</span>
+/etc/login.defs <span class=c1>#用户定义文件</span>
+/etc/default/useradd <span class=c1>#创建用户的默认配置文件</span>
+/etc/skel <span class=c1>#会将此目录下的文件复制到用户的家目录下</span>
+/etc/sudoers <span class=c1>#sudo文件</span>
+</code></pre></div><p><code>/etc/passwd</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>testuser:x:1001:1001:TmpUser:/home/testuser:/bin/sh
+</code></pre></div><table><thead><tr><th>用户名</th><th>密码标识(都为x)</th><th>用户ID</th><th>用户组ID</th><th>用户说明</th><th>用户家目录</th><th>shell解释器</th></tr></thead><tbody><tr><td>testuser</td><td>x</td><td>1001</td><td>1001</td><td>TmpUser</td><td>/home/testuser</td><td>/bin/sh</td></tr></tbody></table><p><code>/etc/group</code></p><table><thead><tr><th>组名</th><th>口令</th><th>组标识号</th><th>组内用户列表</th><th></th><th></th><th></th></tr></thead><tbody><tr><td>docker</td><td>x</td><td>134</td><td>u1</td><td>u2</td><td>u3</td><td></td></tr></tbody></table><h3 id=useradd>useradd</h3><p>useradd如果不指定用户组的话默认会创建一个和用户名相同的用户组</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>useradd -m testuser <span class=c1>#-m家目录如果不存在则自动创建</span>
+useradd -s bash testuser <span class=c1>#-s指定用户使用的sh类型</span>
+useradd -g testgroup -u <span class=m>100</span> testuser <span class=c1>#-g指定用户组 -u指定UID</span>
+useradd -e <span class=s2>&#34;2020-06-07&#34;</span> testuser <span class=c1>#-e指定用户的过期时间</span>
+useradd -c TempUser testuser <span class=c1>#-c指定用户的简短注释</span>
+</code></pre></div><h3 id=userdel>userdel</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>userdel -r testuser <span class=c1>#删除目录的同时删除其关联的文件</span>
+userdel -f testuser <span class=c1>#强制删除 即使用户已经登入</span>
+</code></pre></div><h3 id=usermod>*usermod</h3><p>修改用户，和useradd参数一样</p><h3 id=groupadd和groupdel>groupadd和groupdel</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>groupadd testgroup
+groupadd -g <span class=m>1002</span> testgroup
+groupdel testgroup <span class=c1>#删除用户组</span>
+</code></pre></div><h3 id=passwd>*passwd</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>passwd <span class=c1>#修改当前用户的密码</span>
+passwd testuser <span class=c1>#修改指定用户的密码</span>
+<span class=nb>echo</span> <span class=s2>&#34;123456&#34;</span> <span class=p>|</span> passwd --stdin testuser <span class=c1>#一条设置密码</span>
+
+<span class=c1>#5天内不能更改密码</span>
+<span class=c1>#30天之后必须修改密码</span>
+passwd -n <span class=m>5</span> -x <span class=m>30</span> testuser
+
+<span class=c1>#账户过期前7天告诉用户</span>
+<span class=c1>#过期后60天禁止用户登入</span>
+passwd -w <span class=m>7</span> -i <span class=m>60</span> testuser
+</code></pre></div><h3 id=chage>chage</h3><p>修改用户密码有效期</p><h3 id=chpasswd>chpasswd</h3><p>批量更新用户密码</p><h3 id=su和sudo>*su和sudo</h3><p><code>su</code>切换用户 <code>sudo</code>根据<code>/etc/sudoers</code>文件借权代替执行</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>su root <span class=c1>#切换到root用户</span>
+sudo ls /etc
+</code></pre></div><h3 id=id>*id</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>id <span class=c1>#显示当前用户和用户组信息</span>
+id testuser <span class=c1>#指定用户名</span>
+</code></pre></div><h3 id=wwhouserswhoamilastlastb>*w、who、users、whoami、last、lastb</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#显示已经登入的用户</span>
+w
+who
+users
+whoami <span class=c1>#显示当前用户名</span>
+last <span class=c1>#显示历史登入列表</span>
+lastb <span class=c1>#显示登入失败记录</span>
+lastlog
+</code></pre></div><p>​</p><h2 id=磁盘与文件系统管理>?磁盘与文件系统管理</h2><h2 id=进程管理>?进程管理</h2><p>进程信息都保存在<code>/proc</code>下，进程信息展示都是通过读取目录下的信息进行展示的</p><h3 id=ps>*ps</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ps -e <span class=c1>#显示所有进程</span>
+ps -l <span class=c1>#详细显示进程状况</span>
+ps -f <span class=c1>#显示UID PPID C 等详细栏位</span>
+ps f <span class=c1>#显示进程树结构</span>
+</code></pre></div><p>展示当前系统的所有进程</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ps -ef <span class=c1>#另外一种风格的进程信息</span>
+ps -aux <span class=c1>#显示BSD风格的进程信息</span>
+</code></pre></div><p>查找指定进程</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ps -ef <span class=p>|</span> grep ssh 
+</code></pre></div><h3 id=top>*top</h3><p>实时查看系统资源情况</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>top <span class=c1>#默认按照CPU占用率排序</span>
+top -c <span class=c1>#显示命令路径</span>
+top -d <span class=m>1</span> <span class=c1>#修改刷新间隔1s top进入之后按s再进行修改也可</span>
+top -n <span class=m>5</span> <span class=c1>#更新5次之后退出</span>
+top -H <span class=c1>#显示线程  默认只显示进程</span>
+top -p <span class=m>12355</span> <span class=c1>#指定某个pid的进程</span>
+按键1 查看单独CPU的信息
+按键s 修改更新时间
+</code></pre></div><h3 id=pstree>*pstree</h3><p>显示某个进程的进程树</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>pstree <span class=m>15835</span>
+-a <span class=c1>#显示进程完整信息</span>
+-p <span class=c1>#显示pid</span>
+</code></pre></div><h3 id=pgrep>pgrep</h3><p>ps -ef和grep效果一样</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>pgrep docker <span class=c1>#只显示pid</span>
+pgrep docker -a <span class=c1>#等同于 ps -ef | grep docker</span>
+</code></pre></div><h3 id=kill>*kill</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=nb>kill</span> -l <span class=c1>#列出所有信号</span>
+<span class=nb>kill</span> -15 <span class=m>12322</span> <span class=c1>#发送指定信号到进程</span>
+<span class=nb>kill</span> -9 <span class=m>1111</span> <span class=c1>#强制终止</span>
+</code></pre></div><h3 id=killall>killall</h3><p>通过进程名字终止进程，如果有多个子进程则需要执行多次</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>killall mysql
+</code></pre></div><h3 id=pkill>*pkill</h3><p>通过进程名终止进程包括子进程，只需要执行一次</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>pkill mysql
+</code></pre></div><h3 id=nice和renice>nice和renice</h3><p>忽略</p><h3 id=nohup>*nohup</h3><p><code>no hang up</code>（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>nohup a.sh &gt; /dev/null  2&gt;<span class=p>&amp;</span><span class=m>1</span> <span class=p>&amp;</span>
+</code></pre></div><h3 id=jobs-fg-bg--nohub>jobs fg bg & nohub</h3><p><code>&</code> <code>jobs</code> <code>fg</code> <code>bg</code> <code>nohub</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>./exe <span class=p>&amp;</span> <span class=c1>#后台运行 但是日志还会打印在标准输出</span>
+./exe &gt; log.txt 2&gt;<span class=p>&amp;</span><span class=m>1</span> <span class=p>&amp;</span> <span class=c1>#0:标准输入 1:标准输出 2:标准错误 2&gt;&amp;1是将标准出错重定向到标准输出 最终结果就是`标准输出`和`错误`都被重定向到`log.txt`中</span>
+etcd &gt; /dev/null  2&gt;<span class=p>&amp;</span><span class=m>1</span> <span class=p>&amp;</span> <span class=c1>#后台运行 同时输出日志重定向到垃圾桶</span>
+nohup etcd &gt; /dev/null 2&gt;<span class=p>&amp;</span><span class=m>1</span> <span class=p>&amp;</span> <span class=c1>#以守护进程方式运行 不会随着终端退出而退出</span>
+<span class=nb>jobs</span> <span class=c1>#查看后台运行中的进程</span>
+
+<span class=c1>#ctrl+z暂停任务 ctrl+c终止任务</span>
+<span class=nb>fg</span> <span class=nv>$1</span> <span class=c1>#将后台任务放到前台执行</span>
+<span class=nb>bg</span> <span class=nv>$1</span> <span class=c1>#将一个暂停的任务放在后台执行</span>
+</code></pre></div><h3 id=strace>**strace</h3><p>跟踪进程TODO</p><h3 id=ltrace>**ltrace</h3><p>跟踪进程使用了哪些系统调用TODO</p><h3 id=runlevel>**runlevel</h3><p>输出当前系统的运行级别</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>runlevel
+</code></pre></div><h3 id=init>**init</h3><p>TODO</p><h3 id=systemctl>**systemctl</h3><p>管理系统服务(守护进程)，systemctl命令是service命令和chkconfig命令的集合和代替</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#系统服务都在此路径下:/usr/lib/systemd</span>
+systemctl start docker
+systemctl stop docker 
+systemctl restart docker
+systemctl status docker
+<span class=c1>#开启/关闭服务开机启动</span>
+systemctl <span class=nb>enable</span> docker
+systemctl disable docker
+systemctl is-enabled docker
+
+systemctl list-unit-files <span class=c1>#列出所有守护进程的信息</span>
+</code></pre></div><p>​</p><h2 id=网络管理>?网络管理</h2><h3 id=ifconfig>*ifconfig</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ifconfig <span class=c1>#查看所有网卡信息</span>
+ifconfig wlp0s20f3 <span class=c1>#查看指定网卡信息</span>
+ifconfig wlp0s20f3 up/down <span class=c1>#开启/关闭网卡</span>
+ifconfig wlp0s20f3 192.168.0.24/24 <span class=c1>#为网卡分配IP 同时也指定了子网掩码</span>
+ifconfig wlp0s20f3 192.168.0.24/24 up
+</code></pre></div><h3 id=ifup和ifdown>ifup和ifdown</h3><p>激活/关闭网卡，和<code>ifconfig up/down</code> 命令作用一样</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ifup eth0
+ifdown eth0
+</code></pre></div><h3 id=route>*route</h3><p>显示本机的静态路由表</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>route -n
+</code></pre></div><h3 id=arp>arp</h3><p>显示本机ARP缓存</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>arp -n <span class=c1>#显示IP</span>
+</code></pre></div><h3 id=ip>*ip</h3><p>TODO</p><h3 id=netstat>**netstat</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>-a <span class=c1>#显示所有socket</span>
+-i <span class=c1>#显示网卡</span>
+-n <span class=c1>#直接显示IP 不显示域名</span>
+-u <span class=c1>#只查看UDP</span>
+-t <span class=c1>#只查看TCP</span>
+-s <span class=c1>#查看统计信息</span>
+-4 <span class=c1>#只显示ipv4的套接字</span>
+-6 <span class=c1>#只显示ipv6的套接字</span>
+-l <span class=c1>#只查看监听中的socket</span>
+-p <span class=c1>#显示那个PID在监听</span>
+
+netstat -an <span class=c1>#显示所有连接信息</span>
+netstat -ant
+netstat -anu
+netstat -antp
+
+netstat -i <span class=c1>#显示本机的网络接口</span>
+netstat -r <span class=c1>#显示路由表</span>
+</code></pre></div><h3 id=ss>**ss</h3><p><code>ss</code> 是<code>Socket Statistics</code>的缩写，用来查看本机网络连接状况，和netstat一样，但是查询速度更快，用法和netstat一样</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ss -an <span class=c1>#所有</span>
+ss -ntlp <span class=c1>#TCP</span>
+ss -antp <span class=c1>#TCP</span>
+ss -nulp <span class=c1>#UDP</span>
+ss -ntulp <span class=c1>#TCP UDP正则监听的</span>
+ss -s <span class=c1>#查看网络统计信息</span>
+</code></pre></div><h3 id=ping>*ping</h3><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>-c <span class=m>2</span> <span class=c1>#发送次数2</span>
+-i <span class=m>1</span> <span class=c1>#发送间隔1s</span>
+
+<span class=c1>#发送3个包 每隔2s发送 包大小为1024字节</span>
+ping -c <span class=m>3</span> -i <span class=m>2</span> -s <span class=m>1024</span> google.com 
+</code></pre></div><h3 id=traceroute>traceroute</h3><h3 id=telnet>telnet</h3><h3 id=arping>arping</h3><h3 id=nc>nc</h3><h3 id=wget>wget</h3><p>下载文件工具，支持FTP、HTTP</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>-q <span class=c1>#静默模式 关闭下载日志输出</span>
+-b <span class=c1>#后台下载</span>
+-O <span class=c1>#指定下载文件名</span>
+wget https://mirrors.tuna.tsinghua.gz
+wget -O a.tar https://mirrors.tuna.tsinghua.gz
+</code></pre></div><h3 id=utw>utw</h3><p><code>utw</code> (centos下为<code>firewall</code>，ubuntu下为<code>utw</code>) ubuntu下防火墙iptables工具</p><p>默认的配置文件<code>/etc/default/ufw</code></p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#注意 没有出现在iptables中的一律不允许访问</span>
+ufw enable/disable
+ufw status
+
+<span class=c1>#日志文件储存在 /var/logs/ufw</span>
+ufw logging on/off <span class=c1>#启用关闭日志</span>
+ufw logging low<span class=p>|</span>medium<span class=p>|</span>high <span class=c1>#设置日志级别</span>
+
+ufw allow <span class=m>1000</span> <span class=c1>#开放1000短端口</span>
+ufw deny <span class=m>1000</span> <span class=c1>#关闭1000端口 有数据包直接丢弃 无响应</span>
+ufw reject <span class=m>1000</span> <span class=c1>#关闭1000端口 有数据包接受则返回一个拒接包</span>
+ufw delete  reject <span class=m>1000</span> <span class=c1>#删除规则</span>
+
+ufw allow ssh <span class=c1>#允许指定端口号或则对应的服务名 这里和22一样</span>
+ufw allow 80/tcp <span class=c1>#还可以指定TCP或则UDP 只允许80端口上的TCP包</span>
+ufw allow http/tcp
+
+ufw allow from 192.168.1.1 <span class=c1>#允许指定IP连接到任何端口</span>
+ufw allow from 192.168.1.0/24 <span class=c1>#允许特定子网连接到任何端口</span>
+ufw allow from 192.168.1.1 to any port <span class=m>8080</span> <span class=c1>#允许指定IP连接到8080端口 tcp/udp都可</span>
+ufw allow from 192.168.1.1 to any port <span class=m>8080</span> proto udp <span class=c1>#指定协议UDP</span>
+
+ufw status numbered <span class=c1>#列出每个规则的序号 可以按照序号进行删除</span>
+ufw delete <span class=m>1</span>
+</code></pre></div><h3 id=dig>dig</h3><p><code>dig</code> 域名查询工具</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>dig @8.8.8.8 baidu.com <span class=c1>#指定向8.8.8.8DNS服务器查询</span>
+dig @8.8.8.8 -p <span class=m>53</span> baidu.com <span class=c1>#还可以指定查询服务器的端口 默认是53</span>
+dig +trace baidu.com <span class=c1>#显示整个DNS查询过程</span>
+dig +trace +additional baidu.com <span class=c1>#显示更详细的信息</span>
+dig +short baidu.com <span class=c1>#简化查询结果 只显示查询得到的IP</span>
+dig +x 111.111.111.111 <span class=c1>#反向解析</span>
+dig ns baidu.com <span class=c1>#查看这个域名的ns记录</span>
+dig a baidu.com <span class=c1>#查看A记录</span>
+dig cname baidu.com
+</code></pre></div><p>​</p><h2 id=linux系统管理命令>?Linux系统管理命令</h2><p>开关机</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1>#-h:halt的意思</span>
+<span class=c1>#shutdown会进行一些清理工作 然后调用init 0</span>
+shutdown -h now <span class=c1>#立刻关机</span>
+shutdown -h <span class=m>1</span> <span class=c1>#1分钟之后 shutdown不加参数默认就是这个</span>
+shutdown -h 11:00 <span class=c1>#11点关机</span>
+shutdown -r  now <span class=c1>#立刻重启</span>
+<span class=c1>#重启</span>
+reboot <span class=c1>#init 6</span>
+
+sync <span class=c1>#将内存数据同步到磁盘 关机前都要执行这个命令</span>
+last <span class=c1>#查看关机和启动的日志</span>
+</code></pre></div><h2 id=系统内置命令>?系统内置命令</h2><h2 id=参考>参考</h2><p><a href=https://github.com/xjh22222228/linux-manual#cp target=_blank rel="noopener noreffer">https://github.com/xjh22222228/linux-manual#cp</a></p><p><a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484231&idx=1&sn=4cf217a4d692a7aba804e5d96186b15b&chksm=ebd74246dca0cb5024de2f1d9f9e2ecb631e49752713c25bbe44f44856e919df5a973049c189#rd" target=_blank rel="noopener noreffer">看完这篇Linux基本的操作就会了</a></p><p>《跟老男孩学Linux运维:核心命令系统实战》</p><p>《鸟哥的Linux私房菜》</p><p>《Linux命令行与Shell脚本编程大全》</p><p><a href=https://coolshell.cn/articles/8883.html target=_blank rel="noopener noreffer">应该知道的LINUX技巧</a></p><p><a href=https://coolshell.cn/articles/7829.html target=_blank rel="noopener noreffer">28个UNIX/LINUX的命令行神器</a></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 0001-01-01</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back();>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2019/05/25/html%E6%80%BB%E7%BB%93/ class=next rel=next title=HTML总结>HTML总结<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=gitalk class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://github.com/gitalk/gitalk></a>Gitalk</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.80.0">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i>LoveIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://icepan.cloud target=_blank>lyer</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i></a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/gitalk/gitalk.min.css><script type=text/javascript src=/lib/gitalk/gitalk.min.js></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/algoliasearch/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"gitalk":{"admin":["biningo"],"clientID":"c8f473d59880800a7453","clientSecret":"7aa3dd0bcf966dee0a057e06eaf205caeb86b8e0","id":"0001-01-01T00:00:00Z","owner":"biningo","repo":"hugo-blog-gittalk","title":""}},"search":{"algoliaAppID":null,"algoliaIndex":null,"algoliaSearchKey":null,"highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

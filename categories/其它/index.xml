@@ -1,4 +1,13 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>其它 - 分类 - lyer's blog</title><link>/categories/%E5%85%B6%E5%AE%83/</link><description>其它 - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Thu, 03 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E5%85%B6%E5%AE%83/" rel="self" type="application/rss+xml"/><item><title>性能指标QPS</title><link>/2021/06/03/%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87qps/</link><pubDate>Thu, 03 Jun 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/06/03/%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87qps/</guid><description>TPS每秒事务数 Transactions Per Second 每秒处理的事务数目，一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>其它 - 分类 - lyer's blog</title><link>/categories/%E5%85%B6%E5%AE%83/</link><description>其它 - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Fri, 13 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E5%85%B6%E5%AE%83/" rel="self" type="application/rss+xml"/><item><title>公有云、私有云、混合云</title><link>/2021/08/13/%E5%85%AC%E6%9C%89%E4%BA%91%E7%A7%81%E6%9C%89%E4%BA%91%E6%B7%B7%E5%90%88%E4%BA%91/</link><pubDate>Fri, 13 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/13/%E5%85%AC%E6%9C%89%E4%BA%91%E7%A7%81%E6%9C%89%E4%BA%91%E6%B7%B7%E5%90%88%E4%BA%91/</guid><description>云计算 云计算的目标就是为了让IT服务用起来和水电一样方便，让一些IT基础设施服务按量计费，所租用的计算资源能自动弹性伸缩
+​
+公有云 公有云就是企业不需要自己管理机房以及维护基础设施，只需要购买云厂商提供的服务即可，云厂商可以提供最优质的基础设施维护和开发。这样企业就不需要自己建立维护IT基础设施服务了，只需要按量付费使用即可。比如遇到双11的场景需要更多的计算资源就可以扩容，如果在平时不需要这么多计算资源就可以缩容以节约成本，通过公有云服务则可以更加方便的扩缩容
+有了公有云企业就可以关注自己的业务而不需要关心如何维护IT基础设施比如机房网络这些
+​
+私有云 私有云就是企业自己有自己的机房、网络等IT基础设施，并且企业自己维护和开发这些IT基础设施，一般大型企业会建立自己的私有云，这样可以保障公司数据的安全。并且可以方便的为公司内部以及子公司等提供统一的云服务
+​
+混合云 企业自建的云服务可能无法做到很弹性的扩缩容，当业务需要扩张的时候企业的私有云不想再扩容或则没有办法做到立即扩容，比如双11这种活动一年只有一次那么就没必要为那一次而扩容自己的机房，这时候只需要在双11的时候用一下公有云服务即可，这就是混合云
+​
+巨人肩膀 如何通俗的解释云计算 公有云 私有云 混合云？</description></item><item><title>性能指标QPS</title><link>/2021/06/03/%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87qps/</link><pubDate>Thu, 03 Jun 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/06/03/%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87qps/</guid><description>TPS每秒事务数 Transactions Per Second 每秒处理的事务数目，一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程
 比如我请求访问twitter页面，则twitter服务器会返回一个twitter完整的页面给我，这个页面可能还包括一些css、js、各种数据的请求，这一整个页面的访问和全部数据的响应就叫TPS
 TPS过程包括: 客户端请求服务端+服务端内部处理+服务端返回客户端
 tps=处理事务数/秒 ​
