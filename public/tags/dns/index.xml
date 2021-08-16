@@ -7,7 +7,4 @@ DNS服务器主要会记录域名的如下几种记录:
 类型 解释 A IP地址记录Address 记录域名对应的IP AAAA IPV6的地址记录 NS DNS服务器记录（Name Server），返回记录此服务器的DNS服务器域名 CNAME 规范名称记录（Canonical Name），返回另一个域名，即当前查询的域名是另一个域名的跳转 SRV 用于服务发现和负载均衡 下面来看一个DNS查询icepan.cloud的完整过程:
 dig -t A icepan.cloud +trace .是根DNS服务器，查询会先根据缓存在本地的根域名服务器的NS记录和A记录去查询到权威域名服务器对应的A记录和NS记录
 下面是13组根域名服务器对应的NS记录
-. 7117 IN NS g.root-servers.net. . 7117 IN NS l.root-servers.net. . 7117 IN NS d.root-servers.net. . 7117 IN NS b.root-servers.net. . 7117 IN NS h.</description></item><item><title>为什么有了MAC地址还需要IP</title><link>/2021/04/25/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89mac%E5%9C%B0%E5%9D%80%E8%BF%98%E9%9C%80%E8%A6%81ip/</link><pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/04/25/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89mac%E5%9C%B0%E5%9D%80%E8%BF%98%E9%9C%80%E8%A6%81ip/</guid><description>概述 首先这个问题还可以改造为 【为什么有了IP地址还需要MAC地址】
-网络是逐渐发展的，当初的网络不复杂并没有那么多的子网，后来网络变得越来越复杂。所以网络寻路也变得复杂，于是就出现了子网划分。可以先找到主机所在的子网然后
-IP地址是一个逻辑地址，独立于各个网络设备
-巨人肩膀 有了 IP 地址，为什么还要用 MAC 地址？</description></item></channel></rss>
+. 7117 IN NS g.root-servers.net. . 7117 IN NS l.root-servers.net. . 7117 IN NS d.root-servers.net. . 7117 IN NS b.root-servers.net. . 7117 IN NS h.</description></item></channel></rss>
