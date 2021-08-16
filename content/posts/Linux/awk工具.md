@@ -1,6 +1,6 @@
 ---
 title: awk工具
-date: 2021-06-05
+date: 2021-08-17
 categories: [Linux]
 tags: [Linux,awk]
 ---

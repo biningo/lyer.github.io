@@ -29,9 +29,7 @@ tags: [TCP]
 /proc/sys/net/ipv4/tcp_synack_retries
 ```
 
-
-
-
+​    
 
 如果客户端发来了第三次握手ACK，则会将此连接放入全连接队列等待用户应用去队列里面取
 

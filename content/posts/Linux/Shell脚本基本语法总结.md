@@ -95,7 +95,7 @@ echo d{a,e,i,u,o}g #dag deg dig dug dog
 echo {a,b,c}.txt
 echo {a..c} # a b c
 echo {c..a} # c b a
-echo {1..5} / {5..1}
+echo {1..5} {5..1}
 echo {j{p,pe}g,png} #嵌套 jpg jpeg png
 echo {01..5} #有0 则每个都会输出0
 mkdir {2007..2009}-{01..12} #建立时间目录 2007-01 ~ 2009-12
@@ -128,7 +128,7 @@ echo $((1+2))
 
 ## 引号转义
 
-单引号不会转义，双引号会解释变量为值，反引号相当于`()`
+单引号不会转义，双引号会解释变量为值，反引号相当于`$()`
 
 ```bash
 echo "${SHELL}" #输出变量的值
@@ -292,14 +292,6 @@ let "b=1 + 2"
 ​     
 
 ## 字符串
-
-`''`和 `""` 的区别
-
-```bash
-name="lyer"
-s1='hello,${name}\n' #不会转义,原样输出
-s2="hello,${name}\n" #转义
-```
 
 字符串拼接
 

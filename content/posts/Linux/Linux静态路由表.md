@@ -1,6 +1,6 @@
 ---
 title: Linux静态路由表
-date: 2021-06-17
+date: 2021-08-17
 categories: [Linux]
 tags: [Linux,网络]
 ---
