@@ -1,4 +1,31 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 分类 - lyer's blog</title><link>/categories/linux/</link><description>Linux - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Tue, 10 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/linux/" rel="self" type="application/rss+xml"/><item><title>Linux文件管理</title><link>/2021/08/10/linux%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/10/linux%E6%96%87%E4%BB%B6/</guid><description>文件类型 Linux一切皆文件，很多东西都可以使用VFS抽象为文件来实现
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 分类 - lyer's blog</title><link>/categories/linux/</link><description>Linux - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/linux/" rel="self" type="application/rss+xml"/><item><title>awk工具</title><link>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</guid><description><![CDATA[awk和sed区别 他们都是Linux下的 流处理工具
+ awk核心是格式化 sed 核心是 正则  ​
+print输出和格式化 BEGIN { username=&#34;lyer&#34; age=18 OFS=&#34;-&#34; #指定print分割符号，默认是\t print &#34;hello,&#34;,&#34;world&#34; print &#34;I&#39;m&#34;,username,age print &#34;a&#34;,&#34;b&#34;,&#34;c&#34; } # -16 不足的往右边填空格 # 16 不足的往左边填空格 { #printf &#34;%-16s %-16s %-16s\n&#34;,$1,$2,$3 printf &#34;%16s %16s %16s\n&#34;,$1,$2,$3 } END{ a = sprintf(&#34;%16s %16s&#34;,&#34;hello&#34;,&#34;world&#34;) print a } ​
+NR输出行 输出第1行
+awk &#39;NR==1&#39; net.txt 输出[1,4]行
+awk &#39;NR==1,NR==4&#39; net.txt awk &#39;NR&gt;=1 &amp;&amp; NR&lt;=4&#39; net.txt 输出行号，$0表示整行数据
+awk &#39;NR==1,NR==5 {print NR,$0}&#39; net.txt 范围打印，打印前n行]]></description></item><item><title>iptables总结</title><link>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</guid><description>iptables命令格式 iptables命令格式
+iptables [-t 表名] 管理选项 [链名] [匹配条件] [-j 控制类型] 不加-t指定表名则默认操作的是filter表 不加指定的链名则会展示表的所有的链规则 ​
+四表和五链和数据流向 注意，在OUTPUT之后会通过route表进行路由选择，选择出口的网卡
+iptables匹配规则如下，按规则的排列顺序逐一匹配，只要匹配到了就不会再继续往下匹配，就传递给下一个链了，所以我们需要将优先级更高的规则防止在前面
+​
+查看iptables 查看主要是使用-L命令，表示list的意思
+查看nat表的OUTPUT链规则
+iptables -t nat -nvL OUTPUT n不解析域名，直接显示IP v显示详细信息 L 表示list展示的意思 一般都会加上-nvL来查看iptables规则
+查看filter表的OUTPUT规则
+iptables -nvL OUTPUT ​
+编写iptables规则 -A命令添加iptables规则
+-j后面加控制类型
+filter主要有如下控制类型
+控制类型 解释 ACCEPT 允许传递数据包 DROP 丢弃数据包，不响应 REJECT 拒绝数据包，响应RST LOG 在/var/log/messages文件中记录日志信息，然后再继续传递 iptables -A INPUT -j DROP #丢弃所有数据包 iptables -A INPUT -j ACCEPT #接受所有数据包 -I表示插入iptables规则，插入到指定的行，原来的行后移</description></item><item><title>Linux静态路由表</title><link>/2021/08/17/linux%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E8%A1%A8/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/linux%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E8%A1%A8/</guid><description>查看路由表 route -n netstat -rn Destination是0.0.0.0表示是默认路由，只有其他路由都匹配不到时才会走这个路由
+Gateway为0.0.0.0表示没有网关，静态路由表中的网关只能配置一个，配置多个则只会使用其中一个
+​
+路由转发流程 工具目标IP个子网掩码匹配静态路由表中的条目 如果匹配到了则将数据包发送到路由表项对应的网卡上 如果路由表项都匹配不成功则走默认路由，也就是Destinaion为0.0.0.0的路由表项，因为默认路由配置了网关所以数据包会从网关发送出去，而在局域网内的通讯则不会走网关 比如我现在要访问172.17.0.10，则会匹配到docker0这个虚拟网桥，然后将数据包转发到docker0中由docker0进行转发
+如果我现在要访问192.168.0.10，则会匹配到192.168.0.0这个条目走wlp0s20f3网络接口，这个网络接口是wifi，则会直接发送数据包到wifi猫中，因为是局域网地址所以不会通过网关转发到外网，直接转发到局域网内的目标主机中
+如果我现在要访问121.196.169.248，则全部匹配不到会走默认路由，直接转发到网关上然后再转发到外网
+​
+route命令 route -n route add default gw 10.0.0.1 dev eth0 #指定默认路由 并且设置网关和出口设备 route add -net 10.2.0.0/24 dev eth1 #指定其它路由 route del -net 10.0.0.0/24 #删除路由 ​
+参考 掌握Linux路由这一篇就够了！</description></item><item><title>Linux文件管理</title><link>/2021/08/10/linux%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/10/linux%E6%96%87%E4%BB%B6/</guid><description>文件类型 Linux一切皆文件，很多东西都可以使用VFS抽象为文件来实现
 文件类型 符号 举例 普通文件 - 纯文本文件、二进制可执行文件、压缩文件&amp;hellip;. 目录文件 d / socket文件 s / 管道文件 p / 软链接文件 l (L小写) / 查看文件类型的方式主要有下面几个命令
 ls -l a.txt file a.txt stat a.txt #查看文件的详细信息 ​
 文件时间 文件时间 描述 Access 文件最近被访问的时间 Modify 文件最近被修改的时间，ls -l默认列出的就是修改时间 Change 文件对应的inode节点被改动的时间(chmod、chown) 对于一个首次创建的文件，那么上面三大时间都是一样的</description></item><item><title>Linux权限和用户</title><link>/2021/06/03/linux%E7%94%A8%E6%88%B7%E5%92%8C%E6%9D%83%E9%99%90/</link><pubDate>Thu, 03 Jun 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/06/03/linux%E7%94%A8%E6%88%B7%E5%92%8C%E6%9D%83%E9%99%90/</guid><description>用户和用户组 一个用户必须属于某个组，创建新用户的时候如果没有指定用户组则会创建一个同名的默认用户组
