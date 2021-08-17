@@ -14,7 +14,7 @@ draft: true
 
 > 如何保障nginx的高可用
 
-> nginx四层负载均衡和七层负载均衡，nginx七层有了解 【不会】
+> nginx四层负载均衡和七层负载均衡，nginx七层有了解吗 【不会】
 
 > 你知道jwt的实现方式是什么？ jwt用于防范什么攻击?  【不会】
 
@@ -31,9 +31,15 @@ draft: true
 
 https://blog.csdn.net/weixin_45312167/article/details/93626313
 
+```bash
+sed -n '/2019-06-25 16:00:00/,/2019-06-25 16:10:00/'p info.log > 20190625160000.log
+```
+
+
+
 > 十万行日志，里面有IP，如何实现unique和sort的功能
 
-计数排序、桶排序
+计数排序
 
 > 查找文件夹下创建3天以内的文件
 
