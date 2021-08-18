@@ -85,7 +85,7 @@ const int sched_prio_to_weight[40] = {
 };
 ```
 
-可以看到，如果`nice`值越大，则`widget`也越大
+可以看到，如果`nice`值越大，则`widget`越小
 
 综上的计算公式，我们得出如果普通进程的实际运行时间越长则分子越大，`vruntime`值就会变大
 

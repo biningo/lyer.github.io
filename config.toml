@@ -21,7 +21,7 @@ theme = "LoveIt"
     [params.home.profile]
       enable = true
       avatarURL = "https://pic4.zhimg.com/v2-e263475646652726731e13e44b5d2479_im.jpg"
-      subtitle = "我叫lyer,Gopher,vim党,重度依赖jetbrains IDE"
+      subtitle = "Hello,我叫lyer,热爱Linux,喜欢和有趣的人交朋友,大家一起变有趣吧~"
       typeit = true
       social = true
     [params.home.posts]
@@ -85,11 +85,6 @@ theme = "LoveIt"
     name = "about"
     url = "/about"
     weight = 5
-  [[menu.main]]
-    identifier= "study"
-    name = "study"
-    url = "/study"
-    weight = 6
 
 
 

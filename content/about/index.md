@@ -9,11 +9,11 @@ tags: [杂谈,想法,人生]
 
 - 常用昵称：`lyer`
 - 求职中
-- 后端开发，前端也接触一点，移动客户端和前端萌新
+- SRE & DevOps ; 后端，数据库，前端也接触一点，移动客户端和前端萌新
 
 <br>
 
 ## 技术
-- 使用  Go >> Python >> Js/Ts 完成前后端开发工作
-- 使用 Docker >> Nginx 完成项目部署工作
-- 喜欢Linux，平时使用Ubuntu为编程学习
+- 使用  Go >> Python >> Java >> Js/Ts 完成前后端开发工作
+- 使用 Docker >> Nginx >> Shell 完成项目部署和运维工作
+- 喜欢Linux
