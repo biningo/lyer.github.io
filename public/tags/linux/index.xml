@@ -1,4 +1,17 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 标签 - lyer's blog</title><link>/tags/linux/</link><description>Linux - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/" rel="self" type="application/rss+xml"/><item><title>awk工具</title><link>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</guid><description><![CDATA[awk和sed区别 他们都是Linux下的 流处理工具
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 标签 - lyer's blog</title><link>/tags/linux/</link><description>Linux - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Mon, 23 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/" rel="self" type="application/rss+xml"/><item><title>find命令查找文件</title><link>/2021/08/23/find%E5%91%BD%E4%BB%A4%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/23/find%E5%91%BD%E4%BB%A4%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</guid><description><![CDATA[find命令 find用于在任意的路径下过滤符合条件的文件
+​
+find基本用法 find后面可以追加多个路径，在多个路径下查找，但是如果不添加路径则表示在命令执行的路径下查找
+find &lt;查找路径&gt;... &lt;条件参数&gt;... 列出指定路径下所有的文件
+find ~/temp ~/bin ​
+按文件名查找 -name
+find . -name &#34;*.jpg&#34; #查找以jpg结尾的文件 find . -name &#34;?.jpg&#34; #查找a.jpg这样的文件 find . -name &#34;[abcdef].jpg&#34; #查找a.jpg ... f.jpg -iname 忽略大小写
+find -iname &#34;[a-z]*.txt&#34; #a.TXT也可找到 ​
+按时间查找 -atime: Access Time
+-mtime: Modify Time
+-ctime: Change Time
++n n天前 -n n天内
+find . -atime -2 #查找2天内被访问过的文件 find . -atime +2 #查找2天前被访问过的文件 -amin 按分钟为单位查找
+find . -amin -10 #查找10分钟以内被访问过的 -newer 找出比指定文件修改时间更长的所有文件]]></description></item><item><title>awk工具</title><link>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</guid><description><![CDATA[awk和sed区别 他们都是Linux下的 流处理工具
  awk核心是格式化 sed 核心是 正则  ​
 print输出和格式化 BEGIN { username=&#34;lyer&#34; age=18 OFS=&#34;-&#34; #指定print分割符号，默认是\t print &#34;hello,&#34;,&#34;world&#34; print &#34;I&#39;m&#34;,username,age print &#34;a&#34;,&#34;b&#34;,&#34;c&#34; } # -16 不足的往右边填空格 # 16 不足的往左边填空格 { #printf &#34;%-16s %-16s %-16s\n&#34;,$1,$2,$3 printf &#34;%16s %16s %16s\n&#34;,$1,$2,$3 } END{ a = sprintf(&#34;%16s %16s&#34;,&#34;hello&#34;,&#34;world&#34;) print a } ​
 NR输出行 输出第1行
@@ -82,11 +95,4 @@ cd /etc &amp;&amp; ls ​
 ls ?.txt #只列出 a.txt b.]]></description></item><item><title>vim使用教程</title><link>/2021/02/21/vim%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</link><pubDate>Sun, 21 Feb 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/02/21/vim%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</guid><description>光标移动(命令模式)
 n+空格 #在当前行中移动n个字符 n+Enter #移动到距离当前行后n行 H/M/L #移动到屏幕第一行/中间行/最后一行 gg/G/#移动到当前文件第一行/最后一行 nG/ngg #移动到特定的第n行 w/nw #向前 移动1个单词/移动n个单词 b/nb #向后 移动1个单词/移动n个单词 0/$ #移动到行的开头/结尾 h/j/k/l #左/下/上/右 文本编辑删除复制粘贴(命令模式)
 i/a/I/A #在 光标前/光标后/行首/行尾 插入文本 o/O(字母O) #在光标下/上方新开一行 x/X #命令模式下删除光标后/前的单个字符 r/R #替换字符/复写模式,连续替换 d0/d$ #删除到 行首/行尾 dgg/dG #删除到 文件头/文件尾 dd/ndd #删除该行/删除该行下的n行 yy/nyy #复制该行/n行 p/P #当前行下/上面粘贴 u/ctrl+r #撤销上次操作/撤销反悔,重做上次撤销 . #复制前一个动作 文档检索
-/search_text #在文档后面的部分搜索 ?search_text #在文档前面的部分搜索 n/N #往前/后移动检索到的关键字 :noh #取消检索的高亮 :%s/abc/aaa #检索第一个 “abc” 字符串并将其替换成“aaa” :%s/abc/aaa/g #检索并将所有的“abc”,替换为“aaa” :%s/original/replacement/gc #替换前先询问 :%n1,n2s/A/B/g #在n1-n2行之间检索替换 :!command #暂时离开执行命令 :set nu #设置行号 :set nonu#取消行号 可视模式</description></item><item><title>vmware配置一台ubuntu-server</title><link>/2021/02/15/vmware%E9%85%8D%E7%BD%AE%E4%B8%80%E5%8F%B0ubuntu-server/</link><pubDate>Mon, 15 Feb 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/02/15/vmware%E9%85%8D%E7%BD%AE%E4%B8%80%E5%8F%B0ubuntu-server/</guid><description>配置步骤 ubuntu阿里镜像站：http://mirrors.aliyun.com/ubuntu-releases/
-ubuntu配置阿里云软件源：https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.3e221b11Zy3CPT
-更新软件源头
-$ apt update 重置root密码：
-$ su passwd 设置允许以root身份ssh登入，设置PermitRootLogin yes：
-$ vim /etc/ssh/sshd_config #设置PermitRootLogin yes $ service ssh restart #重启ssh服务 静态IP和网络相关的设置
-$ vim /etc/netplan/00-installer-config.yaml ---------------------------------------------- # This is the network config written by &amp;#39;subiquity&amp;#39; network: ethernets: ens33: #网卡名字 addresses: - 192.168.1.10/24 #IP dhcp4: false #关闭DHCP gateway4: 192.168.1.1 #设置网关 4表示ipv4 nameservers: #设置DNS addresses: - 192.168.1.1 version: 2 ------------------------------------------------- $ netplan apply #应用配置 发送宿主机公钥给vmware虚拟机，允许宿主机免密登入虚拟机
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@u ​</description></item></channel></rss>
+/search_text #在文档后面的部分搜索 ?search_text #在文档前面的部分搜索 n/N #往前/后移动检索到的关键字 :noh #取消检索的高亮 :%s/abc/aaa #检索第一个 “abc” 字符串并将其替换成“aaa” :%s/abc/aaa/g #检索并将所有的“abc”,替换为“aaa” :%s/original/replacement/gc #替换前先询问 :%n1,n2s/A/B/g #在n1-n2行之间检索替换 :!command #暂时离开执行命令 :set nu #设置行号 :set nonu#取消行号 可视模式</description></item></channel></rss>
