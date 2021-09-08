@@ -1,6 +1,6 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>OS - 标签 - lyer's blog</title><link>/tags/os/</link><description>OS - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/os/" rel="self" type="application/rss+xml"/><item><title>中断</title><link>/2021/03/24/%E4%B8%AD%E6%96%AD/</link><pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/24/%E4%B8%AD%E6%96%AD/</guid><description>中断分类 中断按照是否由CPU内部发生分为:
-外部中断 (由CPU外部引发，比如外设、网卡等) 内部中断 (由CPU内部引发，比如系统调用) 外部中断分为:
-可屏蔽中断 (比如网卡发出数据读取中断，可以屏蔽) 不可屏蔽中断 (比如掉电、设备损坏等) 内部中断分为:
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>OS - 标签 - lyer's blog</title><link>/tags/os/</link><description>OS - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/os/" rel="self" type="application/rss+xml"/><item><title>中断</title><link>/2021/03/24/%E4%B8%AD%E6%96%AD/</link><pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/24/%E4%B8%AD%E6%96%AD/</guid><description>中断分类 中断按照是否由CPU内部发生分为
+外部中断 (由CPU外部引发，比如外设、网卡等) 内部中断 (由CPU内部引发，比如系统调用) 外部中断分为
+可屏蔽中断 (比如网卡发出数据读取中断，可以屏蔽) 不可屏蔽中断 (比如掉电、设备损坏等) 内部中断分为
 软中断 (由软件程序触发，比如系统调用0x80号中断) 异常 (异常也是一种特殊的中断，比如除0异常、缺页异常) ​
 中断产生和调用过程 触发中断其实就是给出一个 中断号 ，然后CPU根据中断号去查找中断对应的程序进行执行的一个过程
 操作系统会设置一个 IDT中断描述符表 ，里面记载了各个中断号对应的程序的入口地址，操作系统内核在运行初始化的时候必须初始化 中断寄存器指向的位置 ，因为一旦发生中断CPU就会去中断寄存器指向的IDT中去寻找中断程序
