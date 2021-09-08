@@ -8,7 +8,7 @@ draft: true
 
 ## top概述
 
-`top`命令用于实时显示 process 的动态
+`top`命令用于实时显示进程的动态
 
 ​    
 
@@ -102,9 +102,19 @@ TIME+ 进程使用的CPU时间总计，单位1/100秒
 COMMAND 命令名/命令行
 ```
 
-Linux进程状态的各个含义自行查看资料
-
 ​     
+
+## 进程的状态
+
+| 状态                     | 描述                       |
+| ------------------------ | -------------------------- |
+| R (TASK_RUNNING)         | 可执行状态                 |
+| S (TASK_INTERRUPTIBLE)   | 可中断的睡眠状态           |
+| D (TASK_UNINTERRUPTIBLE) | 不可中断睡眠状态           |
+| T (TASK_STOPPED)         | 暂停状态或跟踪状态         |
+| Z (EXIT_ZOMBIE)          | 退出状态，进程成为僵尸进程 |
+
+​    
 
 ## 巨人肩膀
 

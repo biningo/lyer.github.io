@@ -8,9 +8,9 @@ draft: true
 
 ## mpstat概述
 
-`mpstat`  全称Multiprocessor Statistics，该命令用于报告CPU一些统计信息
+`mpstat`  全称Multiprocessor Statistics，该命令用于报告CPU一些统计信息。可以报告所有CPU的一个整体的运行统计信息，也可以指定统计指定CPU的信息
 
-​    
+​     
 
 ## mpstat用法
 

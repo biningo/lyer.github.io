@@ -78,7 +78,7 @@ TODO
 
 [三道 google 风格 git 面试题及其解答](https://juejin.cn/post/6844903876743659534)
 
-[Git基本原理](https://space.bilibili.com/364122352/channel/detail?cid=150242&ctype=0)
+[Git基本原理-麦兜搞IT](https://space.bilibili.com/364122352/channel/detail?cid=150242&ctype=0)
 
 [learnGitBranching](https://github.com/pcottle/learnGitBranching)
 
@@ -87,3 +87,6 @@ TODO
 [Git的奇技淫巧](https://github.com/521xueweihan/git-tips)
 
 [Git常用命令参考手册](https://juejin.cn/post/6844904146571624461)
+
+[Git基本原理介绍](https://www.escapelife.site/posts/da89563c.html)
+

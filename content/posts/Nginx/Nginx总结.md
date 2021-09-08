@@ -1,5 +1,5 @@
 ---
-title: Nginx导论
+title: Nginx总结
 date: 2021-06-10
 categories: [Nginx]
 tags: [Nginx] 

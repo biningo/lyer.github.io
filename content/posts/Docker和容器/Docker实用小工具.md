@@ -9,7 +9,7 @@ tags: [docker,容器]
 
 > https://github.com/docker/compose
 
-单机容器排编工具，使用Python编写
+单机容器排编工具，使用P	ython编写
 
 ## lazydocker
 
@@ -21,7 +21,7 @@ tags: [docker,容器]
 
 > https://github.com/skanehira/docui
 
-终端管理Docker
+终端查看Docker的信息
 
 ## portainer
 

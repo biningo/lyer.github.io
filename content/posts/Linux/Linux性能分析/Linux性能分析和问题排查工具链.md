@@ -24,13 +24,17 @@ draft: true
 - gdb
 - valgrind
 - free
+- memstat
 - pmap
+- top/ps 查看进程内存
 
 ## IO
 
 - bcc
 - bpftrace
 - iostat
+- iotop
+- pidstat
 
 ## 进程
 
@@ -42,13 +46,12 @@ draft: true
 ## 其他
 
 - vmstat
-
 - strace
 - kprobe
 - systemtap
-
 - ulimit
 - top
+- pidstat
 
 `uname` 打印操作系统的一些基本信息
 

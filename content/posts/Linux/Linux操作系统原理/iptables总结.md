@@ -5,6 +5,12 @@ categories: [Linux]
 tags: [Linux,iptables]
 ---
 
+## iptables和netfilter
+
+`netfilter` 是 Linux 内置的一种防火墙机制，用于过滤网络数据包，而`iptables`则是一个用于配置netfilter防火墙的命令行工具
+
+​    
+
 ## iptables命令格式
 
 ![](https://raw.githubusercontent.com/biningo/cdn/master/2021-04/iptables-command.png)

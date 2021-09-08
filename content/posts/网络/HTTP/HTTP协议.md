@@ -54,7 +54,7 @@ Accept-Ranges: bytes
 </html>
 ```
 
-​        
+​      
 
 ## URL编码
 
@@ -68,7 +68,7 @@ Accept-Ranges: bytes
 
 如果我们收到一个URL编码的query参数是这样的格式，那么可以用上述方法进行解码
 
-​    
+​      
 
 ## HTTP请求方法
 
@@ -307,7 +307,7 @@ Content-Type: image/png
 Connection:close #立即关闭此次TCP连接 即不支持长链接
 ```
 
-​    
+​     
 
 ## HTTP队首阻塞
 

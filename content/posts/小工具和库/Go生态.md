@@ -24,6 +24,10 @@ draft: true
 
 > https://github.com/jmoiron/sqlx
 
+`gopsutil` python中psutil的go版本
+
+> https://github.com/shirou/gopsutil
+
 ​    
 
 ## 工具
@@ -32,7 +36,7 @@ draft: true
 
 > https://github.com/dundee/gdu
 
-duf和df命令功能差不多
+`duf`和df命令功能差不多
 
 > https://github.com/muesli/duf
 
