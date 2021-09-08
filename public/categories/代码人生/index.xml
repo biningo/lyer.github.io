@@ -1,5 +1,7 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>代码人生 - 分类 - lyer's blog</title><link>/categories/%E4%BB%A3%E7%A0%81%E4%BA%BA%E7%94%9F/</link><description>代码人生 - 分类 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Fri, 29 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/%E4%BB%A3%E7%A0%81%E4%BA%BA%E7%94%9F/" rel="self" type="application/rss+xml"/><item><title>个人书单</title><link>/book/</link><pubDate>Fri, 29 Jan 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/book/</guid><description>下面是记录一些我已经看了的、经典的、待看的个人书单，一些不经典的书籍就不列举了，供大家参考，有好书也可以私信或则留言，多谢大葛~
-加粗表示在看中&amp;hellip;.. 代码块标记表示看完 无标识表示计划看（什么时候看就不知道了&amp;hellip;） Kafka 深入理解Kafka核心设计与实践原理 MySql 高性能MySql MySql技术内幕：innodb存储引擎 MySQL 是怎样运行的：从根儿上理解 MySQL(第7章) Linux 鸟哥的Linux私房菜 老男孩系列 Linux原理和内核 Linux/Unix系统编程手册
+加粗表示在看中&amp;hellip;.. 代码块标记表示看完 无标识表示计划看（什么时候看就不知道了&amp;hellip;） SRE 《Google SRE工作手册》
+《SRE: google运维解密》
+Kafka 深入理解Kafka核心设计与实践原理 MySql 高性能MySql MySql技术内幕：innodb存储引擎 MySQL 是怎样运行的：从根儿上理解 MySQL(第7章) Linux 鸟哥的Linux私房菜 老男孩系列 Linux原理和内核 Linux/Unix系统编程手册
 UNIX环境高级编程（第3版）
 奔跑吧Linux内核系列
 Redis Redis使用手册

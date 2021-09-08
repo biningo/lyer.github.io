@@ -1,4 +1,23 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - lyer's blog</title><link>/posts/</link><description>所有文章 | lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Mon, 23 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/posts/" rel="self" type="application/rss+xml"/><item><title>find命令查找文件</title><link>/2021/08/23/find%E5%91%BD%E4%BB%A4%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/23/find%E5%91%BD%E4%BB%A4%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</guid><description><![CDATA[find命令 find用于在任意的路径下过滤符合条件的文件
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - lyer's blog</title><link>/posts/</link><description>所有文章 | lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Wed, 01 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/posts/" rel="self" type="application/rss+xml"/><item><title>Linux好用的工具</title><link>/2021/09/01/linux%E5%A5%BD%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/</link><pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/01/linux%E5%A5%BD%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/</guid><description>tldr 用于学习命令行的工具，比man展示的信息更加易懂
+https://github.com/tldr-pages/tldr
+gdu go语言写的，用于统计磁盘文件系统使用量</description></item><item><title>为什么Linux空目录是4k大小</title><link>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</link><pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</guid><description>由这个问题还可以衍生出一个问题
+为什么文件(一切皆文件，包括目录也是一个文件)大小的单位都是4k的倍数?
+要解决这个文件首先我们需要搞清楚Linux的VFS虚拟文件系统和inode机制，以及Linux操作系统是如何管理磁盘的如何从磁盘读写数据的
+Linux为了提高读写磁盘的效率，将磁盘分割为一个个4k的块，然后以块为单位读写。操作系统会在inode中设置文件数据保存的块的索引，读取的时候再以块为单位读取到内存
+所以一个文件大小的单位都可以被4k整除，因为操作系统会按磁盘块来进行申请空间
+为什么空的普通文件大小为0k而空目录文件大小为4k ？
+因为一个新创建的目录下会保存.和..这两个目录
+一个是到当前目录的目录项 一个是到上一层目录的项 所以任何一个新的目录初始的大小一定是4k开始</description></item><item><title>crontab命令执行定时任务</title><link>/2021/08/29/crontab%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</link><pubDate>Sun, 29 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/29/crontab%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</guid><description><![CDATA[crontab概述 crontab用来在Linux下执行定时任务的工具，Linux下定时任务主要分为系统任务和用户自定义任务两大类
+  系统执行的工作：系统周期性所要执行的工作，如备份系统数据、清理缓存
+  个人执行的工作：某个用户定期要做的工作，例如每隔10分钟检查邮件服务器是否有新信，这些工作可由每个用户自行设置
+  ​
+crontab基本用法 使用之前我们需要设置一个crontab配置文件的默认编辑器
+export EDITOR=&#34;vim&#34; 然后我们可以使用如下命令编辑crontab配置文件，设置定时任务
+crontab -e #打开当前用户的配置文件进行编辑 sudo crontab -u test -e #指定用户 配置文件里的写法就是先写cron时间表达式，然后再追加需要执行的任务
+* * * * * echo &#34;hello,world&#34; &gt;&gt; /temp/log 我们查看配置文件的定时任务可以使用如下命令查看
+crontab -l 可以使用如下命令删除配置文件所有的定时任务
+crontab -r ​
+cron时间表达式 * * * * * | | | | | | | | | +----- 星期中星期几 (0 - 6) (星期天 为0) | | | +---------- 月份 (1 - 12) | | +--------------- 一个月中的第几天 (1 - 31) | +-------------------- 小时 (0 - 23) +------------------------- 分钟 (0 - 59) * 代表整个时间段]]></description></item><item><title>find命令查找文件</title><link>/2021/08/23/find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/23/find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</guid><description><![CDATA[find命令 find用于在任意的路径下过滤符合条件的文件
 ​
 find基本用法 find后面可以追加多个路径，在多个路径下查找，但是如果不添加路径则表示在命令执行的路径下查找
 find &lt;查找路径&gt;... &lt;条件参数&gt;... 列出指定路径下所有的文件
@@ -11,13 +30,20 @@ find -iname &#34;[a-z]*.txt&#34; #a.TXT也可找到 ​
 -ctime: Change Time
 +n n天前 -n n天内
 find . -atime -2 #查找2天内被访问过的文件 find . -atime +2 #查找2天前被访问过的文件 -amin 按分钟为单位查找
-find . -amin -10 #查找10分钟以内被访问过的 -newer 找出比指定文件修改时间更长的所有文件]]></description></item><item><title>awk工具</title><link>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</guid><description><![CDATA[awk和sed区别 他们都是Linux下的 流处理工具
+find . -amin -10 #查找10分钟以内被访问过的 -newer 找出比指定文件修改时间更长的所有文件]]></description></item><item><title>tcpdump命令分析网络</title><link>/2021/08/23/tcpdump%E5%88%86%E6%9E%90%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/23/tcpdump%E5%88%86%E6%9E%90%E7%BD%91%E7%BB%9C/</guid><description>tcpdump概述 tcpdump是Linux下的网络抓包工具，使用 libpcap 库来抓取网络数据包
+​
+tcpdump用法 -n 不解析主机名 -nn 不解析端口和主机名 -i 指定监听的网卡 -i any 监听所有网卡 #默认不加-i则监听默认的网卡 -v 显示更多信息 -e 显示链路层信息 -A 显示ASCII -X 显示为16进制 抓取特定协议的数据包
+tcpdump -nn -i wlp0s20f3 udp 抓取特定IP的数据包，也可以指定一个网段
+tcpdump -nn -i any host 192.168.0.1 tcpdump -nn -i any host 192.168.0.0/16 tcpdump -nn -i any src 192.168.0.1 tcpdump -nn -i any dst 192.168.0.1 tcpdump -nn -i any src 192.168.0.1 and dst 192.168.0.23 抓取指定端口的报文
+sudo tcpdump -nn -i wlp0s20f3 tcp port 8080 sudo tcpdump -nn -i wlp0s20f3 tcp dst port 8080 将抓取到的数据包写入文件，-s指定抓取每个报文的大小，0则表示抓取整个报文，不加-s默认只抓取每个报文的前96byte</description></item><item><title>awk工具</title><link>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</guid><description><![CDATA[awk和sed区别 他们都是Linux下的 流处理工具
  awk核心是格式化 sed 核心是 正则  ​
 print输出和格式化 BEGIN { username=&#34;lyer&#34; age=18 OFS=&#34;-&#34; #指定print分割符号，默认是\t print &#34;hello,&#34;,&#34;world&#34; print &#34;I&#39;m&#34;,username,age print &#34;a&#34;,&#34;b&#34;,&#34;c&#34; } # -16 不足的往右边填空格 # 16 不足的往左边填空格 { #printf &#34;%-16s %-16s %-16s\n&#34;,$1,$2,$3 printf &#34;%16s %16s %16s\n&#34;,$1,$2,$3 } END{ a = sprintf(&#34;%16s %16s&#34;,&#34;hello&#34;,&#34;world&#34;) print a } ​
 NR输出行 输出第1行
 awk &#39;NR==1&#39; net.txt 输出[1,4]行
 awk &#39;NR==1,NR==4&#39; net.txt awk &#39;NR&gt;=1 &amp;&amp; NR&lt;=4&#39; net.txt 输出行号，$0表示整行数据
-awk &#39;NR==1,NR==5 {print NR,$0}&#39; net.txt 范围打印，打印前n行]]></description></item><item><title>iptables总结</title><link>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</guid><description>iptables命令格式 iptables命令格式
+awk &#39;NR==1,NR==5 {print NR,$0}&#39; net.txt 范围打印，打印前n行]]></description></item><item><title>iptables总结</title><link>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</guid><description>iptables和netfilter netfilter 是 Linux 内置的一种防火墙机制，用于过滤网络数据包，而iptables则是一个用于配置netfilter防火墙的命令行工具
+​
+iptables命令格式 iptables命令格式
 iptables [-t 表名] 管理选项 [链名] [匹配条件] [-j 控制类型] 不加-t指定表名则默认操作的是filter表 不加指定的链名则会展示表的所有的链规则 ​
 四表和五链和数据流向 注意，在OUTPUT之后会通过route表进行路由选择，选择出口的网卡
 iptables匹配规则如下，按规则的排列顺序逐一匹配，只要匹配到了就不会再继续往下匹配，就传递给下一个链了，所以我们需要将优先级更高的规则防止在前面
@@ -48,26 +74,4 @@ route命令 route -n route add default gw 10.0.0.1 dev eth0 #指定默认路由 
 混合云 企业自建的云服务可能无法做到很弹性的扩缩容，当业务需要扩张的时候企业的私有云不想再扩容或则没有办法做到立即扩容，比如双11这种活动一年只有一次那么就没必要为那一次而扩容自己的机房，这时候只需要在双11的时候用一下公有云服务即可，这就是混合云
 ​
 巨人肩膀 如何通俗的解释云计算 公有云 私有云 混合云？</description></item><item><title>Linux的Namespace机制</title><link>/2021/08/12/linux%E7%9A%84namespace%E6%9C%BA%E5%88%B6/</link><pubDate>Thu, 12 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/12/linux%E7%9A%84namespace%E6%9C%BA%E5%88%B6/</guid><description>几个重要的Namespace Namespace 系统调用参数 作用 Mount namespaces CLONE_NEWNS 隔离挂载点(隔离文件系统),挂载之后才会生效 UTS namespaces CLONE_NEWUTS 隔离hostname IPC namespaces CLONE_NEWIPC 隔离IPC，只有在同一个Namespace下的进程才能相互通信 PID namespaces CLONE_NEWPID 隔离进程 PID，两个namespace之间pid可以重复 Network namespaces CLONE_NEWNET 隔离网络设备、端口，有独立的协议栈 User namespaces CLONE_NEWUSER 隔离用户和用户组 后面的内核版本又新加入了以下namespace
-Namespace 作用 Cgroup namespace 隔离 Cgroups 根目录 Time Namespace 隔离系统时间 ​</description></item><item><title>Linux文件管理</title><link>/2021/08/10/linux%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/10/linux%E6%96%87%E4%BB%B6/</guid><description>文件类型 Linux一切皆文件，很多东西都可以使用VFS抽象为文件来实现
-文件类型 符号 举例 普通文件 - 纯文本文件、二进制可执行文件、压缩文件&amp;hellip;. 目录文件 d / socket文件 s / 管道文件 p / 软链接文件 l (L小写) / 查看文件类型的方式主要有下面几个命令
-ls -l a.txt file a.txt stat a.txt #查看文件的详细信息 ​
-文件时间 文件时间 描述 Access 文件最近被访问的时间 Modify 文件最近被修改的时间，ls -l默认列出的就是修改时间 Change 文件对应的inode节点被改动的时间(chmod、chown) 对于一个首次创建的文件，那么上面三大时间都是一样的</description></item><item><title>为什么栈上内存分配效率高</title><link>/2021/08/03/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A0%88%E4%B8%8A%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%95%88%E7%8E%87%E9%AB%98/</link><pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/03/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A0%88%E4%B8%8A%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%95%88%E7%8E%87%E9%AB%98/</guid><description><![CDATA[栈为什么这么快  栈寄存器的支持
- CPU有专门的栈寄存器 ESP栈顶寄存器，EBP栈基地址寄存器，对于栈内存的访问CPU可以直接根据栈寄存器保存的地址获取到数据
-但是堆内存的访问需要先获取到指令然后从指令中获取到堆内存地址保存在寄存器中，最后再通过寄存器的地址进行寻址
- 栈空间内存分配和释放比较快
- 栈空间在编译时就分配内存给变量了，而堆空间需要程序允许时动态的进行系统调用来分配内存。并且栈在分配内存和释放内存只需要移动栈寄存器的指针即可，所以栈的内存分配和释放都是比较快的
-栈空间的管理不需要程序员手动管理，而堆空间需要用户程序手动管理，包括一些GC算法等都是针对堆空间的
- 栈适合函数调用场景
- 函数调用场景时候用栈这种数据结构，比如
- 函数调用结束之后，函数里的局部变量都没用了，则此时应该立即释放其内存 函数嵌套调用  ​
-栈的缺点  栈因为结构简单，所以无法应对一些需要动态分配的场景 栈空间需要类型大小是固定，缺乏灵活性  ​
-Go的内存逃逸 Go使用new make 等创建的对象不一定都是分配在堆上的，这个和其他语言有点不一样
-编译器在编译的时候会进行逃逸分析，可能会将函数内的一些局部变量分配到堆上，逃逸分析的命令如下
-go build -gcflags &#39;-m -l&#39; main.go #逃逸分析  函数返回指针，编译器会把变量分配到堆上
- type User struct { Name string } func hello() *User { u := User{Name: &#34;lyer&#34;} return &amp;u }  new一个对象，make一个对象并不一定会分配到堆上
- type User struct { Name string } func hello() { u := new(User) u.]]></description></item><item><title>编程语言自举</title><link>/2021/08/02/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E8%87%AA%E4%B8%BE/</link><pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/02/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E8%87%AA%E4%B8%BE/</guid><description>什么是自举 Go1.5完成了自举，也就是说Go现在的编译器就是用Go语言本身写的
-编译器也是一个二进制程序，作用就是把语言代码的文本翻译为机器平台对应的二进制可执行文件，机器平台二进制可执行文件可以和汇编语言指令一一对应，每个汇编指令都有其对应的二进制格式的机器码
-比如我现在要发明一个E语言，我现在用C语言写一个E语言的编译器然后将这个编译器编译为二进制，这样我们就可以用这个C语言写的E语言编译器去翻译E语言代码了
-接着我用E语言实现写了和C语言的那个编译器同样功能的编译器，然后用C编译器编译这个E写的编译器，那么就可以用E写的编译器编译E语言了，这就完成了自举</description></item><item><title>Functional Option模式</title><link>/2021/07/22/functionaloption%E6%A8%A1%E5%BC%8F/</link><pubDate>Thu, 22 Jul 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/07/22/functionaloption%E6%A8%A1%E5%BC%8F/</guid><description>当我们创建一个struct时里面有些属性是必须要指定的，但是有些属性是可以有默认值而非必须指定的。比如一个请求HTTP的Client结构体
-type Client struct{ Host string Port string Timeout int Protocol string //http https } 其中假如Host和Port是必须指定的，其他两个属性都有默认值，由于go没有函数重载，则需要给每一种情况都创建一个构造函数。为了应对这种可选项，我们就可以使用Functional Option风格
-type Client struct { Host string Port uint16 Timeout int Protocol string } type Option func(*Client) func NewClient(host string, port uint16, opts ...Option) *Client { client := &amp;amp;Client{ Host: host, Port: port, Timeout: 10, Protocol: &amp;#34;http&amp;#34;, } for _, o := range opts { o(client) } return client } func WithTimeout(timeout int) Option { return func(client *Client) { client.</description></item></channel></rss>
+Namespace 作用 Cgroup namespace 隔离 Cgroups 根目录 Time Namespace 隔离系统时间 ​</description></item></channel></rss>

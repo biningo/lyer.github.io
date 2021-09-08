@@ -1,4 +1,23 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 标签 - lyer's blog</title><link>/tags/linux/</link><description>Linux - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Mon, 23 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/" rel="self" type="application/rss+xml"/><item><title>find命令查找文件</title><link>/2021/08/23/find%E5%91%BD%E4%BB%A4%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/23/find%E5%91%BD%E4%BB%A4%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</guid><description><![CDATA[find命令 find用于在任意的路径下过滤符合条件的文件
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 标签 - lyer's blog</title><link>/tags/linux/</link><description>Linux - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Wed, 01 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/" rel="self" type="application/rss+xml"/><item><title>Linux好用的工具</title><link>/2021/09/01/linux%E5%A5%BD%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/</link><pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/01/linux%E5%A5%BD%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/</guid><description>tldr 用于学习命令行的工具，比man展示的信息更加易懂
+https://github.com/tldr-pages/tldr
+gdu go语言写的，用于统计磁盘文件系统使用量</description></item><item><title>为什么Linux空目录是4k大小</title><link>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</link><pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</guid><description>由这个问题还可以衍生出一个问题
+为什么文件(一切皆文件，包括目录也是一个文件)大小的单位都是4k的倍数?
+要解决这个文件首先我们需要搞清楚Linux的VFS虚拟文件系统和inode机制，以及Linux操作系统是如何管理磁盘的如何从磁盘读写数据的
+Linux为了提高读写磁盘的效率，将磁盘分割为一个个4k的块，然后以块为单位读写。操作系统会在inode中设置文件数据保存的块的索引，读取的时候再以块为单位读取到内存
+所以一个文件大小的单位都可以被4k整除，因为操作系统会按磁盘块来进行申请空间
+为什么空的普通文件大小为0k而空目录文件大小为4k ？
+因为一个新创建的目录下会保存.和..这两个目录
+一个是到当前目录的目录项 一个是到上一层目录的项 所以任何一个新的目录初始的大小一定是4k开始</description></item><item><title>crontab命令执行定时任务</title><link>/2021/08/29/crontab%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</link><pubDate>Sun, 29 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/29/crontab%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</guid><description><![CDATA[crontab概述 crontab用来在Linux下执行定时任务的工具，Linux下定时任务主要分为系统任务和用户自定义任务两大类
+  系统执行的工作：系统周期性所要执行的工作，如备份系统数据、清理缓存
+  个人执行的工作：某个用户定期要做的工作，例如每隔10分钟检查邮件服务器是否有新信，这些工作可由每个用户自行设置
+  ​
+crontab基本用法 使用之前我们需要设置一个crontab配置文件的默认编辑器
+export EDITOR=&#34;vim&#34; 然后我们可以使用如下命令编辑crontab配置文件，设置定时任务
+crontab -e #打开当前用户的配置文件进行编辑 sudo crontab -u test -e #指定用户 配置文件里的写法就是先写cron时间表达式，然后再追加需要执行的任务
+* * * * * echo &#34;hello,world&#34; &gt;&gt; /temp/log 我们查看配置文件的定时任务可以使用如下命令查看
+crontab -l 可以使用如下命令删除配置文件所有的定时任务
+crontab -r ​
+cron时间表达式 * * * * * | | | | | | | | | +----- 星期中星期几 (0 - 6) (星期天 为0) | | | +---------- 月份 (1 - 12) | | +--------------- 一个月中的第几天 (1 - 31) | +-------------------- 小时 (0 - 23) +------------------------- 分钟 (0 - 59) * 代表整个时间段]]></description></item><item><title>find命令查找文件</title><link>/2021/08/23/find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/23/find%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6/</guid><description><![CDATA[find命令 find用于在任意的路径下过滤符合条件的文件
 ​
 find基本用法 find后面可以追加多个路径，在多个路径下查找，但是如果不添加路径则表示在命令执行的路径下查找
 find &lt;查找路径&gt;... &lt;条件参数&gt;... 列出指定路径下所有的文件
@@ -11,13 +30,20 @@ find -iname &#34;[a-z]*.txt&#34; #a.TXT也可找到 ​
 -ctime: Change Time
 +n n天前 -n n天内
 find . -atime -2 #查找2天内被访问过的文件 find . -atime +2 #查找2天前被访问过的文件 -amin 按分钟为单位查找
-find . -amin -10 #查找10分钟以内被访问过的 -newer 找出比指定文件修改时间更长的所有文件]]></description></item><item><title>awk工具</title><link>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</guid><description><![CDATA[awk和sed区别 他们都是Linux下的 流处理工具
+find . -amin -10 #查找10分钟以内被访问过的 -newer 找出比指定文件修改时间更长的所有文件]]></description></item><item><title>tcpdump命令分析网络</title><link>/2021/08/23/tcpdump%E5%88%86%E6%9E%90%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/23/tcpdump%E5%88%86%E6%9E%90%E7%BD%91%E7%BB%9C/</guid><description>tcpdump概述 tcpdump是Linux下的网络抓包工具，使用 libpcap 库来抓取网络数据包
+​
+tcpdump用法 -n 不解析主机名 -nn 不解析端口和主机名 -i 指定监听的网卡 -i any 监听所有网卡 #默认不加-i则监听默认的网卡 -v 显示更多信息 -e 显示链路层信息 -A 显示ASCII -X 显示为16进制 抓取特定协议的数据包
+tcpdump -nn -i wlp0s20f3 udp 抓取特定IP的数据包，也可以指定一个网段
+tcpdump -nn -i any host 192.168.0.1 tcpdump -nn -i any host 192.168.0.0/16 tcpdump -nn -i any src 192.168.0.1 tcpdump -nn -i any dst 192.168.0.1 tcpdump -nn -i any src 192.168.0.1 and dst 192.168.0.23 抓取指定端口的报文
+sudo tcpdump -nn -i wlp0s20f3 tcp port 8080 sudo tcpdump -nn -i wlp0s20f3 tcp dst port 8080 将抓取到的数据包写入文件，-s指定抓取每个报文的大小，0则表示抓取整个报文，不加-s默认只抓取每个报文的前96byte</description></item><item><title>awk工具</title><link>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/awk%E5%B7%A5%E5%85%B7/</guid><description><![CDATA[awk和sed区别 他们都是Linux下的 流处理工具
  awk核心是格式化 sed 核心是 正则  ​
 print输出和格式化 BEGIN { username=&#34;lyer&#34; age=18 OFS=&#34;-&#34; #指定print分割符号，默认是\t print &#34;hello,&#34;,&#34;world&#34; print &#34;I&#39;m&#34;,username,age print &#34;a&#34;,&#34;b&#34;,&#34;c&#34; } # -16 不足的往右边填空格 # 16 不足的往左边填空格 { #printf &#34;%-16s %-16s %-16s\n&#34;,$1,$2,$3 printf &#34;%16s %16s %16s\n&#34;,$1,$2,$3 } END{ a = sprintf(&#34;%16s %16s&#34;,&#34;hello&#34;,&#34;world&#34;) print a } ​
 NR输出行 输出第1行
 awk &#39;NR==1&#39; net.txt 输出[1,4]行
 awk &#39;NR==1,NR==4&#39; net.txt awk &#39;NR&gt;=1 &amp;&amp; NR&lt;=4&#39; net.txt 输出行号，$0表示整行数据
-awk &#39;NR==1,NR==5 {print NR,$0}&#39; net.txt 范围打印，打印前n行]]></description></item><item><title>iptables总结</title><link>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</guid><description>iptables命令格式 iptables命令格式
+awk &#39;NR==1,NR==5 {print NR,$0}&#39; net.txt 范围打印，打印前n行]]></description></item><item><title>iptables总结</title><link>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/17/iptables%E6%80%BB%E7%BB%93/</guid><description>iptables和netfilter netfilter 是 Linux 内置的一种防火墙机制，用于过滤网络数据包，而iptables则是一个用于配置netfilter防火墙的命令行工具
+​
+iptables命令格式 iptables命令格式
 iptables [-t 表名] 管理选项 [链名] [匹配条件] [-j 控制类型] 不加-t指定表名则默认操作的是filter表 不加指定的链名则会展示表的所有的链规则 ​
 四表和五链和数据流向 注意，在OUTPUT之后会通过route表进行路由选择，选择出口的网卡
 iptables匹配规则如下，按规则的排列顺序逐一匹配，只要匹配到了就不会再继续往下匹配，就传递给下一个链了，所以我们需要将优先级更高的规则防止在前面
@@ -57,42 +83,4 @@ passwd 为用户添加到指定的组中 (直接修改/etc/group命令也可)
 id/who/users/whoami/last/lastb/groups ​
 sudo命令和sudoers配置 sudo的作用是一个用户借用其它用户的权限来执行相关命令，需要配置/etc/sudoers文件，Linux会判断是否符合sudo文件的配置才会决定是否能够借权
 用户名 主机=(用户:用户组) NOPASSWD:命令列表 #pb用户可以在 所有主机登入 执行 所有用户:所有组 的所有命令 并且不需要输入密码 pb ALL=(ALL:ALL) NOPASSWD:ALL #表示admin组内的用户规则 %admin ALL=(ALL:ALL) ALL 下面再来看几个案例
-#相当于(root:root) peter ALL=(root) NOPASSWD: ALL lucy ALL=(ALL) chown,chmod,useradd papi ALL=/usr/sbin/*,/sbin/*,!</description></item><item><title>netcat和socat网络小工具</title><link>/2021/05/19/netcat%E5%92%8Csocat%E7%BD%91%E7%BB%9C%E5%B0%8F%E5%B7%A5%E5%85%B7/</link><pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/19/netcat%E5%92%8Csocat%E7%BD%91%E7%BB%9C%E5%B0%8F%E5%B7%A5%E5%85%B7/</guid><description>netcat网络瑞士军刀 netcat是一个网络小工具，可以用来监听端口，数据回发(简单的echo)，TCP端口扫描，探测网络，网络测速等
-echo监听端口和连接端口
-#server -l表示监听 nc -l 8000 #监听8000端口 #client nc localhost 8000 #连接本地的8000端口 #然后直接输入数据对方就可以收到了 #监听UDP端口 nc -u -l 8080 #请求UDP端口 nc -u localhost 8080 传输文件
-#server nc -l 1234 &amp;gt; filename.out #client nc -N localhost 1234 &amp;lt; filename.in #-N表示如果接受到EOF则断开 端口扫描和检测端口
-# -z表示只是检测端口 不需要发送数据 # -v表示显示详细信息 # -w表示指定超时时间s nc -zv host.example.com 20-30 #[20,30] nc -zv icepan.cloud 9000 #端口检测 telnet效果一样 nc -zv -w 5 icepan.cloud 1111 #检测端口设置超时时间为5s 结合pv网络测速（pv用于测量任何操作的数度，可以以管道符来测量）
-#server nc -l 8080 &amp;lt; /dev/zero #给这个传输无限多个空白字符串 #client nc icepan.</description></item><item><title>中断</title><link>/2021/03/24/%E4%B8%AD%E6%96%AD/</link><pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/24/%E4%B8%AD%E6%96%AD/</guid><description>中断分类 中断按照是否由CPU内部发生分为:
-外部中断 (由CPU外部引发，比如外设、网卡等) 内部中断 (由CPU内部引发，比如系统调用) 外部中断分为:
-可屏蔽中断 (比如网卡发出数据读取中断，可以屏蔽) 不可屏蔽中断 (比如掉电、设备损坏等) 内部中断分为:
-软中断 (由软件程序触发，比如系统调用0x80号中断) 异常 (异常也是一种特殊的中断，比如除0异常、缺页异常) ​
-中断产生和调用过程 触发中断其实就是给出一个 中断号 ，然后CPU根据中断号去查找中断对应的程序进行执行的一个过程
-操作系统会设置一个 IDT中断描述符表 ，里面记载了各个中断号对应的程序的入口地址，操作系统内核在运行初始化的时候必须初始化 中断寄存器指向的位置 ，因为一旦发生中断CPU就会去中断寄存器指向的IDT中去寻找中断程序
-发生中断时用户态就会转化为内核态，CPU会保存程序当前执行的状态，比如会将栈指针、各个寄存器值、PC指针压入内核栈，然后开始执行中断处理程序，执行完毕之后再恢复现场，也就是将栈中的值都出栈然后放到各个寄存器中继续执行之前的代码
-这里需要注意中断的进程状态管理和进程调度的进程状态管理这两个是不一样的
-中断发生时的进程状态是保存在内核栈中，而进程调度发生时需要将进程的状态保存在PCB中
-那么这个中断是如何引发的呢?
-软中断和异常容易理解，CPU有一个int指令，后面跟给一个中断号，程序只需要执行这个指令即可触发软中断或异常，最常见的软中断就是int 0x80中断，此中断是系统调用中断，所有的系统调用都会触发这个中断，系统调用中断还需要给出 系统调用号 ，系统调用中断处理程序会根据系统调用号去执行相应的系统调用代码
-外中断需要经过一个叫 中断代理 的硬件，该硬件连接了所有外设接口的中断线，外设如果需要引发中断则只需要往这个中断线里面传输信号到中断代理即可，中断代理会根据不同的信号转化为相应的 中断号 ，中断代理和CPU只连接了两条线: INTR和NMI INTR表示可屏蔽中断，比如网卡发出的中断、NMI表示不可屏蔽中断
-可屏蔽中断的话只需要CPU设置状态寄存器中相应的位就表示屏蔽这些中断，注意: 软中断、异常都是会忽略该位的 也就是说软中断和异常都是不可屏蔽的，软中断通常来说是系统调用，用户进程需要系统调用则操作系统必须响应，否则会造成用户程序卡死无法获得操作系统提供的帮助，会造成用户体验不好，异常更不用说了，需要立即处理
-中断代理将相应的中断号输出到INTR线中通知CPU，CPU没执行一条指令都会检查该线是否有中断信号(注意:CPU检查中断是由硬件电路来实现的，并不会有任何的损耗)
-如果有中断信号则CPU会立即检测到
-​
-中断的上半部分和下半部分 一个中断程序可以分为 上部分和下部分 ，中断处理时可以先执行上半部分，这个部分一般来说比较紧急，等CPU空闲之后再继续执行下半部分
-比如网卡发出数据读取操作，此时CPU先执行上半部分的中断程序：先将网卡缓存区里的数据拷贝到内核数据区，这个网卡就不会因为缓存区满而频繁丢包了(相当于一个紧急救火)，然后等CPU空闲了之后再执行中断下半部分，也就是将内核数据区域的数据拷贝到用户空间供用户使用
-​
-操作系统时钟中断 这个时钟和CPU的时钟不是一个概念，但是他们的功能都是差不多的，都是为了使操作系统或则CPU能正确的工作，时钟就相当于一个 节拍器，很多硬件设备也有时钟，为的就是让各个电路有序的进行操作
-操作系统的时钟中断由 可编程的脉冲器 产生的，因为操作系统需要和硬件配合的，所以一般和硬件结合的比较紧密，该硬件脉冲频率是和操作系统厂商商量好的，并且可以人为的编程去改变脉冲的频率
-时钟中断会定时的引发然后传递到CPU的NMI引脚，时钟中断属于不可屏蔽中断
-时钟中断的作用非常大，可以说没有时钟中断操作系统就没有控制权，时钟中断的作用如下:
-更新系统的时间 定时的将控制权转移到操作系统的程序中，以便操作系统进行各个调度工作比如进程时间片调度，每经过一个时钟则时间片减一 (如果没有时钟中断，那么如果用户程序如果一直不进行系统调用、不引发异常那么操作系统可能永远也拿不到CPU的控制权) ​</description></item><item><title>Shell脚本基本语法总结</title><link>/2021/03/19/shell%E8%84%9A%E6%9C%AC%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</link><pubDate>Fri, 19 Mar 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/03/19/shell%E8%84%9A%E6%9C%AC%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/</guid><description><![CDATA[基本语法 如果一行命令太长的话可以加\来分割多行命令
-echo hello\ world 如果需要一行执行多条shell语句，则可以使用;分割，不管语句执行失败成功与否都会执行所有的语句
-echo hello; ls -al ; echo ok || 命令执行成功则不再继续执行
-cd /abc || echo &#34;dir is not exist&#34; &amp;&amp; 命令执行成功才会继续执行
-cd /etc &amp;&amp; ls ​
-快捷键 ctrl+a #光标到行首 ctrl+f #方向键-&gt; ctrl+b #方向键&lt;- ctrl+e #光标到行尾 ctrl+u #剪切光标到行首 ctrl+k #剪切光标位置到行尾 ctrl+w #删除光标前一个单词 ctrl+y #粘贴 ctrl+d #退出当前shell ctrl+z #暂停任务 bg fg可以恢复 ctrl+c #终止前台进程 ctrl+r #搜索历史命令 ctrl+p #上一条命令 ctrl+n #下一条命令 ​
-模式扩展 ? * 通配符
-ls ?.txt #只列出 a.txt b.]]></description></item><item><title>vim使用教程</title><link>/2021/02/21/vim%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</link><pubDate>Sun, 21 Feb 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/02/21/vim%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</guid><description>光标移动(命令模式)
-n+空格 #在当前行中移动n个字符 n+Enter #移动到距离当前行后n行 H/M/L #移动到屏幕第一行/中间行/最后一行 gg/G/#移动到当前文件第一行/最后一行 nG/ngg #移动到特定的第n行 w/nw #向前 移动1个单词/移动n个单词 b/nb #向后 移动1个单词/移动n个单词 0/$ #移动到行的开头/结尾 h/j/k/l #左/下/上/右 文本编辑删除复制粘贴(命令模式)
-i/a/I/A #在 光标前/光标后/行首/行尾 插入文本 o/O(字母O) #在光标下/上方新开一行 x/X #命令模式下删除光标后/前的单个字符 r/R #替换字符/复写模式,连续替换 d0/d$ #删除到 行首/行尾 dgg/dG #删除到 文件头/文件尾 dd/ndd #删除该行/删除该行下的n行 yy/nyy #复制该行/n行 p/P #当前行下/上面粘贴 u/ctrl+r #撤销上次操作/撤销反悔,重做上次撤销 . #复制前一个动作 文档检索
-/search_text #在文档后面的部分搜索 ?search_text #在文档前面的部分搜索 n/N #往前/后移动检索到的关键字 :noh #取消检索的高亮 :%s/abc/aaa #检索第一个 “abc” 字符串并将其替换成“aaa” :%s/abc/aaa/g #检索并将所有的“abc”,替换为“aaa” :%s/original/replacement/gc #替换前先询问 :%n1,n2s/A/B/g #在n1-n2行之间检索替换 :!command #暂时离开执行命令 :set nu #设置行号 :set nonu#取消行号 可视模式</description></item></channel></rss>
+#相当于(root:root) peter ALL=(root) NOPASSWD: ALL lucy ALL=(ALL) chown,chmod,useradd papi ALL=/usr/sbin/*,/sbin/*,!</description></item></channel></rss>

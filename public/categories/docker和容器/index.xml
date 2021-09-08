@@ -13,11 +13,11 @@ host宿主机共享模式 docker run --name busybox -it --net host busybox:1.32.
  FROMgolang:1.16-alpine3.13 as builder ENV GOPROXY=https://goproxy.ioWORKDIR/buildADD . /build/RUN CGO_ENABLED=0 go build -a -ldflags &#34;-s -w&#34; -o pscan /build/FROMscratchCOPY --from=builder /build/pscan /ENTRYPOINT [&#34;/pscan&#34;]CGO_ENABLED=0表示不使用cgo，可以编译为一个纯静态的二进制文件，这样就不需要依赖其他动态加载库了，方便部署到Docker中
 -ldflags表示链接的一些参数，-s 的作用是去掉符号信息，-w的作用是去掉调试信息，这样可以最大程度减少镜像的体积
 -a 强制重新构建]]></description></item><item><title>Docker实用小工具</title><link>/2021/05/20/docker%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/</link><pubDate>Thu, 20 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/20/docker%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/</guid><description>docker-compose https://github.com/docker/compose
-单机容器排编工具，使用Python编写
+单机容器排编工具，使用P ython编写
 lazydocker https://github.com/jesseduffield/lazydocker
 终端界面管理Docker
 docui https://github.com/skanehira/docui
-终端管理Docker
+终端查看Docker的信息
 portainer https://github.com/portainer/portainer
 Web界面可视化管理Docker和Kubernetes集群
 harbor https://github.com/goharbor/harbor

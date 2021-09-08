@@ -18,11 +18,11 @@ docker.pkg.github.com/OWNER/REPOSITORY/IMAGE_NAME:VERSION ghcr.io/OWNER/IMAGE_NA
 echo $GITHUB_DOCKER_IMAGE_TOKEN | docker login https://docker.pkg.github.com -u biningo --password-stdin echo $GITHUB_DOCKER_IMAGE_TOKEN | docker login https://ghcr.io -u biningo --password-stdin ​
 参考 Working with the Docker registry
 Working with the Container registry</description></item><item><title>Docker实用小工具</title><link>/2021/05/20/docker%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/</link><pubDate>Thu, 20 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/20/docker%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/</guid><description>docker-compose https://github.com/docker/compose
-单机容器排编工具，使用Python编写
+单机容器排编工具，使用P ython编写
 lazydocker https://github.com/jesseduffield/lazydocker
 终端界面管理Docker
 docui https://github.com/skanehira/docui
-终端管理Docker
+终端查看Docker的信息
 portainer https://github.com/portainer/portainer
 Web界面可视化管理Docker和Kubernetes集群
 harbor https://github.com/goharbor/harbor

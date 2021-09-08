@@ -1,21 +1,8 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>VFS - 标签 - lyer's blog</title><link>/tags/vfs/</link><description>VFS - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Fri, 02 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/vfs/" rel="self" type="application/rss+xml"/><item><title>Linux中的VFS虚拟文件系统</title><link>/2021/04/02/linux%E4%B8%AD%E7%9A%84vfs%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</link><pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/04/02/linux%E4%B8%AD%E7%9A%84vfs%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</guid><description>为什么磁盘需要分区分块 1、磁盘为什么要分区 磁盘分区的主要就是划分几个大块，每个分区里面可以安装不同的底层文件系统，分区之间都是独立的，也可以在不同的分区上安装不同的操作系统，就好像把磁盘容量看成一整块，然后在这个一整块上进行划分几个区域(当然只划分一个区域也是可以的)
-分区主要有一下几个优点:
-方便数据管理 隔离数据，保证数据安全，不同分区之间数据互不干扰，分区之间独立 加快数据查找：因为文件系统会将磁盘分成一个个的数据块，单个文件数据可能是存放在不连续的块中，如果分区太大，某个文件数据块分散的存在开头和结尾那么磁头臂的移动就会非常频繁造成读取效率低下，所以一个分区的大小不能划分太大，如果磁盘容量很大的话则可以多划分几个分区 可以在一台计算机上不同的分区上安装不同的操作系统、不同的文件系统，实现双系统等 2、磁盘为什么要分块 机械磁盘读写数据是以 扇区 为单位的，一个扇区大小为512字节或则4kb
-扇区是抽象的概念，物理上是没有的，物理上只有盘片，一张盘都是一整块的，只是物理部件在读写的时候是以这个为单位读写的，所有文件的容量大小必须是扇区数量的整数，需要按照扇区大小对齐
-SSD固态硬盘没有盘片的概念，但也有数据单元和数据页的概念，SSD相当于内存一样但是可以持久化，每个数据单元就是1byte，同时一个数据页就包含了多个数据单元，SSD读写的基本单位就是数据页，也是需要做到数据页对齐的
-但是物理划分的区块太小了，如果一个文件按照物理区块进行存储的话，因为保存文件的区块不一定连续(如果连续的话会造成碎片问题，所以都是分散存放然后建立索引表)，所以读写一个文件会造成IO次数太多造成而造成效率太低
-所以底层的文件系统再次进行了重新划分区块大小，一个数据块对应着物理上 连续的几个扇区或则几个数据页，文件存储的基本单位就是以文件系统划分的数据块为单位的，数据块大小一般和内存页大小一致，方便与内存数据进行交换
-如果需要读一个文件，则需要找到保存文件所有数据块的索引表，此表由操作系统和文件系统维护，这些数据块之间可能是分散的，虚拟块是连续的，需要读写哪部分则按照偏移然后加载对应的数据块到内存然后进行读写，这个和内存虚拟地址思想一样
-​
-ext4文件系统 1、ext2 ext3 这就是最简单的ext2、ext3的底层结构，具体的区别不深究了，大概就是这样，跳出细节才更有利于学习
-引导块 存放引导操作系统启动的代码程序，每个分区都有一个引导块，这样可以实现多系统，只需要在MBR或EFI系统上放置一个bootloader，该bootloader就会确定活动分区（通常由用户在启动界面选择启动哪个系统），然后就会跳转到响应的 活动分区中的引导块中加载引导块中的代码到内存进行执行，然后就会加载该活动分区中的操作系统
-superblock超级块 super block在索引导块后面，主要包含整个文件系统的一些基本元数据，可以说一个super block就代表了一个文件系统，因此此块一般会进行备份，因为如果这里面的数据被销毁了那么这个磁盘就没办法使用了，里面的数据就无法读取了，该块主要保存如下几个数据:
-文件系统设置的数据块大小(一个数据块通常占据整数个扇区比如：8个扇区 4k大小) 空闲块数 空闲的inode节点数 &amp;hellip;&amp;hellip;. 操作系统在启动之后就会将super block从磁盘加载到内存，然后建立 super_block对象，该对象是常驻内存的
-空闲块位图和inode位图 空闲区块位图bitmap
-管理整个分区中空闲的数据块，占用多个数据块block
-inode位图bitmap
-管理整个分区中inode的使用和分配，占用多个连续的数据块block，如果inode分配完了就无法再创建文件了
-inode节点区块 是一个数组结构，存放整个文件系统的inode信息，每个inode就代表一个文件，inode节点个数代表该文件系统最多能创建多少个文件
-注意，inode的大小是固定的，每个inode节点的大小，一般是128字节或256字节，用于标识一个唯一的文件，所以没有保存文件名，文件名保存在文件对应的目录文件的data block中
-inode 节点主要包括了以下信息：
-文件的inode ID 文件权限信息 所有者 ID、组 ID 文件大小（字节数）、文件类型 文件的硬链接数 上次访问时间、最后修改时间、inode 上次修改时间 文件的数据块block映射表 ext文件系统的数据保存的数据块是分散的(为什么要分散前面说了)，为了找到这些数据所以需要建立索引表，索引表如果都放在inode结构上，那么如果文件太大则索引表就会变的很大，但是inode大小是固定的，所以ext3文件系统采用了如下多级索引的方式，inode一共保存了15个索引项在inode中，如果文件很小则前面几个索引项直接指向真实的数据块，如果文件很大那么后面索引项指向的数据块就不是保存数据了而是保存索引信息了，相当于二级索引，每个数据块又能保存256个索引项，如果文件还很大则又会建立三级索引、四级索引等</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>VFS - 标签 - lyer's blog</title><link>/tags/vfs/</link><description>VFS - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Wed, 01 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/vfs/" rel="self" type="application/rss+xml"/><item><title>为什么Linux空目录是4k大小</title><link>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</link><pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</guid><description>由这个问题还可以衍生出一个问题
+为什么文件(一切皆文件，包括目录也是一个文件)大小的单位都是4k的倍数?
+要解决这个文件首先我们需要搞清楚Linux的VFS虚拟文件系统和inode机制，以及Linux操作系统是如何管理磁盘的如何从磁盘读写数据的
+Linux为了提高读写磁盘的效率，将磁盘分割为一个个4k的块，然后以块为单位读写。操作系统会在inode中设置文件数据保存的块的索引，读取的时候再以块为单位读取到内存
+所以一个文件大小的单位都可以被4k整除，因为操作系统会按磁盘块来进行申请空间
+为什么空的普通文件大小为0k而空目录文件大小为4k ？
+因为一个新创建的目录下会保存.和..这两个目录
+一个是到当前目录的目录项 一个是到上一层目录的项 所以任何一个新的目录初始的大小一定是4k开始</description></item></channel></rss>
