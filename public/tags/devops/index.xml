@@ -1,0 +1,9 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>DevOps - 标签 - lyer's blog</title><link>/tags/devops/</link><description>DevOps - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Mon, 13 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/devops/" rel="self" type="application/rss+xml"/><item><title>微服务部署方式</title><link>/2021/09/13/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F/</link><pubDate>Mon, 13 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/13/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F/</guid><description>蓝绿部署 蓝绿部署的过程如下:
+将集群分为两部分: A和B，在没有升级版本时两个集群都是一致对外提供服务 此时如果系统升级，则将网关处删除A组集群，让B组集群单独提供服务 然后升级A集群到最新版本，再将网关指向A同时删除集群B，此时有A单独提供服务 然后升级集群B，升级完成之后再将集群B添加到网关，此时两部分集群就都可以对外提供服务了 蓝绿部署的缺点是:
+服务升级过程中集群资源会减少一半，以此此部署方式不适合在高流量的时候发布 服务是全量升级，如果新版本服务有问题则会影响所有用户 ​
+红黑部署 红黑部署和蓝绿部署的区别是红黑部署在版本升级的时候会重新创建一个相同大小的新版本集群，然后再将网关流量指向新版本集群同时删除老集群
+可以看到红黑部署解决了蓝绿部署升级时集群资源减少为一半的问题，但是缺点是升级的时候需要两倍的集群资源，同时也属于全量部署
+​
+灰度发布/金丝雀发布 在发布过程中一部分用户继续使用老版本，一部分用户使用新版本，不断地扩大新版本的访问流量，终实现老版本到新版本的过度
+​
+巨人肩膀 蓝绿红黑灰|常用的发布方式</description></item></channel></rss>

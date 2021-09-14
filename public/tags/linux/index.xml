@@ -1,4 +1,16 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 标签 - lyer's blog</title><link>/tags/linux/</link><description>Linux - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Wed, 01 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/" rel="self" type="application/rss+xml"/><item><title>为什么Linux空目录是4k大小</title><link>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</link><pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</guid><description>由这个问题还可以衍生出一个问题
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Linux - 标签 - lyer's blog</title><link>/tags/linux/</link><description>Linux - 标签 - lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/" rel="self" type="application/rss+xml"/><item><title>sar系统活动情况报道</title><link>/2021/09/10/sar%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E6%83%85%E5%86%B5%E6%8A%A5%E5%91%8A/</link><pubDate>Fri, 10 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/10/sar%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E6%83%85%E5%86%B5%E6%8A%A5%E5%91%8A/</guid><description>sar命令 sar是系统运行状态统计信息的工具，指定时间取样然后报告系统情况
+使用sar命令之前需要开启sysstat允许收集信息的配置
+vim /etc/default/sysstat ​
+查看CPU信息 -u 查看CPU利用率
+sar 1 5 #默认就是-u sar -u 1 5 # 1s展示一次 一共5次 sar -u 1 5 -P 0 #指定CPU核 -q 查看CPU负载
+sar -q 1 5 -I 查看CPU中断情况
+sar -I ALL sar -I SUM -w 查看CPU上下文切换情况
+sar -w 1 5 ​
+查看内存信息 -r 查看内存利用率
+sar -r 1 5 -S 查看swap区大小 -W 查看交换区使用情况
+sar -W sar -S -B 查看内存页情况
+sar -B ​
+查看I/O信息 -b 查看IO读写情况</description></item><item><title>为什么Linux空目录是4k大小</title><link>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</link><pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88linux%E7%A9%BA%E7%9B%AE%E5%BD%95%E6%98%AF4k%E5%A4%A7%E5%B0%8F/</guid><description>由这个问题还可以衍生出一个问题
 为什么文件(一切皆文件，包括目录也是一个文件)大小的单位都是4k的倍数?
 要解决这个文件首先我们需要搞清楚Linux的VFS虚拟文件系统和inode机制，以及Linux操作系统是如何管理磁盘的如何从磁盘读写数据的
 Linux为了提高读写磁盘的效率，将磁盘分割为一个个4k的块，然后以块为单位读写。操作系统会在inode中设置文件数据保存的块的索引，读取的时候再以块为单位读取到内存
@@ -81,9 +93,4 @@ passwd 为用户添加到指定的组中 (直接修改/etc/group命令也可)
 id/who/users/whoami/last/lastb/groups ​
 sudo命令和sudoers配置 sudo的作用是一个用户借用其它用户的权限来执行相关命令，需要配置/etc/sudoers文件，Linux会判断是否符合sudo文件的配置才会决定是否能够借权
 用户名 主机=(用户:用户组) NOPASSWD:命令列表 #pb用户可以在 所有主机登入 执行 所有用户:所有组 的所有命令 并且不需要输入密码 pb ALL=(ALL:ALL) NOPASSWD:ALL #表示admin组内的用户规则 %admin ALL=(ALL:ALL) ALL 下面再来看几个案例
-#相当于(root:root) peter ALL=(root) NOPASSWD: ALL lucy ALL=(ALL) chown,chmod,useradd papi ALL=/usr/sbin/*,/sbin/*,!</description></item><item><title>netcat和socat网络小工具</title><link>/2021/05/19/netcat%E5%92%8Csocat%E7%BD%91%E7%BB%9C%E5%B0%8F%E5%B7%A5%E5%85%B7/</link><pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/05/19/netcat%E5%92%8Csocat%E7%BD%91%E7%BB%9C%E5%B0%8F%E5%B7%A5%E5%85%B7/</guid><description>netcat网络瑞士军刀 netcat是一个网络小工具，可以用来监听端口，数据回发(简单的echo)，TCP端口扫描，探测网络，网络测速等
-echo监听端口和连接端口
-#server -l表示监听 nc -l 8000 #监听8000端口 #client nc localhost 8000 #连接本地的8000端口 #然后直接输入数据对方就可以收到了 #监听UDP端口 nc -u -l 8080 #请求UDP端口 nc -u localhost 8080 传输文件
-#server nc -l 1234 &amp;gt; filename.out #client nc -N localhost 1234 &amp;lt; filename.in #-N表示如果接受到EOF则断开 端口扫描和检测端口
-# -z表示只是检测端口 不需要发送数据 # -v表示显示详细信息 # -w表示指定超时时间s nc -zv host.example.com 20-30 #[20,30] nc -zv icepan.cloud 9000 #端口检测 telnet效果一样 nc -zv -w 5 icepan.cloud 1111 #检测端口设置超时时间为5s 结合pv网络测速（pv用于测量任何操作的数度，可以以管道符来测量）
-#server nc -l 8080 &amp;lt; /dev/zero #给这个传输无限多个空白字符串 #client nc icepan.</description></item></channel></rss>
+#相当于(root:root) peter ALL=(root) NOPASSWD: ALL lucy ALL=(ALL) chown,chmod,useradd papi ALL=/usr/sbin/*,/sbin/*,!</description></item></channel></rss>

@@ -103,7 +103,7 @@ ip netns <span class=nb>exec</span> ns3 ping 172.25.0.12
 ping 172.25.0.11
 </code></pre></div><p>给容器内部添加默认route，实现容器到宿主机的访问</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>sudo ip netns <span class=nb>exec</span> ns1 route add default dev veth1
 sudo ip netns <span class=nb>exec</span> ns1 ping 192.168.43.21
-</code></pre></div><p>多个网桥之间互通也是可以的，只需要在容器内部设置默认路由，并且给网桥一个IP地址即可，那么这个虚拟网桥不仅仅就充当集线器的作用了，还充当了网关的作用。虚拟网桥根据其所在的namespace空间上route信息然后转发到对应的设备上</p><p>如果需要让容器访问互联网则需要借助<code>iptables</code>机制，将br0网桥转发出来的外网流量nat为宿主机的地址再转发到外网，因为我们私有地址访问外网会被外网的路由器给丢弃，必须nat为网关的地址才可以访问外网</p><p>如果外网需要访问容器内部的服务则需要作<strong>端口映射</strong>，将容器内部的端口和宿主机端口映射起来，这样访问宿主机中的对应的端口就会被转发到容器对应的端口中，容器的响应也会被重新转化为宿主机对应的端口再转发出来</p><p>​</p><h2 id=跨网段两个namespace如何通讯>跨网段两个namespace如何通讯</h2><p>两个跨网段通讯的namespace之间需要添加各自的route条目才可以通讯，如果只添加一边的route条目则响应包就无法响应回来了</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ip netns add ns1
+</code></pre></div><p>多个网桥之间互通也是可以的，只需要在容器内部设置默认路由，并且给网桥一个IP地址即可，那么这个虚拟网桥不仅仅就充当集线器的作用了，还充当了网关的作用。虚拟网桥根据其所在的namespace空间上route信息然后转发到对应的设备上</p><p>如果需要让容器访问互联网则需要借助<code>iptables</code>机制，将br0网桥转发出来的外网流量nat为宿主机的地址再转发到外网(SNAT)，因为我们私有地址访问外网会被外网的路由器给丢弃，必须nat为网关的地址才可以访问外网</p><p>如果外网需要访问容器内部的服务则需要作<strong>端口映射</strong>(DNAT)，将容器内部的端口和宿主机端口映射起来，这样访问宿主机中的对应的端口就会被转发到容器对应的端口中，容器的响应也会被重新转化为宿主机对应的端口再转发出来</p><p>​</p><h2 id=跨网段两个namespace如何通讯>跨网段两个namespace如何通讯</h2><p>两个跨网段通讯的namespace之间需要添加各自的route条目才可以通讯，如果只添加一边的route条目则响应包就无法响应回来了</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>ip netns add ns1
 ip netns add ns2
 
 ip link add veth0-1 <span class=nb>type</span> veth peer name veth0-2
