@@ -16,9 +16,10 @@ DNS查询命令
 | host     |      |
 | nslookup |      |
 
-| command    | desc |
-| ---------- | ---- |
-| tcpdump    |      |
-| xdp        |      |
-| netstat/ss |      |
+| command    | desc                           |
+| ---------- | ------------------------------ |
+| tcpdump    |                                |
+| xdp        |                                |
+| netstat/ss |                                |
+| lsof       | 列出打开文件 (lists openfiles) |
 

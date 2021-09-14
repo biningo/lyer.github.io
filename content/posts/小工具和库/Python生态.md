@@ -10,7 +10,7 @@ draft: true
 
 `subprocess` 执行外部命令
 
-
+​    
 
 ## 库
 
@@ -32,3 +32,10 @@ draft: true
 
 > https://galaxy.ansible.com/home
 
+​    
+
+## 工具
+
+`mitmproxy` HTTP抓包工具
+
+> https://github.com/mitmproxy/mitmproxy
