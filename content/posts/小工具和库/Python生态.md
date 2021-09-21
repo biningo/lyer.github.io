@@ -12,7 +12,7 @@ draft: true
 
 ​    
 
-## 库
+## 运维相关
 
 `psutil` 运维系统监控库
 
@@ -32,7 +32,15 @@ draft: true
 
 > https://galaxy.ansible.com/home
 
+`whatchdog` 监控文件是否发生变化
+
 ​    
+
+## 库
+
+`rich` 终端输出美化库
+
+​        
 
 ## 工具
 
