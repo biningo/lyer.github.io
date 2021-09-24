@@ -3,6 +3,7 @@ title: Vagrant总结
 date: 2021-09-13
 categories: [Vagrant]
 tags: [Vagrant]
+draft: true
 ---
 
 ## 什么是Vagrant
