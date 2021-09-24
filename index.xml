@@ -1,29 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>lyer's blog</title><link>/</link><description>lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Mon, 13 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Vagrant总结</title><link>/2021/09/13/vagrant%E6%80%BB%E7%BB%93/</link><pubDate>Mon, 13 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/13/vagrant%E6%80%BB%E7%BB%93/</guid><description><![CDATA[什么是Vagrant Vagrant是一个配置虚拟机的工具，底层还是需要依赖虚拟机比如VirtualBox来创建虚拟机的，Vagrant只是调用了虚拟机提供的接口来快速配置虚拟机
-Vagrant主要用于配置开发环境，而Docker用于在生产环境上部署
-​
-Vagrant基本使用 首先我们需要创建一个工作目录
-mkdir test 然后需要初始化一个 Vagrantfile ，后面的hashicorp/bionic64就代表想要启动一个什么样的box，box其实就和docker镜像一样，是一种对虚拟机以及配置的打包
-vagrant init hashicorp/bionic64 启动虚拟机
-vagrant up 销毁删除虚拟机
-vagrant destroy 暂停/恢复虚拟机，实际使用此命令来暂停和启动虚拟机
-vagrant suspends vagrant resume 关机/启动虚拟机，如果虚拟机没创建则会自动创建
-vagrant halt vagrant up 修改Vagrantfile之后使之生效，相当于halt+up重启机器
-vagrant reload 进入虚拟机
-vagrant ssh 查看当前目录下虚拟机的状态，查看全局虚拟机的状态
-vagrant status vagrant global-status ​
-如何导入box 对于创建box对应的虚拟机，我们需要下载box然后才能基于box进行创建虚拟机
-我们可以在Vagrantfile文件里面进设置相关的配置
-config.vm.box = &#34;ubuntu/trusty64&#34; #回去官方的box仓库下载对应名字的box config.vm.box = &#34;http://example.com/virtualbox.box&#34; #指定url config.vm.box = &#34;~/Downloads/virtualbox.box&#34; #指定本地box磁盘路径 我们在初始化Vagrantfile的时候也可以指定box
-vagrant init ubuntu/trusty64 vagrant init http://example.com/virtualbox.box vagrant init ~/Downloads/virtualbox.box ​
-​]]></description></item><item><title>微服务部署方式</title><link>/2021/09/13/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F/</link><pubDate>Mon, 13 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/13/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F/</guid><description>蓝绿部署 蓝绿部署的过程如下:
-将集群分为两部分: A和B，在没有升级版本时两个集群都是一致对外提供服务 此时如果系统升级，则将网关处删除A组集群，让B组集群单独提供服务 然后升级A集群到最新版本，再将网关指向A同时删除集群B，此时有A单独提供服务 然后升级集群B，升级完成之后再将集群B添加到网关，此时两部分集群就都可以对外提供服务了 蓝绿部署的缺点是:
-服务升级过程中集群资源会减少一半，以此此部署方式不适合在高流量的时候发布 服务是全量升级，如果新版本服务有问题则会影响所有用户 ​
-红黑部署 红黑部署和蓝绿部署的区别是红黑部署在版本升级的时候会重新创建一个相同大小的新版本集群，然后再将网关流量指向新版本集群同时删除老集群
-可以看到红黑部署解决了蓝绿部署升级时集群资源减少为一半的问题，但是缺点是升级的时候需要两倍的集群资源，同时也属于全量部署
-​
-灰度发布/金丝雀发布 在发布过程中一部分用户继续使用老版本，一部分用户使用新版本，不断地扩大新版本的访问流量，终实现老版本到新版本的过度
-​
-巨人肩膀 蓝绿红黑灰|常用的发布方式</description></item><item><title>sar系统活动情况报道</title><link>/2021/09/10/sar%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E6%83%85%E5%86%B5%E6%8A%A5%E5%91%8A/</link><pubDate>Fri, 10 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/10/sar%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E6%83%85%E5%86%B5%E6%8A%A5%E5%91%8A/</guid><description>sar命令 sar是系统运行状态统计信息的工具，指定时间取样然后报告系统情况
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>lyer's blog</title><link>/</link><description>lyer's blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>icepan@aliyun.com (lyer)</managingEditor><webMaster>icepan@aliyun.com (lyer)</webMaster><lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>sar系统活动情况报道</title><link>/2021/09/10/sar%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E6%83%85%E5%86%B5%E6%8A%A5%E5%91%8A/</link><pubDate>Fri, 10 Sep 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/09/10/sar%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E6%83%85%E5%86%B5%E6%8A%A5%E5%91%8A/</guid><description>sar命令 sar是系统运行状态统计信息的工具，指定时间取样然后报告系统情况
 使用sar命令之前需要开启sysstat允许收集信息的配置
 vim /etc/default/sysstat ​
 查看CPU信息 -u 查看CPU利用率
@@ -99,4 +74,14 @@ Gateway为0.0.0.0表示没有网关，静态路由表中的网关只能配置一
 如果我现在要访问121.196.169.248，则全部匹配不到会走默认路由，直接转发到网关上然后再转发到外网
 ​
 route命令 route -n route add default gw 10.0.0.1 dev eth0 #指定默认路由 并且设置网关和出口设备 route add -net 10.2.0.0/24 dev eth1 #指定其它路由 route del -net 10.0.0.0/24 #删除路由 ​
-参考 掌握Linux路由这一篇就够了！</description></item></channel></rss>
+参考 掌握Linux路由这一篇就够了！</description></item><item><title>公有云、私有云、混合云</title><link>/2021/08/13/%E5%85%AC%E6%9C%89%E4%BA%91%E7%A7%81%E6%9C%89%E4%BA%91%E6%B7%B7%E5%90%88%E4%BA%91/</link><pubDate>Fri, 13 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/13/%E5%85%AC%E6%9C%89%E4%BA%91%E7%A7%81%E6%9C%89%E4%BA%91%E6%B7%B7%E5%90%88%E4%BA%91/</guid><description>云计算 云计算的目标就是为了让IT服务用起来和水电一样方便，让一些IT基础设施服务按量计费，所租用的计算资源能自动弹性伸缩
+​
+公有云 公有云就是企业不需要自己管理机房以及维护基础设施，只需要购买云厂商提供的服务即可，云厂商可以提供最优质的基础设施维护和开发。这样企业就不需要自己建立维护IT基础设施服务了，只需要按量付费使用即可。比如遇到双11的场景需要更多的计算资源就可以扩容，如果在平时不需要这么多计算资源就可以缩容以节约成本，通过公有云服务则可以更加方便的扩缩容
+有了公有云企业就可以关注自己的业务而不需要关心如何维护IT基础设施比如机房网络这些
+​
+私有云 私有云就是企业自己有自己的机房、网络等IT基础设施，并且企业自己维护和开发这些IT基础设施，一般大型企业会建立自己的私有云，这样可以保障公司数据的安全。并且可以方便的为公司内部以及子公司等提供统一的云服务
+​
+混合云 企业自建的云服务可能无法做到很弹性的扩缩容，当业务需要扩张的时候企业的私有云不想再扩容或则没有办法做到立即扩容，比如双11这种活动一年只有一次那么就没必要为那一次而扩容自己的机房，这时候只需要在双11的时候用一下公有云服务即可，这就是混合云
+​
+巨人肩膀 如何通俗的解释云计算 公有云 私有云 混合云？</description></item><item><title>Linux的Namespace机制</title><link>/2021/08/12/linux%E7%9A%84namespace%E6%9C%BA%E5%88%B6/</link><pubDate>Thu, 12 Aug 2021 00:00:00 +0000</pubDate><author>作者</author><guid>/2021/08/12/linux%E7%9A%84namespace%E6%9C%BA%E5%88%B6/</guid><description>几个重要的Namespace Namespace 系统调用参数 作用 Mount namespaces CLONE_NEWNS 隔离挂载点(隔离文件系统),挂载之后才会生效 UTS namespaces CLONE_NEWUTS 隔离hostname IPC namespaces CLONE_NEWIPC 隔离IPC，只有在同一个Namespace下的进程才能相互通信 PID namespaces CLONE_NEWPID 隔离进程 PID，两个namespace之间pid可以重复 Network namespaces CLONE_NEWNET 隔离网络设备、端口，有独立的协议栈 User namespaces CLONE_NEWUSER 隔离用户和用户组 后面的内核版本又新加入了以下namespace
+Namespace 作用 Cgroup namespace 隔离 Cgroups 根目录 Time Namespace 隔离系统时间 ​</description></item></channel></rss>
